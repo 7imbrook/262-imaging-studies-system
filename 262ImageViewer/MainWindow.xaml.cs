@@ -26,7 +26,7 @@ namespace _262ImageViewer
             Image img = this.testImage;
             Study studyTest = new Study();
 
-            var basePath = "C:\\Users\\michael\\Desktop\\head_mri";
+            var basePath = "C:\\Users\\Corban\\GIT\\261-imaging-studies-system\\MedImageViewerStudies\\head_mri";
             Uri link = new Uri(basePath + "\\mri_head17.JPG");
 
             BitmapImage src = new BitmapImage();
