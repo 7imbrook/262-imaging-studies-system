@@ -22,20 +22,33 @@ namespace _262ImageViewer
     {
         public MainWindow()
         {
-            InitializeComponent();
-            Image img = this.testImage;
-            Study studyTest = new Study();
+            //InitializeComponent();
+            //Study studyTest = new Study();
+        }
 
-            var basePath = "C:\\Users\\Corban\\GIT\\261-imaging-studies-system\\MedImageViewerStudies\\head_mri";
-            Uri link = new Uri(basePath + "\\mri_head17.JPG");
+        private void OpenStudy_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
-            BitmapImage src = new BitmapImage();
-            src.BeginInit();
-            src.UriSource = link;
-            src.EndInit();
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".stud";
+            dlg.Filter = "Studies (.stud)|*.stud";
 
-            img.Source = src;
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
 
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                Uri loadedStudyName = new Uri(dlg.FileName);
+                if (loadedStudyName.AbsolutePath.ToLower().EndsWith(".stud"))
+                {
+                    MessageBox.Show("Send to Timbrook to deserialize: " + loadedStudyName);
+                    //Study loadedStudy = Study(loadedStudyName);
+                }
+            }
         }
     }
 }
