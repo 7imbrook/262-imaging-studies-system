@@ -41,13 +41,22 @@ namespace _262ImageViewer
             {
                 Directory.CreateDirectory(this.workingPath.AbsolutePath);
                 this.metadata = new StudyMetadata();
-                this.save().Wait();
+                this.saveSync();
             }
         }
 
         public void setTitle(string title)
         {
             this.metadata.title = title;
+        }
+
+        public bool saveSync()
+        {
+            var format = new BinaryFormatter();
+            Stream stream = new FileStream(this.workingPath.AbsolutePath + this.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
+            format.Serialize(stream, this.metadata);
+            stream.Close();
+            return Directory.Exists(this.workingPath.AbsolutePath);
         }
 
         async public Task<bool> save()
