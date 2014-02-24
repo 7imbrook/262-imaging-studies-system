@@ -6,9 +6,9 @@
     <Grid>
         <Menu>
             <MenuItem Header="_File">
-                <MenuItem Header="_New Study..." Click="NewStudy_Click"/>
+                <MenuItem Header="_New Study..." Click="_NewStudy_Click"/>
                 <Separator />
-                <MenuItem Header="_Open Study..." Click="OpenStudy_Click"/>
+                <MenuItem Header="_Open Study..." Click="_OpenStudy_Click"/>
                 <Separator />
                 <MenuItem Header="_Save Study" />
                 <MenuItem Header="_Save Study As..." />
