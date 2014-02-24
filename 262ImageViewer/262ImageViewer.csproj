@@ -69,7 +69,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="LocalImages.cs" />
-    <Compile Include="Study.cs" />
+    <Compile Include="StudySession.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
