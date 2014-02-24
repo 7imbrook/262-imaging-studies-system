@@ -22,20 +22,7 @@ namespace _262ImageViewer
     {
         public MainWindow()
         {
-            InitializeComponent();
-            Image img = this.testImage;
-            Study studyTest = new Study();
-
-            var basePath = "C:\\Users\\michael\\Desktop\\head_mri";
-            Uri link = new Uri(basePath + "\\mri_head17.JPG");
-
-            BitmapImage src = new BitmapImage();
-            src.BeginInit();
-            src.UriSource = link;
-            src.EndInit();
-
-            img.Source = src;
-
+           
         }
     }
 }
