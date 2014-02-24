@@ -26,16 +26,22 @@ namespace _262ImageViewer
             Image img = this.testImage;
             Study studyTest = new Study();
 
-            var basePath = "C:\\Users\\Corban\\GIT\\261-imaging-studies-system\\MedImageViewerStudies\\head_mri";
+            var basePath = "C:\\Users\\Steven\\MedImageViewerStudies\\head_mri";
             Uri link = new Uri(basePath + "\\mri_head17.JPG");
 
             BitmapImage src = new BitmapImage();
             src.BeginInit();
             src.UriSource = link;
             src.EndInit();
-
-            img.Source = src;
-
+            List<string> fileNames = new List<string>();
+            fileNames.Add("\\mri_head14.JPG");
+            fileNames.Add("\\mri_head41.JPG");
+            LocalImages images = new LocalImages("C:\\Users\\Steven\\MedImageViewerStudies\\head_mri", fileNames);
+            foreach (BitmapImage b in images)
+            {
+                img.Source = b;
+            }
+            //img.Source = src;
         }
     }
 }

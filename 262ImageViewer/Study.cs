@@ -15,7 +15,7 @@ namespace _262ImageViewer
 
         private void loadImages()
         {
-            var basePath = "C:\\Users\\michael\\Desktop\\head_mri";
+            var basePath = "C:\\Users\\Steven\\MedImageViewerStudies\\head_mri";
             Uri link = new Uri(basePath + "\\mri_head17.JPG");
 
             BitmapImage src = new BitmapImage();
