@@ -46,9 +46,17 @@ namespace _262ImageViewer
                 if (loadedStudyName.AbsolutePath.ToLower().EndsWith(".stud"))
                 {
                     MessageBox.Show("Send to Timbrook to deserialize: " + loadedStudyName);
+                    StudySession loadedStudy = new StudySession(loadedStudyName);
                     //Study loadedStudy = Study(loadedStudyName);
                 }
             }
+        }
+
+        private void NewStudy_Click(object sender, RoutedEventArgs e)
+        {
+            // Create a new study
+            MessageBox.Show("Hey there. Let's make a new study.");
+
         }
     }
 }
