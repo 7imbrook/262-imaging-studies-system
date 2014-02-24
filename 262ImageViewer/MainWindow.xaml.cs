@@ -26,7 +26,7 @@ namespace _262ImageViewer
             //Study studyTest = new Study();
         }
 
-        private void OpenStudy_Click(object sender, RoutedEventArgs e)
+        private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -52,10 +52,11 @@ namespace _262ImageViewer
             }
         }
 
-        private void NewStudy_Click(object sender, RoutedEventArgs e)
+        private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
-            // Create a new study
+            // Get all data, then send to MainWindow
             MessageBox.Show("Hey there. Let's make a new study.");
+            this.createNewStudy();
             var newImageView = new ImageView();
             newImageView.Show();
         }
