@@ -1,8 +1,16 @@
-﻿<Window x:Class="_262ImageViewer.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:_262ImageViewer" x:Class="_262ImageViewer.MainWindow"
         Title="MainWindow" Height="720" Width="980">
     <Grid>
-        <Image x:Name="testImage" Height="340" Margin="-65,0,475,349" VerticalAlignment="Center" HorizontalAlignment="Center" Width="562" Source="testImage"/>
+        <Image x:Name="testImage" Height="265" Margin="356,98,353,326" VerticalAlignment="Center" HorizontalAlignment="Center" Width="263" Source="testImage" RenderTransformOrigin="0.482,0.497"/>
+        <Menu x:Name="MainMenu" HorizontalAlignment="Left" Height="679" VerticalAlignment="Top" Width="198" Grid.Column="1">
+            <Button Content="Button 1"/>
+            <Button Content="Button 2"/>
+            <Button Content="Button 3"/>
+            <Button Content="Button 4"/>
+            <Button Content="Button 5"/>
+        </Menu>
     </Grid>
 </Window>

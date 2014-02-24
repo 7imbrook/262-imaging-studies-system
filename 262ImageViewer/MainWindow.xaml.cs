@@ -22,7 +22,19 @@ namespace _262ImageViewer
     {
         public MainWindow()
         {
-           
+            InitializeComponent();
+            Image img = this.testImage;
+          
+            // Loving that hard codedness there Corban :P
+            var basePath = "C:\\Users\\Corban\\GIT\\261-imaging-studies-system\\MedImageViewerStudies\\head_mri";
+            Uri link = new Uri(basePath + "\\mri_head17.JPG");
+
+            BitmapImage src = new BitmapImage();
+            src.BeginInit();
+            src.UriSource = link;
+            src.EndInit();
+
+            img.Source = src;
         }
     }
 }
