@@ -10,17 +10,19 @@ using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
+    /**
+     * StudyMetadata will besaved and restored from disk. Any data kept
+     * in the StudySession object will have to be recreated.
+     */
     [Serializable]
     class StudyMetadata
     {
-        public string title;
+        public Uri workingPath;
+        public String fileName;
     }
 
     public class StudySession
     {
-
-        public Uri workingPath;
-        public String fileName;
         private StudyMetadata metadata;
 
         /**
@@ -31,41 +33,53 @@ namespace _262ImageViewer
          */
         public StudySession(Uri filePath, string fileName)
         {
-            this.workingPath = new Uri(filePath, fileName + "/");
-            this.fileName = fileName;
-            if (Directory.Exists(this.workingPath.AbsolutePath))
+            this.metadata = new StudyMetadata();
+            this.metadata.workingPath = new Uri(filePath, fileName + "/");
+            this.metadata.fileName = fileName;
+            if (Directory.Exists(this.metadata.workingPath.AbsolutePath))
             {
                throw new IOException("File exists");
             }
             else
             {
-                Directory.CreateDirectory(this.workingPath.AbsolutePath);
-                this.metadata = new StudyMetadata();
+                Directory.CreateDirectory(this.metadata.workingPath.AbsolutePath);
                 this.saveSync();
             }
         }
 
-        public void setTitle(string title)
+        /**
+         * Given a .stud file path, creates a studySession with that information
+         */
+        public StudySession(Uri studPath)
         {
-            this.metadata.title = title;
+            var format = new BinaryFormatter();
+            var dataStream = new FileStream(studPath.AbsolutePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            this.metadata = (StudyMetadata)format.Deserialize(dataStream);
+            dataStream.Close();
         }
 
         public bool saveSync()
         {
             var format = new BinaryFormatter();
-            Stream stream = new FileStream(this.workingPath.AbsolutePath + this.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
+            Stream stream = new FileStream(this.metadata.workingPath.AbsolutePath + this.metadata.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
             format.Serialize(stream, this.metadata);
             stream.Close();
-            return Directory.Exists(this.workingPath.AbsolutePath);
+            return Directory.Exists(this.metadata.workingPath.AbsolutePath);
         }
 
         async public Task<bool> save()
         {
             var format = new BinaryFormatter();
-            Stream stream = new FileStream(this.workingPath.AbsolutePath + this.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
+            Stream stream = new FileStream(this.metadata.workingPath.AbsolutePath + this.metadata.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
             format.Serialize(stream, this.metadata);
             stream.Close();
-            return Directory.Exists(this.workingPath.AbsolutePath);
+            return Directory.Exists(this.metadata.workingPath.AbsolutePath);
         }
+
+        public string ToString()
+        {
+            return this.metadata.fileName;
+        }
+
     }
 }
