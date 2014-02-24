@@ -56,7 +56,8 @@ namespace _262ImageViewer
         {
             // Create a new study
             MessageBox.Show("Hey there. Let's make a new study.");
-
+            var newImageView = new ImageView();
+            newImageView.Show();
         }
     }
 }

@@ -21,11 +21,31 @@ namespace _262ImageViewer
     {
 
         int counter;    //Counter of image array position
+        //Placeholer "Study"
+        BitmapImage[] image_list = new BitmapImage[4];
 
         public ImageView()
         {
             InitializeComponent();
-            counter = 0;
+            //Placeholder pictures for "Study"
+            /* Old code remains I don't want to chuck yet
+            BitmapImage image_0 = new BitmapImage(new Uri("picture.jpg", UriKind.Relative));
+            BitmapImage image_1 = new BitmapImage(new Uri("picture2.jpg", UriKind.Relative));
+            BitmapImage image_2 = new BitmapImage(new Uri("picture3.jpg", UriKind.Relative));
+            BitmapImage image_3 = new BitmapImage(new Uri("picture4.jpg", UriKind.Relative));
+            */
+            BitmapImage image_0 = new BitmapImage();
+            BitmapImage image_1 = new BitmapImage();
+            BitmapImage image_2 = new BitmapImage();
+            BitmapImage image_3 = new BitmapImage();
+
+            image_list[0] = image_0;
+            image_list[1] = image_1;
+            image_list[2] = image_2;
+            image_list[3] = image_3;
+            //
+            counter = 1;
+            display_counter();
         }
 
         /**
@@ -39,9 +59,26 @@ namespace _262ImageViewer
             string counter_string = counter.ToString();
             TextBox current_img = new TextBox();
             current_img.Name = "counter";
-            current_img.Text = counter_string;
+            current_img.Text = counter_string + "/4";
             current_img.TextWrapping = TextWrapping.Wrap;
             image_counter.Children.Add(current_img);
+        }
+
+        /**
+         * Displays image based on the array position given by the counter.
+         **/
+        private void display_image(int position)
+        {
+            image_display.Children.Clear(); //Clear current image(s)
+            Image i = new Image();
+            
+            //Source of the image is located in the URI referenced by the BitmapImage...
+            BitmapImage img_src = image_list[position - 1];
+            i.Width = 500; //Placeholder, need to check requirements
+            i.Source = img_src;
+            i.Stretch = Stretch.Uniform;
+            //int x = img_src.PixelWidth; //Renders image
+            image_display.Children.Add(i);
         }
 
         /**
@@ -55,12 +92,14 @@ namespace _262ImageViewer
             {
                 counter = 4;
                 display_counter();
+                display_image(counter);
             }
 
             else
             {
                 counter++;
                 display_counter();
+                display_image(counter);
             }
         }
 
@@ -75,11 +114,13 @@ namespace _262ImageViewer
             {
                 counter = 1;
                 display_counter();
+                display_image(counter);
             }
             else
             {
                 counter--;
                 display_counter();
+                display_image(counter);
             }
         }
     }
