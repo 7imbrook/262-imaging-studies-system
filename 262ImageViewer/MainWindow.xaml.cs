@@ -22,26 +22,41 @@ namespace _262ImageViewer
     {
         public MainWindow()
         {
-            InitializeComponent();
-            Image img = this.testImage;
-            Study studyTest = new Study();
+            //InitializeComponent();
+            //Study studyTest = new Study();
+        }
 
-            var basePath = "C:\\Users\\Steven\\MedImageViewerStudies\\head_mri";
-            Uri link = new Uri(basePath + "\\mri_head17.JPG");
+        private void OpenStudy_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
-            BitmapImage src = new BitmapImage();
-            src.BeginInit();
-            src.UriSource = link;
-            src.EndInit();
-            List<string> fileNames = new List<string>();
-            fileNames.Add("\\mri_head14.JPG");
-            fileNames.Add("\\mri_head41.JPG");
-            LocalImages images = new LocalImages("C:\\Users\\Steven\\MedImageViewerStudies\\head_mri", fileNames);
-            foreach (BitmapImage b in images)
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".stud";
+            dlg.Filter = "Studies (.stud)|*.stud";
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
             {
-                img.Source = b;
+                // Open document
+                Uri loadedStudyName = new Uri(dlg.FileName);
+                if (loadedStudyName.AbsolutePath.ToLower().EndsWith(".stud"))
+                {
+                    MessageBox.Show("Send to Timbrook to deserialize: " + loadedStudyName);
+                    StudySession loadedStudy = new StudySession(loadedStudyName);
+                    //Study loadedStudy = Study(loadedStudyName);
+                }
             }
-            //img.Source = src;
+        }
+
+        private void NewStudy_Click(object sender, RoutedEventArgs e)
+        {
+            // Create a new study
+            MessageBox.Show("Hey there. Let's make a new study.");
+
         }
     }
 }
