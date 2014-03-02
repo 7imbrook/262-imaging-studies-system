@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +16,34 @@ namespace _262ImageViewer
         public String folderLocation;
         public int position;
 
-        public LocalImages(String folder, List<string> files)
+        public LocalImages(String folder)
         {
             folderLocation = folder;
-            fileNames = files;
+            readFiles(folder);
+        }
+        private void readFiles(String folder)
+        {
+            if (Directory.Exists(folder))
+            {
+                string[] fileArray = Directory.GetFiles(folder);
+                foreach (string file in fileArray)
+                {
+                    if (file.EndsWith(".jpg"))
+                    { 
+                        fileNames.Add(file);
+                    }
+                }
+                string[] subdirectoryEntries = Directory.GetDirectories(folder);
+                foreach (string subdirectory in subdirectoryEntries)
+                {
+                    readFiles(subdirectory);
+                }
+            }
+            else
+            {
+                string temp = folder + " is not a valid path.";
+                throw new IOException(temp);
+            }
         }
         IEnumerator IEnumerable.GetEnumerator()
         {
