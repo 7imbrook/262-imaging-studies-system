@@ -76,7 +76,7 @@ namespace _262ImageViewer
             return Directory.Exists(this.metadata.workingPath.AbsolutePath);
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return this.metadata.fileName;
         }

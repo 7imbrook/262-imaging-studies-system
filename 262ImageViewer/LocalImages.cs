@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Drawing.Imaging;
+using System.Drawing;
 
 namespace _262ImageViewer
 {
-    public class LocalImages : IEnumerable
+    public class LocalImages : IEnumerable, ImageLoader
     {
 
         public List<string> fileNames = new List<string> { };
@@ -54,27 +56,11 @@ namespace _262ImageViewer
         {
             return new ImageEnum(this);
         }
-        /*public bool moveNext()
-        {
-            position++;
-            return (position < fileNames.Count);
-        }
-
-        public void Reset()
-        {
-            position = -1;
-        }
-        public object Current
-        {
-            get {return new LocalImages(); }
-        }*/
-
-
-    }
+            }
     public class ImageEnum
     {
         public LocalImages image;
-        int position = -1;
+        public int position = -1;
 
         public ImageEnum(LocalImages li)
         {
@@ -86,7 +72,13 @@ namespace _262ImageViewer
             position++;
             return (position < image.fileNames.Count);
         }
-       
+
+        public bool MoveBack()
+        {
+            position--;
+            return (position > 0);
+        }
+
         public void Reset()
         {
             position = -1;
@@ -99,9 +91,24 @@ namespace _262ImageViewer
                 try
                 {
                     BitmapImage bi = new BitmapImage();
-                    bi.BeginInit();
-                    bi.UriSource = new Uri(image.folderLocation + image.fileNames[position]);
-                    bi.EndInit();
+                    if ( (position >= 0) && (position < image.fileNames.Count))
+                    { 
+                        bi.BeginInit();
+                        bi.UriSource = new Uri(image.folderLocation + image.fileNames[position]);
+                        bi.EndInit();
+                    }
+                    /*else
+                    {
+                        Bitmap bitmap = (_262ImageViewer.Properties.Resources.blankImage);
+                        try
+                        {
+                            BitmapImage i = Imaging.CreateBitmapSourceFromHBitmap(
+                                
+
+                                );
+                        }
+                        return ;
+                    }*/
                     return bi;
                 }
                 catch (IndexOutOfRangeException)
