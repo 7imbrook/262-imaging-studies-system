@@ -45,7 +45,6 @@ namespace _262ImageViewer
                 Uri loadedStudyName = new Uri(dlg.FileName);
                 if (loadedStudyName.AbsolutePath.ToLower().EndsWith(".stud"))
                 {
-                    MessageBox.Show("Send to Timbrook to deserialize: " + loadedStudyName);
                     StudySession loadedStudy = new StudySession(loadedStudyName);
                     //Study loadedStudy = Study(loadedStudyName);
                 }

@@ -56,7 +56,8 @@ namespace _262ImageViewer
         {
             return new ImageEnum(this);
         }
-            }
+    }
+
     public class ImageEnum
     {
         public LocalImages image;

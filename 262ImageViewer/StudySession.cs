@@ -69,15 +69,6 @@ namespace _262ImageViewer
             return Directory.Exists(this.metadata.workingPath.AbsolutePath);
         }
 
-        async public Task<bool> save()
-        {
-            var format = new BinaryFormatter();
-            Stream stream = new FileStream(this.metadata.workingPath.AbsolutePath + this.metadata.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
-            format.Serialize(stream, this.metadata);
-            stream.Close();
-            return Directory.Exists(this.metadata.workingPath.AbsolutePath);
-        }
-
         public override string ToString()
         {
             return this.metadata.fileName;
