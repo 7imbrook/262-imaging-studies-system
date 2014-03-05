@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,25 +40,35 @@ namespace _262ImageViewer
             Nullable<bool> result = dlg.ShowDialog();
 
             // Get the selected file name and display in a TextBox
-            if (result == true)
+            if ((bool)result)
             {
                 // Open document
                 Uri loadedStudyName = new Uri(dlg.FileName);
                 if (loadedStudyName.AbsolutePath.ToLower().EndsWith(".stud"))
                 {
                     StudySession loadedStudy = new StudySession(loadedStudyName);
-                    //Study loadedStudy = Study(loadedStudyName);
+                    this.loadStudy(loadedStudy);
                 }
             }
         }
 
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
-            // Get all data, then send to MainWindow
-            MessageBox.Show("Hey there. Let's make a new study.");
-            this.createNewStudy();
-            var newImageView = new ImageView();
-            newImageView.Show();
+            // Prompt where to save the images
+            var savePromt = new Microsoft.Win32.SaveFileDialog();
+
+            savePromt.DefaultExt = "";
+            savePromt.Filter = "";
+
+            Nullable<bool> result = savePromt.ShowDialog();
+            if ((bool)result)
+            {
+                var path = savePromt.FileName;
+                var name = path.Split('\\').Last();
+
+                var study = new StudySession(new Uri(path), name);
+                
+            }
         }
     }
 }
