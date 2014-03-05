@@ -57,6 +57,8 @@ namespace _262ImageViewer
             // Get all data, then send to MainWindow
             MessageBox.Show("Hey there. Let's make a new study.");
             this.createNewStudy();
+            var newImageView = new ImageView();
+            newImageView.Show();
         }
     }
 }

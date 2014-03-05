@@ -19,6 +19,7 @@ namespace _262ImageViewer
     {
         public Uri workingPath;
         public String fileName;
+        public LocalImages images;
     }
 
     public class StudySession
@@ -36,6 +37,7 @@ namespace _262ImageViewer
             this.metadata = new StudyMetadata();
             this.metadata.workingPath = new Uri(filePath, fileName + "/");
             this.metadata.fileName = fileName;
+            this.metadata.images = new LocalImages(fileName);
             if (Directory.Exists(this.metadata.workingPath.AbsolutePath))
             {
                throw new IOException("File exists");
@@ -76,7 +78,7 @@ namespace _262ImageViewer
             return Directory.Exists(this.metadata.workingPath.AbsolutePath);
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return this.metadata.fileName;
         }

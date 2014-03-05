@@ -1,24 +1,51 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Drawing.Imaging;
+using System.Drawing;
 
 namespace _262ImageViewer
 {
-    public class LocalImages : IEnumerable
+    public class LocalImages : IEnumerable, ImageLoader
     {
 
         public List<string> fileNames = new List<string> { };
         public String folderLocation;
         public int position;
 
-        public LocalImages(String folder, List<string> files)
+        public LocalImages(String folder)
         {
             folderLocation = folder;
-            fileNames = files;
+            readFiles(folder);
+        }
+        private void readFiles(String folder)
+        {
+            if (Directory.Exists(folder))
+            {
+                string[] fileArray = Directory.GetFiles(folder);
+                foreach (string file in fileArray)
+                {
+                    if (file.EndsWith(".jpg"))
+                    { 
+                        fileNames.Add(file);
+                    }
+                }
+                string[] subdirectoryEntries = Directory.GetDirectories(folder);
+                foreach (string subdirectory in subdirectoryEntries)
+                {
+                    readFiles(subdirectory);
+                }
+            }
+            else
+            {
+                string temp = folder + " is not a valid path.";
+                throw new IOException(temp);
+            }
         }
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -29,27 +56,11 @@ namespace _262ImageViewer
         {
             return new ImageEnum(this);
         }
-        /*public bool moveNext()
-        {
-            position++;
-            return (position < fileNames.Count);
-        }
-
-        public void Reset()
-        {
-            position = -1;
-        }
-        public object Current
-        {
-            get {return new LocalImages(); }
-        }*/
-
-
-    }
+            }
     public class ImageEnum
     {
         public LocalImages image;
-        int position = -1;
+        public int position = -1;
 
         public ImageEnum(LocalImages li)
         {
@@ -61,7 +72,13 @@ namespace _262ImageViewer
             position++;
             return (position < image.fileNames.Count);
         }
-       
+
+        public bool MoveBack()
+        {
+            position--;
+            return (position > 0);
+        }
+
         public void Reset()
         {
             position = -1;
@@ -74,9 +91,24 @@ namespace _262ImageViewer
                 try
                 {
                     BitmapImage bi = new BitmapImage();
-                    bi.BeginInit();
-                    bi.UriSource = new Uri(image.folderLocation + image.fileNames[position]);
-                    bi.EndInit();
+                    if ( (position >= 0) && (position < image.fileNames.Count))
+                    { 
+                        bi.BeginInit();
+                        bi.UriSource = new Uri(image.folderLocation + image.fileNames[position]);
+                        bi.EndInit();
+                    }
+                    /*else
+                    {
+                        Bitmap bitmap = (_262ImageViewer.Properties.Resources.blankImage);
+                        try
+                        {
+                            BitmapImage i = Imaging.CreateBitmapSourceFromHBitmap(
+                                
+
+                                );
+                        }
+                        return ;
+                    }*/
                     return bi;
                 }
                 catch (IndexOutOfRangeException)

@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
-    public partial class MainWindow
+    interface ImageLoader
     {
-
-        public void createNewStudy()
-        {
-            // Create a new study
-        }
-
     }
 }
