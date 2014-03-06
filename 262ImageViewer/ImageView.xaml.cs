@@ -68,7 +68,7 @@ namespace _262ImageViewer
             image_display.Children.Add(i);
         }
 
-        private void display_four()
+        private void display_four(ImageLoader imageList, int index)
         {
             image_display.Children.Clear();
 
@@ -90,12 +90,33 @@ namespace _262ImageViewer
             col2.Width = new GridLength(0.5, GridUnitType.Star);
             four_grid.ColumnDefinitions.Add(col2);
 
-            /*
+            
             for (int position = 0; position < 2; position++)
             {
-
+                Image to_display = new Image();
+                BitmapImage source = imageList[index];
+                to_display.Source = source;
+                to_display.Stretch = Stretch.Uniform;
+                int x = source.PixelWidth;
+                Grid.SetRow(to_display, 0);
+                Grid.SetColumn(to_display, position);
+                four_grid.Children.Add(to_display);
             }
-             */
+
+            for (int position = 0; position < 2; position++)
+            {
+                Image to_display = new Image();
+                BitmapImage source = imageList[position];
+                to_display.Source = source;
+                to_display.Stretch = Stretch.Uniform;
+                int x = source.PixelWidth;
+                Grid.SetRow(to_display, 1);
+                Grid.SetColumn(to_display, position - 2);
+                four_grid.Children.Add(to_display);
+            }
+
+            image_display.Children.Add(four_grid);
+            
         }
 
         /**
@@ -132,7 +153,7 @@ namespace _262ImageViewer
             }
             else
             {
-                //display_four(imageList[index]);
+                display_four(localImage, index);
 
             }
         }
