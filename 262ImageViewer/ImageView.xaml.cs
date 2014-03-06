@@ -73,8 +73,16 @@ namespace _262ImageViewer
             Image i = new Image();
 
             i.Source = image;
-            i.Stretch = Stretch.None;
+            if (Application.Current.MainWindow.ActualHeight < image.Height || Application.Current.MainWindow.ActualWidth < image.Width)
+            {
+                i.Stretch = Stretch.Uniform;
+            }
+            else
+            {
+                i.Stretch = Stretch.None;
+            }
             image_display.Children.Add(i);
+
         }
 
         private void display_four(ImageLoader imageList, int index)
