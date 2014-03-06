@@ -7,7 +7,8 @@ using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
-    interface ImageLoader
+    interface ImageLoader : IList<BitmapImage>
     {
+
     }
 }

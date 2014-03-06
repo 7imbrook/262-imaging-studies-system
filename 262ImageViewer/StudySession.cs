@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -24,6 +25,15 @@ namespace _262ImageViewer
     public class StudySession
     {
         private StudyMetadata metadata;
+
+        public Uri imagePath
+        {
+            get
+            {
+                return this.metadata.workingPath;
+            }
+        }
+
 
         /**
          * Create a study and initialize with a name and directory path

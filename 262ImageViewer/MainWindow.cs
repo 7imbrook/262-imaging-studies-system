@@ -10,9 +10,14 @@ namespace _262ImageViewer
     public partial class MainWindow
     {
 
+        /**
+         * givin a study, make an image loader and view for it.
+         */
         public void loadStudy(StudySession session)
         {
-            Debug.WriteLine("Testing");
+            // Associate the things
+            ImageLoader imageloader = new LocalImages(session.imagePath);
+            Debug.WriteLine("Print an image? {0}", imageloader.GetNext(10).Count);
         }
 
     }

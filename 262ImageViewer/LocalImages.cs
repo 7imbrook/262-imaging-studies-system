@@ -11,112 +11,138 @@ using System.Drawing;
 
 namespace _262ImageViewer
 {
-    public class LocalImages : IEnumerable, ImageLoader
+    public class LocalImages : ImageLoader
     {
+        /*
+         * The list of jpgs in the directory.
+         */
+        private List<Uri> fileNames = new List<Uri>();
 
-        public List<string> fileNames = new List<string> { };
-        public String folderLocation;
-        public int position;
+        /*
+         * The current index of the list.
+         */
+        private int position = 0;
 
-        public LocalImages(String folder)
+        /**
+         * Use this thing like a list bra
+         */
+        public object this[int i]
         {
-            folderLocation = folder;
+            get
+            {
+                return new BitmapImage(fileNames[i]);
+            }
+        }
+
+        /*
+         * Make a new LocalImages based on the given directory Uri.
+         */
+        public LocalImages(Uri folder)
+        {
             readFiles(folder);
         }
-        private void readFiles(String folder)
+
+        /*
+         * Find in all of the jpgs inside the given directory Uri 
+         * and add them to the list.
+         */
+        private void readFiles(Uri folder)
         {
-            if (Directory.Exists(folder))
+            if (Directory.Exists(folder.AbsolutePath))
             {
-                string[] fileArray = Directory.GetFiles(folder);
+                string[] fileArray = Directory.GetFiles(folder.AbsolutePath);
                 foreach (string file in fileArray)
                 {
                     if (file.EndsWith(".jpg"))
-                    { 
-                        fileNames.Add(file);
+                    {
+                        fileNames.Add(new Uri(file));
                     }
-                }
-                string[] subdirectoryEntries = Directory.GetDirectories(folder);
-                foreach (string subdirectory in subdirectoryEntries)
-                {
-                    readFiles(subdirectory);
                 }
             }
             else
             {
-                string temp = folder + " is not a valid path.";
-                throw new IOException(temp);
+                throw new IOException(folder.AbsolutePath + " is not a valid path.");
             }
         }
-        IEnumerator IEnumerable.GetEnumerator()
+
+        /*
+         * Verify that the given index is within the bounds of the filename list.
+         */
+        private bool isValidIndex(int index) 
         {
-            return (IEnumerator)GetEnumerator();
+            return (index < fileNames.Count && index >= 0);
         }
 
-        public ImageEnum GetEnumerator()
+        /*
+         * Get the next given number of images, as a List of BitmapImages.
+         * If there are no more images, return an empty list.
+         */
+        public List<BitmapImage> GetNext(int numImages) 
         {
-            return new ImageEnum(this);
-        }
-    }
-
-    public class ImageEnum
-    {
-        public LocalImages image;
-        public int position = -1;
-
-        public ImageEnum(LocalImages li)
-        {
-            image = li;
-        }
-
-        public bool MoveNext()
-        {
-            position++;
-            return (position < image.fileNames.Count);
-        }
-
-        public bool MoveBack()
-        {
-            position--;
-            return (position > 0);
-        }
-
-        public void Reset()
-        {
-            position = -1;
-        }
-
-        public BitmapImage Current
-        {
-            get
+            List<BitmapImage> returnList = new List<BitmapImage>();
+            // Check if the next index is valid
+            if (isValidIndex(position + 1))
             {
-                try
+                for (int i = 0; i < numImages; i++)
                 {
-                    BitmapImage bi = new BitmapImage();
-                    if ( (position >= 0) && (position < image.fileNames.Count))
-                    { 
-                        bi.BeginInit();
-                        bi.UriSource = new Uri(image.folderLocation + image.fileNames[position]);
-                        bi.EndInit();
-                    }
-                    /*else
+                    if (isValidIndex(position + 1))
                     {
-                        Bitmap bitmap = (_262ImageViewer.Properties.Resources.blankImage);
-                        try
+                        position++;
+                        returnList.Add(new BitmapImage(fileNames[position]));
+                    }
+                    else
+                    {
+                        // Pad the list with blanks, using the resolution of the first image
+                        if (returnList.Count > 0)
                         {
-                            BitmapImage i = Imaging.CreateBitmapSourceFromHBitmap(
-                                
-
-                                );
+                            //Bitmap b = new Bitmap(1, 1);
+                            //b.SetPixel(0, 0, Color.White);
+                            //b = new Bitmap(b, returnList[0].PixelWidth, returnList[0].PixelHeight);
+                            // DOESN'T WORK YET
+                            // TODO: Fix this.
+                            // For now, just duplicate the last image.
+                            returnList.Add(returnList[0]);
                         }
-                        return ;
-                    }*/
-                    return bi;
-                }
-                catch (IndexOutOfRangeException)
-                {
-                    throw new InvalidOperationException();
+                    }
                 }
             }
+            return returnList;
+        }
+
+        /*
+         * Get the previous given number of images, as a List of BitmapImages.
+         * If there are no more images, return an empty list.
+         */
+        public List<BitmapImage> GetPrev(int numImages)
+        {
+            List<BitmapImage> returnList = new List<BitmapImage>();
+            // Check if the previous index is valid
+            if (isValidIndex(position - 1))
+            {
+                for (int i = 0; i < numImages; i++)
+                {
+                    if (isValidIndex(position - 1))
+                    {
+                        position--;
+                        returnList.Add(new BitmapImage(fileNames[position]));
+                    }
+                    else
+                    {
+                        // Pad the list with blanks, using the resolution of the first image
+                        if (returnList.Count > 0)
+                        {
+                            //Bitmap b = new Bitmap(1, 1);
+                            //b.SetPixel(0, 0, Color.White);
+                            //b = new Bitmap(b, returnList[0].PixelWidth, returnList[0].PixelHeight);
+                            // DOESN'T WORK YET
+                            // TODO: Fix this.
+                            // For now, just duplicate the last image.
+                            returnList.Add(returnList[0]);
+                        }
+                    }
+                }
+            }
+            return returnList;
         }
     }
 }

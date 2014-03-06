@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,8 +47,15 @@ namespace _262ImageViewer
                 Uri loadedStudyName = new Uri(dlg.FileName);
                 if (loadedStudyName.AbsolutePath.ToLower().EndsWith(".stud"))
                 {
-                    StudySession loadedStudy = new StudySession(loadedStudyName);
-                    this.loadStudy(loadedStudy);
+                    try
+                    {
+                        var loadedStudy = new StudySession(loadedStudyName);
+                        this.loadStudy(loadedStudy);
+                    }
+                    catch (IOException exp)
+                    {
+                        MessageBox.Show("There was a issue with your study, it may be corrupted.");
+                    }
                 }
             }
         }
@@ -65,9 +73,15 @@ namespace _262ImageViewer
             {
                 var path = savePromt.FileName;
                 var name = path.Split('\\').Last();
-
-                var study = new StudySession(new Uri(path), name);
-                
+                try
+                {
+                    var study = new StudySession(new Uri(path), name);
+                    this.loadStudy(study);
+                }
+                catch (IOException exp)
+                {
+                    MessageBox.Show("There was a issue with your study, it may be corrupted.");
+                }
             }
         }
 
@@ -104,3 +118,8 @@ namespace _262ImageViewer
         }
     }
 }
+
+
+
+
+
