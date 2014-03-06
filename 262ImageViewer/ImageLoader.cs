@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
-    interface ImageLoader
+    public interface ImageLoader
     {
         int Count();
         BitmapImage this[int i]

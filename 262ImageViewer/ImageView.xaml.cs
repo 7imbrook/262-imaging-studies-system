@@ -21,7 +21,7 @@ namespace _262ImageViewer
     {
         public bool modeSelect;
         public int index;    //Counter of image array position
-        public List<BitmapImage> imageList;
+        public ImageLoader localImage;
 
         public ImageView()
         {
@@ -30,21 +30,13 @@ namespace _262ImageViewer
             //Application.Current.MainWindow.Width = study.Current.Width;
             index = 0;
             modeSelect = true; //True is one, False is four
-            imageList = null;
+            localImage = null;
             //display_counter();
         }
 
-        public ImageView(List<BitmapImage> list, bool mode, int i=0)
+        public void addImages(ImageLoader image)
         {
-            InitializeComponent();
-            index = i;
-            modeSelect = mode;
-            imageList = list;
-        }
-
-        public void addImages(List<BitmapImage> list)
-        {
-            imageList = list;
+            localImage = image;
         }
         /**
          * Displays the current image the user is in. There is only
@@ -113,12 +105,12 @@ namespace _262ImageViewer
          **/
         public void nextImage_Click(object sender, RoutedEventArgs e)
         {
-            if (modeSelect && imageList != null)
+            if (modeSelect && localImage != null)
             {
-                if (index < imageList.Count)
+                if (index < localImage.Count())
                 {
                     index++;
-                    display_image(imageList[index]);
+                    display_image(localImage[index]);
                 }
             }
         }
@@ -130,12 +122,12 @@ namespace _262ImageViewer
          **/
         public void prevImage_Click(object sender, RoutedEventArgs e)
         {
-            if (modeSelect && imageList != null)
+            if (modeSelect && localImage != null)
             {
-                if(index > imageList.Count)
+                if (index > localImage.Count())
                 {
                     index--;
-                    display_image(imageList[index]);
+                    display_image(localImage[index]);
                 }
             }
             else
@@ -168,12 +160,12 @@ namespace _262ImageViewer
                 {
                     index = 0;
                 }
-                else if (index > imageList.Count)
+                else if (index > localImage.Count())
                 {
-                    index = imageList.Count;
+                    index = localImage.Count();
                 }
 
-                display_image(imageList[index]);
+                display_image(localImage[index]);
 
                 prev_button.IsEnabled = true;
                 next_button.IsEnabled = true;

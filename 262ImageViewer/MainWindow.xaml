@@ -24,10 +24,10 @@
                 <MenuItem Header="_Exit" Command="ApplicationCommands.Close" />
             </MenuItem>
             <MenuItem Header="_View">
-                <MenuItem Header="Toggle Image View " IsChecked="True" IsCheckable="True" Command="ApplicationCommands.Properties" />
+                <MenuItem Header="Toggle Image View " IsChecked="True" IsCheckable="True" Click="_View_Click" />
                 <!--<MenuItem Header="4 Image View" IsCheckable="True" Click="_view_Click" />-->
             </MenuItem>
         </Menu>
-        <Frame Name="mainFrame" HorizontalAlignment="Center" Height="408" VerticalAlignment="Center" Width="494" Source="/262ImageViewer;component/ImageView.xaml" Margin="305,188,173,93"/>
+        <Frame Name="mainFrame" HorizontalAlignment="Center" Height="642" VerticalAlignment="Center" Width="944" Margin="10,29,10,10"/>
     </Grid>
 </Window>
