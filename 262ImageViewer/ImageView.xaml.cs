@@ -74,27 +74,33 @@ namespace _262ImageViewer
                         
             for (int position = 0; position < 2; position++)
             {
-                Image to_display = new Image();
-                BitmapImage source = imageList[index];
-                to_display.Source = source;
-                to_display.Stretch = Stretch.Uniform;
-                int x = source.PixelWidth;
-                Grid.SetRow(to_display, 0);
-                Grid.SetColumn(to_display, position);
-                four_grid.Children.Add(to_display);
-                index++;
+                if (isValidIndex(index))
+                {
+                    Image to_display = new Image();
+                    BitmapImage source = imageList[index];
+                    to_display.Source = source;
+                    to_display.Stretch = Stretch.Uniform;
+                    int x = source.PixelWidth;
+                    Grid.SetRow(to_display, 0);
+                    Grid.SetColumn(to_display, position);
+                    four_grid.Children.Add(to_display);
+                    index++;
+                }
             }
 
             for (int position = 0; position < 2; position++)
             {
-                Image to_display = new Image();
-                BitmapImage source = imageList[index++];
-                to_display.Source = source;
-                to_display.Stretch = Stretch.Uniform;
-                int x = source.PixelWidth;
-                Grid.SetRow(to_display, 1);
-                Grid.SetColumn(to_display, position);
-                four_grid.Children.Add(to_display);
+                if (isValidIndex(index))
+                {
+                    Image to_display = new Image();
+                    BitmapImage source = imageList[index++];
+                    to_display.Source = source;
+                    to_display.Stretch = Stretch.Uniform;
+                    int x = source.PixelWidth;
+                    Grid.SetRow(to_display, 1);
+                    Grid.SetColumn(to_display, position);
+                    four_grid.Children.Add(to_display);
+                }
             }
 
             image_display.Children.Add(four_grid);
@@ -119,9 +125,17 @@ namespace _262ImageViewer
             }
             else
             {
-                index += 4;
-                display_four(localImage, index);
+                if (index / 4 == 1 && index == localImage.Count())
+                {
+                    index = localImage.Count();   
+                }
+                else if (isValidIndex(index + 4))
+                {
+                    index += 4;
+                    display_four(localImage, index);
+                }
             }
+
         }
 
         /**
@@ -141,9 +155,16 @@ namespace _262ImageViewer
             }
             else
             {
-                index -= 4;
-                display_four(localImage, index);
-
+                if (!isValidIndex(index - 4))
+                {
+                    index = 0;
+                    display_four(localImage, index);
+                }
+                else if(isValidIndex(index - 4))
+                {
+                    index -= 4;
+                    display_four(localImage, index);
+                }
             }
         }
         private bool isValidIndex(int i)
