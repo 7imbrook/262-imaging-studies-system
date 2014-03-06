@@ -3,6 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:_262ImageViewer" x:Class="_262ImageViewer.MainWindow"
         Title="MainWindow" Height="720" Width="980">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close"
+                        Executed="_Close_Click">   
+        </CommandBinding>
+    </Window.CommandBindings>   
     <Grid>
         <Menu>
             <MenuItem Header="_File">
@@ -13,11 +18,11 @@
                 <MenuItem Header="_Save Study" />
                 <MenuItem Header="_Save Study As..." />
                 <Separator />
-                <MenuItem Header="_Exit"/>
+                <MenuItem Header="_Exit" Command="ApplicationCommands.Close" />
             </MenuItem>
             <MenuItem Header="_View">
-                <MenuItem Header="1 Image View" IsCheckable="True"/>
-                <MenuItem Header="4 Image View" IsCheckable="True"/>
+                <MenuItem Header="1 Image View" IsChecked="True" IsCheckable="True" />
+                <MenuItem Header="4 Image View" IsCheckable="True" />
             </MenuItem>
         </Menu>
         <Frame HorizontalAlignment="Center" Height="408" VerticalAlignment="Center" Width="494" Source="/262ImageViewer;component/ImageView.xaml" Margin="305,188,173,93"/>

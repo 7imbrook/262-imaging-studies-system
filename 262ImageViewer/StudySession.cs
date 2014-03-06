@@ -26,6 +26,15 @@ namespace _262ImageViewer
     {
         private StudyMetadata metadata;
 
+        public Uri imagePath
+        {
+            get
+            {
+                return this.metadata.workingPath;
+            }
+        }
+
+
         /**
          * Create a study and initialize with a name and directory path
          * this will create a folder title fileName and inside that folder

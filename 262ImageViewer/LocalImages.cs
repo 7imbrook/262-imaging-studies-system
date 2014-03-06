@@ -23,8 +23,20 @@ namespace _262ImageViewer
          */
         private int position = 0;
 
+        /**
+         * Use this thing like a list bra
+         */
+        public object this[int i]
+        {
+            get
+            {
+                return new BitmapImage(fileNames[i]);
+            }
+        }
+
         /*
          * Make a new LocalImages based on the given directory Uri.
+         */
         public LocalImages(Uri folder)
         {
             readFiles(folder);
