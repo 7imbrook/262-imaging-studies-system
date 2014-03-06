@@ -26,7 +26,9 @@ namespace _262ImageViewer
         {
             //InitializeComponent();
             //Study studyTest = new Study();
+            layoutToggle = true;
         }
+        private bool layoutToggle;
 
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
@@ -119,7 +121,15 @@ namespace _262ImageViewer
 
         private void _View_Click(object sender, RoutedEventArgs e)
         {
-
+            //Debug.WriteLine(layoutToggle);
+            if (layoutToggle)
+            {
+                layoutToggle = false;
+            }
+            else
+            {
+                layoutToggle = true;
+            }
         }
     }
 }

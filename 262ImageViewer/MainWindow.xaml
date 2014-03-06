@@ -24,7 +24,7 @@
                 <MenuItem Header="_Exit" Command="ApplicationCommands.Close" />
             </MenuItem>
             <MenuItem Header="_View">
-                <MenuItem Header="Toggle Image View " IsChecked="True" IsCheckable="True" Command="ApplicationCommands.Properties" />
+                <MenuItem Header="Toggle Image View " IsChecked="True" IsCheckable="True" Click="_View_Click" />
                 <!--<MenuItem Header="4 Image View" IsCheckable="True" Click="_view_Click" />-->
             </MenuItem>
         </Menu>
