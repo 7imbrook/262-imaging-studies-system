@@ -15,7 +15,7 @@ namespace _262ImageViewer
     public class LocalImages : List<Uri>, ImageLoader
     {
         /**
-         * Use this thing like a list bra
+         * Use this like a list.
          */
 
         public new BitmapImage this[int i]
