@@ -88,7 +88,7 @@ namespace _262ImageViewer
 
             if (modeSelect && localImage != null)
             {
-                if (index < localImage.Count())
+                if (isValidIndex(index))
                 {
                     index++;
                     display_image(localImage[index]);
@@ -105,7 +105,7 @@ namespace _262ImageViewer
         {
             if (modeSelect && localImage != null)
             {
-                if (index > localImage.Count())
+                if (isValidIndex(index))
                 {
                     index--;
                     display_image(localImage[index]);
@@ -116,6 +116,10 @@ namespace _262ImageViewer
                 //display_four(imageList[index]);
 
             }
+        }
+        private bool isValidIndex(int i)
+        {
+            return (0 < i && i < localImage.Count());
         }
 
         public void switchMode()
