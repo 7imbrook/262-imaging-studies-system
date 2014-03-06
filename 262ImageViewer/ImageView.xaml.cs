@@ -89,27 +89,33 @@ namespace _262ImageViewer
                         
             for (int position = 0; position < 2; position++)
             {
-                Image to_display = new Image();
-                BitmapImage source = imageList[index];
-                to_display.Source = source;
-                to_display.Stretch = Stretch.Uniform;
-                int x = source.PixelWidth;
-                Grid.SetRow(to_display, 0);
-                Grid.SetColumn(to_display, position);
-                four_grid.Children.Add(to_display);
-                index++;
+                if (isValidIndex(index))
+                {
+                    Image to_display = new Image();
+                    BitmapImage source = imageList[index];
+                    to_display.Source = source;
+                    to_display.Stretch = Stretch.Uniform;
+                    int x = source.PixelWidth;
+                    Grid.SetRow(to_display, 0);
+                    Grid.SetColumn(to_display, position);
+                    four_grid.Children.Add(to_display);
+                    index++;
+                }
             }
 
             for (int position = 0; position < 2; position++)
             {
-                Image to_display = new Image();
-                BitmapImage source = imageList[index++];
-                to_display.Source = source;
-                to_display.Stretch = Stretch.Uniform;
-                int x = source.PixelWidth;
-                Grid.SetRow(to_display, 1);
-                Grid.SetColumn(to_display, position);
-                four_grid.Children.Add(to_display);
+                if (isValidIndex(index))
+                {
+                    Image to_display = new Image();
+                    BitmapImage source = imageList[index++];
+                    to_display.Source = source;
+                    to_display.Stretch = Stretch.Uniform;
+                    int x = source.PixelWidth;
+                    Grid.SetRow(to_display, 1);
+                    Grid.SetColumn(to_display, position);
+                    four_grid.Children.Add(to_display);
+                }
             }
 
             image_display.Children.Add(four_grid);
@@ -137,6 +143,7 @@ namespace _262ImageViewer
                 index += 4;
                 display_four(imageLoader, index);
             }
+
         }
 
         /**
@@ -158,7 +165,6 @@ namespace _262ImageViewer
             {
                 index -= 4;
                 display_four(imageLoader, index);
-
             }
         }
         private bool isValidIndex(int i)
@@ -172,7 +178,7 @@ namespace _262ImageViewer
             {
 
                 //Switch from one to four
-                double x = (index - 1) / 4;
+                double x = (index) / 4;
                 int new_index = 4 * (int)Math.Floor(x) + 1;
                 index = new_index;
                 display_four(imageLoader, index);

@@ -76,11 +76,11 @@ namespace _262ImageViewer
         {
             if (studySession != null)
                 this.closeConfirmation();
-            this.save_Confirmation();
+            this.saveConfirmation();
         }
 
         //Needed a helper fuction without arguments
-        private void save_Confirmation()
+        private void saveConfirmation()
         {
             // Prompt where to save the images
             var savePrompt = new Microsoft.Win32.SaveFileDialog();
