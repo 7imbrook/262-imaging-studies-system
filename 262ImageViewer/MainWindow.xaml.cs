@@ -22,6 +22,9 @@ namespace _262ImageViewer
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public StudySession session;
+
         public MainWindow()
         {
             //InitializeComponent();
@@ -93,31 +96,6 @@ namespace _262ImageViewer
             }
         }
 
-        private void save_Confirmation()
-        {
-            // Prompt where to save the images
-            var savePrompt = new Microsoft.Win32.SaveFileDialog();
-
-            savePrompt.DefaultExt = "";
-            savePrompt.Filter = "";
-
-            Nullable<bool> result = savePrompt.ShowDialog();
-            if ((bool)result)
-            {
-                var path = savePrompt.FileName;
-                var name = path.Split('\\').Last();
-                try
-                {
-                    var study = new StudySession(new Uri(path), name);
-                    this.loadStudy(study);
-                }
-                catch (IOException)
-                {
-                    MessageBox.Show("There was a issue with your study, it may be corrupted.");
-                }
-            }
-        }
-
         private void _Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -134,7 +112,7 @@ namespace _262ImageViewer
             if (result == MessageBoxResult.Yes)
             {
                 // Check if current study is saved, and prompt to save if not
-                save_Confirmation();
+                session.saveSync();
             }/*
             if (result == MessageBoxResult.No)
             {

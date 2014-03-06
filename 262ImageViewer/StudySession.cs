@@ -18,21 +18,24 @@ namespace _262ImageViewer
     [Serializable]
     class StudyMetadata
     {
-        public Uri workingPath;
-        public String fileName;
+        public string fileName;
     }
 
     public class StudySession
     {
         private StudyMetadata metadata;
-
-        public Uri imagePath
+        private string fileName
         {
             get
             {
-                return this.metadata.workingPath;
+                return this.metadata.fileName;
+            }
+            set
+            {
+                this.metadata.fileName = value;
             }
         }
+        public Uri imagePath;
 
 
         /**
@@ -44,15 +47,15 @@ namespace _262ImageViewer
         public StudySession(Uri filePath, string fileName)
         {
             this.metadata = new StudyMetadata();
-            this.metadata.workingPath = new Uri(filePath, fileName + "/");
-            this.metadata.fileName = fileName;
-            if (Directory.Exists(this.metadata.workingPath.AbsolutePath))
+            this.fileName = fileName;
+            this.imagePath = new Uri(filePath, fileName + "/");
+            if (Directory.Exists(this.imagePath.AbsolutePath))
             {
                throw new IOException("File exists");
             }
             else
             {
-                Directory.CreateDirectory(this.metadata.workingPath.AbsolutePath);
+                Directory.CreateDirectory(this.imagePath.AbsolutePath);
                 this.saveSync();
             }
         }
@@ -62,6 +65,7 @@ namespace _262ImageViewer
          */
         public StudySession(Uri studPath)
         {
+            this.imagePath = new Uri(System.IO.Path.GetDirectoryName(studPath.AbsolutePath));
             var format = new BinaryFormatter();
             var dataStream = new FileStream(studPath.AbsolutePath, FileMode.Open, FileAccess.Read, FileShare.Read);
             try
@@ -78,15 +82,15 @@ namespace _262ImageViewer
         public bool saveSync()
         {
             var format = new BinaryFormatter();
-            Stream stream = new FileStream(this.metadata.workingPath.AbsolutePath + this.metadata.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
+            Stream stream = new FileStream(this.imagePath.AbsolutePath + this.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
             format.Serialize(stream, this.metadata);
             stream.Close();
-            return Directory.Exists(this.metadata.workingPath.AbsolutePath);
+            return Directory.Exists(this.imagePath.AbsolutePath);
         }
 
         public override string ToString()
         {
-            return this.metadata.fileName;
+            return this.fileName;
         }
 
     }
