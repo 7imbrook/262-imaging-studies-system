@@ -12,7 +12,7 @@ namespace _262ImageViewer
     {
 
         private ImageView imageView;
-
+        private StudySession studySession;
         /**
          * Given a study, make an image loader and view for it.
          */
@@ -23,6 +23,7 @@ namespace _262ImageViewer
             ImageLoader imageLoader = new LocalImages(session.imagePath);
             Debug.WriteLine("Print an image? {0}", imageLoader.Count());
             imageView = new ImageView(imageLoader);
+            studySession = session;
             setFrameImageView(imageView);
         }
 

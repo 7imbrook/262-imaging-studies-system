@@ -35,6 +35,8 @@ namespace _262ImageViewer
 
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
+            if (session != null)
+                this.closeConfirmation();
             // Create OpenFileDialog
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
@@ -71,7 +73,14 @@ namespace _262ImageViewer
             //this.mainFrame.ClearValue(Content);
             this.mainFrame.Content = iv;
         }
+
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
+        {
+            this.save_Confirmation();
+        }
+
+        //Needed a helper fuction without arguments
+        private void save_Confirmation()
         {
             // Prompt where to save the images
             var savePrompt = new Microsoft.Win32.SaveFileDialog();
