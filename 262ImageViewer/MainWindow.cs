@@ -11,6 +11,8 @@ namespace _262ImageViewer
     public partial class MainWindow
     {
 
+        private ImageView imageView;
+
         /**
          * Given a study, make an image loader and view for it.
          */
@@ -19,7 +21,7 @@ namespace _262ImageViewer
             // Associate the things
             ImageLoader imageLoader = new LocalImages(session.imagePath);
             Debug.WriteLine("Print an image? {0}", imageLoader.Count());
-            ImageView imageView = new ImageView(imageLoader);
+            imageView = new ImageView(imageLoader);
             setFrameImageView(imageView);
         }
 
