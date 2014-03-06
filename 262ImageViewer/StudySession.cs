@@ -61,6 +61,14 @@ namespace _262ImageViewer
         }
         public Uri imagePath;
         public ImageView displayedView;
+        public string currentPath
+        {
+            get
+            {
+                return (this.imagePath.AbsolutePath + "/" + this.fileName + ".stud");
+            }
+            private set {}
+        }
 
         /**
          * Create a study and initialize with a name and directory path
@@ -121,7 +129,7 @@ namespace _262ImageViewer
             Stream stream = new FileStream(this.imagePath.AbsolutePath + this.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
             format.Serialize(stream, this.metadata);
             stream.Close();
-            return Directory.Exists(this.imagePath.AbsolutePath);
+            return File.Exists(this.imagePath.AbsolutePath);
         }
 
         public override string ToString()
