@@ -10,7 +10,7 @@ namespace _262ImageViewer
 {
     public partial class MainWindow
     {
-
+        ImageView imageView;
         /**
          * Given a study, make an image loader and view for it.
          */
@@ -19,10 +19,9 @@ namespace _262ImageViewer
             // Associate the things
             ImageLoader imageloader = new LocalImages(session.imagePath);
             Debug.WriteLine("Print an image? {0}", imageloader.Count());
-            ImageView imageView = new ImageView();
+            imageView = new ImageView();
             imageView.addImages(imageloader);
             setFrameImageView();
-        }
-
+        } 
     }
 }

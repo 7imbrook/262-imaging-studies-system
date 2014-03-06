@@ -116,10 +116,12 @@ namespace _262ImageViewer
             if (layoutToggle)
             {
                 layoutToggle = false;
+                imageView.switchMode();
             }
             else
             {
                 layoutToggle = true;
+                imageView.switchMode();
             }
         }
     }
