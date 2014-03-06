@@ -136,17 +136,37 @@ namespace _262ImageViewer
         {
             if (modeSelect == true)
             {
-                display_four();
+
+                //Switch from one to four
+                double x = (index - 1) / 4;
+                int new_index = 4 * (int)Math.Floor(x) + 1;
+                index = new_index;
+                //display_four(imageList[index]);
                 prev_button.IsEnabled = false;
                 next_button.IsEnabled = false;
                 modeSelect = false;
             }
             else
             {
+                //Switch from four to one
+                index = index - 3;
+
+                if (index < 0)
+                {
+                    index = 0;
+                }
+                else if (index > imageList.Count)
+                {
+                    index = imageList.Count;
+                }
+
+                display_image(imageList[index]);
+
                 prev_button.IsEnabled = true;
                 next_button.IsEnabled = true;
                 modeSelect = true;
             }
+
         }
 
     }

@@ -64,7 +64,14 @@ namespace _262ImageViewer
         {
             var format = new BinaryFormatter();
             var dataStream = new FileStream(studPath.AbsolutePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            this.metadata = (StudyMetadata)format.Deserialize(dataStream);
+            try
+            {
+                this.metadata = (StudyMetadata)format.Deserialize(dataStream);
+            }
+            catch
+            {
+                throw new IOException("Invalid file");
+            }
             dataStream.Close();
         }
 

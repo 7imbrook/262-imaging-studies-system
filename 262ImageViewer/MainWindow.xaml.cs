@@ -26,7 +26,9 @@ namespace _262ImageViewer
         {
             //InitializeComponent();
             //Study studyTest = new Study();
+            layoutToggle = true;
         }
+        private bool layoutToggle;
 
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
@@ -52,7 +54,7 @@ namespace _262ImageViewer
                         var loadedStudy = new StudySession(loadedStudyName);
                         this.loadStudy(loadedStudy);
                     }
-                    catch (IOException exp)
+                    catch (IOException)
                     {
                         MessageBox.Show("There was a issue with your study, it may be corrupted.");
                     }
@@ -62,7 +64,7 @@ namespace _262ImageViewer
 
         public void setFrameImageView()
         {
-            this.mainFrame.Source = new Uri("ImageView.xmal", UriKind.Relative);
+            this.mainFrame.Source = new Uri("ImageView.xaml", UriKind.Relative);
         }
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
@@ -82,7 +84,7 @@ namespace _262ImageViewer
                     var study = new StudySession(new Uri(path), name);
                     this.loadStudy(study);
                 }
-                catch (IOException exp)
+                catch (IOException)
                 {
                     MessageBox.Show("There was a issue with your study, it may be corrupted.");
                 }
@@ -123,7 +125,15 @@ namespace _262ImageViewer
 
         private void _View_Click(object sender, RoutedEventArgs e)
         {
-
+            //Debug.WriteLine(layoutToggle);
+            if (layoutToggle)
+            {
+                layoutToggle = false;
+            }
+            else
+            {
+                layoutToggle = true;
+            }
         }
     }
 }
