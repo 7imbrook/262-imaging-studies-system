@@ -28,6 +28,6 @@
                 <!--<MenuItem Header="4 Image View" IsCheckable="True" Click="_view_Click" />-->
             </MenuItem>
         </Menu>
-        <Frame Name="mainFrame" HorizontalAlignment="Center" Height="642" VerticalAlignment="Center" Width="944" Margin="10,29,10,10"/>
+        <Frame Name="mainFrame" HorizontalAlignment="Center" Height="642" VerticalAlignment="Center" Width="944" Margin="10,29,10,10" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
