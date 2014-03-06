@@ -62,9 +62,10 @@ namespace _262ImageViewer
             }
         }
 
-        public void setFrameImageView()
+        public void setFrameImageView(ImageView iv)
         {
-            this.mainFrame.Source = new Uri("ImageView.xaml", UriKind.Relative);
+            //this.mainFrame.Source = new Uri("ImageView.xaml", UriKind.Relative);
+            this.mainFrame.Content = iv;
         }
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
