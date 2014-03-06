@@ -57,6 +57,10 @@ namespace _262ImageViewer
 
                 }
             }
+            if (studySession == null)
+            {
+                _OpenStudy_Click(this, new RoutedEventArgs());
+            }
         }
 
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
