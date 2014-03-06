@@ -33,14 +33,19 @@ namespace _262ImageViewer
             imageList = null;
             //display_counter();
         }
-        public ImageView(List<BitmapImage> list)
+
+        public ImageView(List<BitmapImage> list, bool mode, int i=0)
         {
             InitializeComponent();
-            index = 0;
-            modeSelect = true;
+            index = i;
+            modeSelect = mode;
             imageList = list;
         }
 
+        public void addImages(List<BitmapImage> list)
+        {
+            imageList = list;
+        }
         /**
          * Displays the current image the user is in. There is only
          * 1~4 images. Displays by #/4. The number is obtained by the
@@ -108,7 +113,7 @@ namespace _262ImageViewer
          **/
         public void nextImage_Click(object sender, RoutedEventArgs e)
         {
-            if (modeSelect)
+            if (modeSelect && imageList != null)
             {
                 if (index < imageList.Count)
                 {
@@ -125,7 +130,7 @@ namespace _262ImageViewer
          **/
         public void prevImage_Click(object sender, RoutedEventArgs e)
         {
-            if (modeSelect)
+            if (modeSelect && imageList != null)
             {
                 if(index > imageList.Count)
                 {
@@ -171,5 +176,6 @@ namespace _262ImageViewer
             }
 
         }
+
     }
 }
