@@ -18,11 +18,10 @@ namespace _262ImageViewer
          */
         public void loadStudy(StudySession session)
         {
-            this.session = session;
             // Associate the things
             ImageLoader imageLoader = new LocalImages(session.imagePath);
             Debug.WriteLine("Print an image? {0}", imageLoader.Count());
-            imageView = new ImageView(imageLoader);
+            imageView = new ImageView(imageLoader, session.imageIndex, session.imageMode);
             studySession = session;
             setFrameImageView(imageView);
         }

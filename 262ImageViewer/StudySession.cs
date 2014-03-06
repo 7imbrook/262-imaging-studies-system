@@ -19,6 +19,8 @@ namespace _262ImageViewer
     class StudyMetadata
     {
         public string fileName;
+        public int index;
+        public bool mode;
     }
 
     public class StudySession
@@ -35,8 +37,30 @@ namespace _262ImageViewer
                 this.metadata.fileName = value;
             }
         }
-        public Uri imagePath;
+        public int imageIndex
+        {
+            get
+            {
+                return this.metadata.index;
+            }
+            private set
+            {
+                
+            }
+        }
+        public bool imageMode
+        {
+            get
+            {
+                return this.metadata.mode;
+            }
+            private set
+            {
 
+            }
+        }
+        public Uri imagePath;
+        public ImageView displayedView;
 
         /**
          * Create a study and initialize with a name and directory path
@@ -47,6 +71,8 @@ namespace _262ImageViewer
         public StudySession(Uri filePath, string fileName)
         {
             this.metadata = new StudyMetadata();
+            this.metadata.index = 0;
+            this.metadata.mode = true;
             this.fileName = fileName;
             this.imagePath = new Uri(filePath, fileName + "/");
             if (Directory.Exists(this.imagePath.AbsolutePath))
@@ -77,6 +103,16 @@ namespace _262ImageViewer
                 throw new IOException("Invalid file");
             }
             dataStream.Close();
+        }
+
+        /**
+         * Updates the state and save the file.
+         */
+        public void updateState(int index, bool mode)
+        {
+            this.metadata.index = index;
+            this.metadata.mode = mode;
+            this.saveSync();
         }
 
         public bool saveSync()

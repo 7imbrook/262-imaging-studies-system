@@ -23,8 +23,6 @@ namespace _262ImageViewer
     public partial class MainWindow : Window
     {
 
-        public StudySession session;
-
         public MainWindow()
         {
             //InitializeComponent();
@@ -35,7 +33,7 @@ namespace _262ImageViewer
 
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
-            if (session != null)
+            if (studySession != null)
                 this.closeConfirmation();
             // Create OpenFileDialog
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -76,7 +74,7 @@ namespace _262ImageViewer
 
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
-            if (session != null)
+            if (studySession != null)
                 this.closeConfirmation();
             this.save_Confirmation();
         }
@@ -123,7 +121,7 @@ namespace _262ImageViewer
             if (result == MessageBoxResult.Yes)
             {
                 // Check if current study is saved, and prompt to save if not
-                session.saveSync();
+                this.studySession.saveSync();
             }/*
             if (result == MessageBoxResult.No)
             {
