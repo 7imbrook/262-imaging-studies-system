@@ -105,7 +105,6 @@ namespace _262ImageViewer
             try
             {
                 this.metadata = (StudyMetadata)format.Deserialize(dataStream);
-                Debug.WriteLine("{0} {1}", this.metadata.index, this.metadata.mode);
             }
             catch
             {
@@ -119,7 +118,6 @@ namespace _262ImageViewer
          */
         public void updateState(int index, bool mode)
         {
-            Debug.WriteLine("{0} {1}", index, mode);
             this.metadata.index = index;
             this.metadata.mode = mode;
             this.saveSync();
