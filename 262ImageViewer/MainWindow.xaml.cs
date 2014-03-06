@@ -76,6 +76,8 @@ namespace _262ImageViewer
 
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
+            if (session != null)
+                this.closeConfirmation();
             this.save_Confirmation();
         }
 
