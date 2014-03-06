@@ -25,6 +25,7 @@ namespace _262ImageViewer
 
         /*
          * Make a new LocalImages based on the given directory Uri.
+         */
         public LocalImages(Uri folder)
         {
             readFiles(folder);
