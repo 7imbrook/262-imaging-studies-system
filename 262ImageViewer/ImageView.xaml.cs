@@ -21,20 +21,35 @@ namespace _262ImageViewer
     public partial class ImageView : Page
     {
         private bool modeSelect;
-        private int index;    //Counter of image array position
-        private ImageLoader localImage;
+        public int index
+        {
+            get;
+            private set;
+        }
+        private ImageLoader imageLoader;
 
         public ImageView(ImageLoader imgLdr)
         {
             InitializeComponent();
             index = 0;
             modeSelect = true; //True is one, False is four
-            localImage = imgLdr;
+            imageLoader = imgLdr;
             if (isValidIndex(index))
             {
-                display_image(localImage[index]);
+                display_image(imageLoader[index]);
             }
-            
+        }
+
+        public ImageView(ImageLoader imgLdr, int i, bool mode)
+        {
+            InitializeComponent();
+            index = i;
+            modeSelect = mode; //True is one, False is four
+            imageLoader = imgLdr;
+            if (isValidIndex(index))
+            {
+                display_image(imageLoader[index]);
+            }
         }
 
         /**
@@ -115,25 +130,18 @@ namespace _262ImageViewer
         public void nextImage_Click(object sender, RoutedEventArgs e)
         {
 
-            if (modeSelect && localImage != null)
+            if (modeSelect && imageLoader != null)
             {
                 if (isValidIndex(index + 1))
                 {
                     index++;
-                    display_image(localImage[index]);
+                    display_image(imageLoader[index]);
                 }
             }
             else
             {
-                if (index / 4 == 1 && index == localImage.Count())
-                {
-                    index = localImage.Count();   
-                }
-                else if (isValidIndex(index + 4))
-                {
-                    index += 4;
-                    display_four(localImage, index);
-                }
+                index += 4;
+                display_four(imageLoader, index);
             }
 
         }
@@ -145,31 +153,23 @@ namespace _262ImageViewer
          **/
         public void prevImage_Click(object sender, RoutedEventArgs e)
         {
-            if (modeSelect && localImage != null)
+            if (modeSelect && imageLoader != null)
             {
                 if (isValidIndex(index - 1))
                 {
                     index--;
-                    display_image(localImage[index]);
+                    display_image(imageLoader[index]);
                 }
             }
             else
             {
-                if (!isValidIndex(index - 4))
-                {
-                    index = 0;
-                    display_four(localImage, index);
-                }
-                else if(isValidIndex(index - 4))
-                {
-                    index -= 4;
-                    display_four(localImage, index);
-                }
+                index -= 4;
+                display_four(imageLoader, index);
             }
         }
         private bool isValidIndex(int i)
         {
-            return (0 <= i && i < localImage.Count());
+            return (0 <= i && i < imageLoader.Count());
         }
 
         public void switchMode()
@@ -181,7 +181,7 @@ namespace _262ImageViewer
                 double x = (index + 1) / 4;
                 int new_index = 4 * (int)Math.Floor(x);
                 index = new_index;
-                display_four(localImage, index);
+                display_four(imageLoader, index);
                 modeSelect = false;
             }
             else
@@ -191,12 +191,12 @@ namespace _262ImageViewer
                 {
                     index = 0;
                 }
-                else if (index > localImage.Count())
+                else if (index > imageLoader.Count())
                 {
-                    index = localImage.Count();
+                    index = imageLoader.Count();
                 }
 
-                display_image(localImage[index]);
+                display_image(imageLoader[index]);
 
                 modeSelect = true;
             }
