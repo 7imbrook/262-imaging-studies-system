@@ -20,20 +20,17 @@ namespace _262ImageViewer
     /// </summary>
     public partial class ImageView : Page
     {
-        public bool modeSelect;
-        public int index;    //Counter of image array position
-        public ImageLoader localImage;
+        private bool modeSelect;
+        private int index;    //Counter of image array position
+        private ImageLoader localImage;
 
-        public ImageView()
+        public ImageView(ImageLoader imgLdr)
         {
             InitializeComponent();
             index = 0;
             modeSelect = true; //True is one, False is four
-        }
-
-        public void addImages(ImageLoader image)
-        {
-            localImage = image;
+            localImage = imgLdr;
+            
         }
 
         /**
@@ -88,7 +85,7 @@ namespace _262ImageViewer
 
             if (modeSelect && localImage != null)
             {
-                if (isValidIndex(index))
+                if (isValidIndex(index + 1))
                 {
                     index++;
                     display_image(localImage[index]);
@@ -105,7 +102,7 @@ namespace _262ImageViewer
         {
             if (modeSelect && localImage != null)
             {
-                if (isValidIndex(index))
+                if (isValidIndex(index - 1))
                 {
                     index--;
                     display_image(localImage[index]);
@@ -119,7 +116,8 @@ namespace _262ImageViewer
         }
         private bool isValidIndex(int i)
         {
-            return (0 < i && i < localImage.Count());
+            Debug.WriteLine(i);
+            return (0 <= i && i < localImage.Count());
         }
 
         public void switchMode()
