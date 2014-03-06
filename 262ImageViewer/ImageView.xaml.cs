@@ -60,6 +60,7 @@ namespace _262ImageViewer
                 {
                     display_four(imageLoader, index);
                 }
+                buttonCheck();
             }
         }
 
@@ -157,6 +158,7 @@ namespace _262ImageViewer
                     display_four(imageLoader, index);
                 }
             }
+            buttonCheck();
 
         }
 
@@ -181,12 +183,48 @@ namespace _262ImageViewer
                 {
                     index -= 4;
                     display_four(imageLoader, index);
+                
                 }
             }
+            buttonCheck();
         }
         private bool isValidIndex(int i)
         {
             return (0 <= i && i < imageLoader.Count());
+        }
+
+        private void buttonCheck()
+        {
+            if (!isValidIndex(index - 1))
+            {
+                prev_button.IsEnabled = false;
+            }
+            
+            if(!isValidIndex(index + 1) && modeSelect == true)
+            {
+                next_button.IsEnabled = false;
+            }
+            
+            if (isValidIndex(index - 1))
+            {
+                prev_button.IsEnabled = true;
+            }
+            
+            if (isValidIndex(index + 1) && modeSelect == true)
+            {
+                next_button.IsEnabled = true;
+            }
+
+            if (isValidIndex(index + 4) && modeSelect == false)
+            {
+                next_button.IsEnabled = true;
+            }
+
+            else if (!isValidIndex(index + 4) && modeSelect == false)
+            {
+                next_button.IsEnabled = false;
+            }
+
         }
 
         public void switchMode()
