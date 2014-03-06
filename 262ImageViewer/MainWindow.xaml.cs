@@ -33,23 +33,31 @@ namespace _262ImageViewer
             string settingsPath = System.IO.Path.Combine(settingsDirectory, fileName);
             if (File.Exists(settingsPath))
             {
-                var format = new BinaryFormatter();
-                var dataStream = new FileStream(settingsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                Uri path = (Uri)format.Deserialize(dataStream);
-                dataStream.Close();
-                Debug.WriteLine(path);
-                string stud = "";
-                string[] fileArray = Directory.GetFiles(path.AbsolutePath);
-                foreach (string file in fileArray)
+                try
                 {
-                    if (file.EndsWith(".stud"))
+                    var format = new BinaryFormatter();
+                    var dataStream = new FileStream(settingsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    Uri path = (Uri)format.Deserialize(dataStream);
+                    dataStream.Close();
+                    Debug.WriteLine(path);
+                    string stud = "";
+                    string[] fileArray = Directory.GetFiles(path.AbsolutePath);
+                    foreach (string file in fileArray)
                     {
-                        stud = file;
-                        break;
+                        if (file.EndsWith(".stud"))
+                        {
+                            stud = file;
+                            break;
+                        }
                     }
+                    Debug.WriteLine(path);
+                    var session = new StudySession(new Uri(stud));
+                    this.loadStudy(session);
                 }
-                var session = new StudySession(new Uri(stud));
-                this.loadStudy(session);
+                catch
+                {
+
+                }
             }
         }
 
@@ -152,7 +160,6 @@ namespace _262ImageViewer
             }
             if (result == MessageBoxResult.Cancel)
             {
-
             }*/
         }
 
@@ -175,6 +182,44 @@ namespace _262ImageViewer
             Stream stream = new FileStream(settingsDirectory + "/" + fileName, FileMode.Create, FileAccess.Write, FileShare.None);
             format.Serialize(stream, this.studySession.imagePath);
             stream.Close();
+        }
+
+        private void _saveStudy(object sender, RoutedEventArgs e)
+        {
+            this.studySession.updateState(imageView.index, imageView.modeSelect);
+        }
+
+        private void _saveAs(object sender, RoutedEventArgs e)
+        {
+            var savePrompt = new Microsoft.Win32.SaveFileDialog();
+            var curretImgPath = studySession.imagePath;
+            savePrompt.DefaultExt = "";
+            savePrompt.Filter = "";
+
+            Nullable<bool> result = savePrompt.ShowDialog();
+            if ((bool)result)
+            {
+                var path = savePrompt.FileName;
+                var name = path.Split('\\').Last();
+                try
+                {
+                    var study = new StudySession(new Uri(path), name);
+                    // Move files
+                    string[] fileArray = Directory.GetFiles(curretImgPath.AbsolutePath);
+                    foreach (string file in fileArray)
+                    {
+                        if (file.EndsWith(".jpg"))
+                        {
+                            System.IO.File.Copy(file, System.IO.Path.Combine(study.imagePath.AbsolutePath, System.IO.Path.GetFileName(file)));
+                        }
+                    }
+                    this.loadStudy(study);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("There was a issue with your study, it may be corrupted.");
+                }
+            }
         }
     }
 }
