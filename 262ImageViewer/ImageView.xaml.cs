@@ -23,8 +23,6 @@ namespace _262ImageViewer
         int counter;    //Counter of image array position
         int total_img_count;
         //LocalImages image_location = new LocalImages("");
-        //ImageEnum study;
-
         public ImageView()
         {
             InitializeComponent();
