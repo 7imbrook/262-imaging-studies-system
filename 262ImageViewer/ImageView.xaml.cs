@@ -155,12 +155,12 @@ namespace _262ImageViewer
                 {
                     index = 0;
                 }
-                else if (index > imageList.Count)
+                else if (index > localImage.Count())
                 {
-                    index = imageList.Count;
+                    index = localImage.Count();
                 }
 
-                display_image(imageList[index]);
+                display_image(localImage[index]);
 
                 prev_button.IsEnabled = true;
                 next_button.IsEnabled = true;
