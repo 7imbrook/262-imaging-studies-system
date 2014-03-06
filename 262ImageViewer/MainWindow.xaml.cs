@@ -97,20 +97,7 @@ namespace _262ImageViewer
             if (result == MessageBoxResult.Yes)
             {
                 // Check if current study is saved, and prompt to save if not
-                var savePromt = new Microsoft.Win32.SaveFileDialog();
-
-                savePromt.DefaultExt = "";
-                savePromt.Filter = "";
-
-                Nullable<bool> answer = savePromt.ShowDialog();
-                if ((bool)answer)
-                {
-                    var path = savePromt.FileName;
-                    var name = path.Split('\\').Last();
-
-                    var study = new StudySession(new Uri(path), name);
-
-                }
+                _NewStudy_Click(sender, e);
             }
             if (result == MessageBoxResult.No)
             {
