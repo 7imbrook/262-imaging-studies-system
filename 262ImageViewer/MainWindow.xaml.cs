@@ -188,6 +188,39 @@ namespace _262ImageViewer
         {
             this.studySession.updateState(imageView.index, imageView.modeSelect);
         }
+
+        private void _saveAs(object sender, RoutedEventArgs e)
+        {
+            var savePrompt = new Microsoft.Win32.SaveFileDialog();
+            var curretImgPath = studySession.imagePath;
+            savePrompt.DefaultExt = "";
+            savePrompt.Filter = "";
+
+            Nullable<bool> result = savePrompt.ShowDialog();
+            if ((bool)result)
+            {
+                var path = savePrompt.FileName;
+                var name = path.Split('\\').Last();
+                try
+                {
+                    var study = new StudySession(new Uri(path), name);
+                    // Move files
+                    string[] fileArray = Directory.GetFiles(curretImgPath.AbsolutePath);
+                    foreach (string file in fileArray)
+                    {
+                        if (file.EndsWith(".jpg"))
+                        {
+                            System.IO.File.Copy(file, System.IO.Path.Combine(study.imagePath.AbsolutePath, System.IO.Path.GetFileName(file)));
+                        }
+                    }
+                    this.loadStudy(study);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("There was a issue with your study, it may be corrupted.");
+                }
+            }
+        }
     }
 }
 

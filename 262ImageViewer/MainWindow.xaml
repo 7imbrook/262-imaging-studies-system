@@ -19,7 +19,7 @@
                 <MenuItem Header="_Open Study..." Click="_OpenStudy_Click"/>
                 <Separator />
                 <MenuItem Header="_Save Study" Click="_saveStudy" />
-                <MenuItem Header="_Save Study As..." />
+                <MenuItem Header="_Save Study As..." Click="_saveAs" />
                 <Separator />
                 <MenuItem Header="Set Current Study as Default" Click="set_current_default"/>
                 <Separator />
