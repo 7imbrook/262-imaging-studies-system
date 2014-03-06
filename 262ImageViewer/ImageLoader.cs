@@ -7,8 +7,13 @@ using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
-    interface ImageLoader : IList<BitmapImage>
+    interface ImageLoader
     {
-
+        int Count();
+        BitmapImage this[int i]
+        {
+            get;
+            set;
+        }
     }
 }

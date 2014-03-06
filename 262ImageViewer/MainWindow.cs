@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
@@ -17,7 +18,7 @@ namespace _262ImageViewer
         {
             // Associate the things
             ImageLoader imageloader = new LocalImages(session.imagePath);
-            //Debug.WriteLine("Print an image? {0}", imageloader.GetNext(10).Count);
+            Debug.WriteLine("Print an image? {0}", imageloader.Count());
         }
 
     }
