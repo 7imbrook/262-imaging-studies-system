@@ -138,11 +138,16 @@ namespace _262ImageViewer
                     display_image(imageList[index]);
                 }
             }
+            else
+            {
+                //display_four(imageList[index]);
+
+            }
         }
 
-        public void switchMode_Click(object sender, RoutedEventArgs e)
+        public void switchMode(object sender, RoutedEventArgs e)
         {
-            if (modeSelect == true)
+            if (modeSelect)
             {
 
                 //Switch from one to four
