@@ -12,7 +12,7 @@ namespace _262ImageViewer
     {
 
         /**
-         * givin a study, make an image loader and view for it.
+         * Given a study, make an image loader and view for it.
          */
         public void loadStudy(StudySession session)
         {

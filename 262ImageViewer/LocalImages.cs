@@ -14,16 +14,11 @@ namespace _262ImageViewer
 {
     public class LocalImages : List<Uri>, ImageLoader
     {
-        /*
-         * The current index of the list.
-         */
-        private int position = 0;
-
         /**
          * Use this thing like a list bra
          */
 
-        public BitmapImage this[int i]
+        public new BitmapImage this[int i]
         {
             get
             {
@@ -35,7 +30,7 @@ namespace _262ImageViewer
             }
         }
 
-        public int Count()
+        public new int Count()
         {
             return base.Count;
         }
