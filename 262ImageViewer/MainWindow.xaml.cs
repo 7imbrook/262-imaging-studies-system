@@ -194,6 +194,8 @@ namespace _262ImageViewer
         {
             var savePrompt = new Microsoft.Win32.SaveFileDialog();
             var curretImgPath = studySession.imagePath;
+            var i = studySession.imageIndex;
+            var s = studySession.imageMode;
             savePrompt.DefaultExt = "";
             savePrompt.Filter = "";
 
@@ -205,6 +207,7 @@ namespace _262ImageViewer
                 try
                 {
                     var study = new StudySession(new Uri(path), name);
+                    study.updateState(i, s);
                     // Move files
                     string[] fileArray = Directory.GetFiles(curretImgPath.AbsolutePath);
                     foreach (string file in fileArray)
