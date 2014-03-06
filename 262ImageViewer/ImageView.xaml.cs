@@ -52,7 +52,14 @@ namespace _262ImageViewer
             imageLoader = imgLdr;
             if (isValidIndex(index))
             {
-                display_image(imageLoader[index]);
+                if (modeSelect == true)
+                {
+                    display_image(imageLoader[index]);
+                }
+                else
+                {
+                    display_four(imageLoader, index);
+                }
             }
         }
 
@@ -144,8 +151,11 @@ namespace _262ImageViewer
             }
             else
             {
-                index += 4;
-                display_four(imageLoader, index);
+                if (isValidIndex(index + 4))
+                {
+                    index += 4;
+                    display_four(imageLoader, index);
+                }
             }
 
         }
@@ -167,8 +177,11 @@ namespace _262ImageViewer
             }
             else
             {
-                index -= 4;
-                display_four(imageLoader, index);
+                if (isValidIndex(index - 4))
+                {
+                    index -= 4;
+                    display_four(imageLoader, index);
+                }
             }
         }
         private bool isValidIndex(int i)
@@ -182,9 +195,9 @@ namespace _262ImageViewer
             {
 
                 //Switch from one to four
-                double x = (index + 1) / 4;
-                int new_index = 4 * (int)Math.Floor(x);
-                index = new_index;
+                double x = (index) / 4;
+                int new_index = 4 * (int)Math.Floor(x) + 1;
+                index = new_index - 1;
                 display_four(imageLoader, index);
                 modeSelect = false;
             }
