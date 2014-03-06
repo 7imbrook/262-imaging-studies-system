@@ -137,7 +137,7 @@ namespace _262ImageViewer
             }
         }
 
-        public void switchMode(object sender, RoutedEventArgs e)
+        public void switchMode()
         {
             if (modeSelect)
             {
