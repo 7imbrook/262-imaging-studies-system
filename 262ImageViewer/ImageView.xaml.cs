@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace _262ImageViewer
 {
@@ -19,42 +20,18 @@ namespace _262ImageViewer
     /// </summary>
     public partial class ImageView : Page
     {
-        public bool modeSelect;
-        public int index;    //Counter of image array position
-        public ImageLoader localImage;
+        private bool modeSelect;
+        private int index;    //Counter of image array position
+        private ImageLoader localImage;
 
-        public ImageView()
+        public ImageView(ImageLoader imgLdr)
         {
             InitializeComponent();
-            //Application.Current.MainWindow.Height = study.Current.Height + 200;
-            //Application.Current.MainWindow.Width = study.Current.Width;
             index = 0;
             modeSelect = true; //True is one, False is four
-            localImage = null;
-            //display_counter();
+            localImage = imgLdr;
+            
         }
-
-        public void addImages(ImageLoader image)
-        {
-            localImage = image;
-        }
-        /**
-         * Displays the current image the user is in. There is only
-         * 1~4 images. Displays by #/4. The number is obtained by the
-         * counter that keeps track of the position in the array, except +1
-         * to the integer.
-         **/
-        /*private void display_counter()
-        {
-            //string position_string = study.position.ToString();
-            string position_string = "1";
-            string counter_total_string = "2";
-            TextBox current_img = new TextBox();
-            current_img.Name = "counter";
-            current_img.Text = position_string + "/" + counter_total_string;
-            //current_img.TextWrapping = TextWrapping.Wrap;
-            image_counter.Children.Add(current_img);
-        }*/
 
         /**
          * Displays image based on the array position given by the counter.
@@ -68,7 +45,7 @@ namespace _262ImageViewer
             image_display.Children.Add(i);
         }
 
-        private void display_four()
+        private void display_four(ImageLoader imageList, int index)
         {
             image_display.Children.Clear();
 
@@ -90,12 +67,33 @@ namespace _262ImageViewer
             col2.Width = new GridLength(0.5, GridUnitType.Star);
             four_grid.ColumnDefinitions.Add(col2);
 
-            /*
+                        
             for (int position = 0; position < 2; position++)
             {
-
+                Image to_display = new Image();
+                BitmapImage source = imageList[index];
+                to_display.Source = source;
+                to_display.Stretch = Stretch.Uniform;
+                int x = source.PixelWidth;
+                Grid.SetRow(to_display, 0);
+                Grid.SetColumn(to_display, position);
+                four_grid.Children.Add(to_display);
             }
-             */
+
+            for (int position = 0; position < 2; position++)
+            {
+                Image to_display = new Image();
+                BitmapImage source = imageList[position];
+                to_display.Source = source;
+                to_display.Stretch = Stretch.Uniform;
+                int x = source.PixelWidth;
+                Grid.SetRow(to_display, 1);
+                Grid.SetColumn(to_display, position - 2);
+                four_grid.Children.Add(to_display);
+            }
+
+            image_display.Children.Add(four_grid);
+            
         }
 
         /**
@@ -105,9 +103,10 @@ namespace _262ImageViewer
          **/
         public void nextImage_Click(object sender, RoutedEventArgs e)
         {
+
             if (modeSelect && localImage != null)
             {
-                if (index < localImage.Count())
+                if (isValidIndex(index + 1))
                 {
                     index++;
                     display_image(localImage[index]);
@@ -124,7 +123,7 @@ namespace _262ImageViewer
         {
             if (modeSelect && localImage != null)
             {
-                if (index > localImage.Count())
+                if (isValidIndex(index - 1))
                 {
                     index--;
                     display_image(localImage[index]);
@@ -132,9 +131,13 @@ namespace _262ImageViewer
             }
             else
             {
-                //display_four(imageList[index]);
+                display_four(localImage, index);
 
             }
+        }
+        private bool isValidIndex(int i)
+        {
+            return (0 <= i && i < localImage.Count());
         }
 
         public void switchMode()
