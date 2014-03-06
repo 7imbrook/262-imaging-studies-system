@@ -5,9 +5,12 @@
         Title="MainWindow" Height="720" Width="980">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Close"
-                        Executed="_Close_Click">   
+                        Executed="_Close_Click">
         </CommandBinding>
-    </Window.CommandBindings>   
+        <CommandBinding Command="ApplicationCommands.Properties"
+                        Executed="_View_Click">
+        </CommandBinding>
+    </Window.CommandBindings>
     <Grid>
         <Menu>
             <MenuItem Header="_File">
@@ -21,8 +24,8 @@
                 <MenuItem Header="_Exit" Command="ApplicationCommands.Close" />
             </MenuItem>
             <MenuItem Header="_View">
-                <MenuItem Header="1 Image View" IsChecked="True" IsCheckable="True" />
-                <MenuItem Header="4 Image View" IsCheckable="True" />
+                <MenuItem Header="Toggle Image View " IsChecked="True" IsCheckable="True" Command="ApplicationCommands.Properties" />
+                <!--<MenuItem Header="4 Image View" IsCheckable="True" Click="_view_Click" />-->
             </MenuItem>
         </Menu>
     </Grid>
