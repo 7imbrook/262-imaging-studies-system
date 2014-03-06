@@ -52,7 +52,7 @@ namespace _262ImageViewer
                         var loadedStudy = new StudySession(loadedStudyName);
                         this.loadStudy(loadedStudy);
                     }
-                    catch (IOException exp)
+                    catch (IOException)
                     {
                         MessageBox.Show("There was a issue with your study, it may be corrupted.");
                     }
@@ -78,7 +78,7 @@ namespace _262ImageViewer
                     var study = new StudySession(new Uri(path), name);
                     this.loadStudy(study);
                 }
-                catch (IOException exp)
+                catch (IOException)
                 {
                     MessageBox.Show("There was a issue with your study, it may be corrupted.");
                 }
