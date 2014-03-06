@@ -1,4 +1,14 @@
-﻿using System;
+﻿/* 
+ * ImageLoader.cs
+ * 
+ * Version: 
+ *     $Id$ 
+ * 
+ * Revisions: 
+ *     $Log$ 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -25,7 +35,9 @@ namespace _262ImageViewer
 
     public class StudySession
     {
+        // Study Metadata object
         private StudyMetadata metadata;
+        // The filename stored in the metadata object
         private string fileName
         {
             get
@@ -37,6 +49,7 @@ namespace _262ImageViewer
                 this.metadata.fileName = value;
             }
         }
+        // The current image index stored in metadata
         public int imageIndex
         {
             get
@@ -48,6 +61,7 @@ namespace _262ImageViewer
                 
             }
         }
+        // The current mode stored in metadata
         public bool imageMode
         {
             get
@@ -59,8 +73,9 @@ namespace _262ImageViewer
 
             }
         }
+        // Image locations
         public Uri imagePath;
-        public ImageView displayedView;
+        // The current active path of the stud file
         public string currentPath
         {
             get
@@ -123,6 +138,9 @@ namespace _262ImageViewer
             this.saveSync();
         }
 
+        /**
+         * Save the session information to disk
+         */
         public bool saveSync()
         {
             BinaryFormatter format = new BinaryFormatter();
