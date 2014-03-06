@@ -9,5 +9,7 @@ namespace _262ImageViewer
 {
     interface ImageLoader
     {
+        List<BitmapImage> GetNext(int numImages);
+        List<BitmapImage> GetPrev(int numImages);
     }
 }
