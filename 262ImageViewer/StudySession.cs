@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -19,7 +20,6 @@ namespace _262ImageViewer
     {
         public Uri workingPath;
         public String fileName;
-        public LocalImages images;
     }
 
     public class StudySession
@@ -37,7 +37,6 @@ namespace _262ImageViewer
             this.metadata = new StudyMetadata();
             this.metadata.workingPath = new Uri(filePath, fileName + "/");
             this.metadata.fileName = fileName;
-            this.metadata.images = new LocalImages(fileName);
             if (Directory.Exists(this.metadata.workingPath.AbsolutePath))
             {
                throw new IOException("File exists");
@@ -61,15 +60,6 @@ namespace _262ImageViewer
         }
 
         public bool saveSync()
-        {
-            var format = new BinaryFormatter();
-            Stream stream = new FileStream(this.metadata.workingPath.AbsolutePath + this.metadata.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
-            format.Serialize(stream, this.metadata);
-            stream.Close();
-            return Directory.Exists(this.metadata.workingPath.AbsolutePath);
-        }
-
-        async public Task<bool> save()
         {
             var format = new BinaryFormatter();
             Stream stream = new FileStream(this.metadata.workingPath.AbsolutePath + this.metadata.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);

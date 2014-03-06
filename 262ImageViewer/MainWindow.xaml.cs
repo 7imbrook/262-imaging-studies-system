@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,26 +41,53 @@ namespace _262ImageViewer
             Nullable<bool> result = dlg.ShowDialog();
 
             // Get the selected file name and display in a TextBox
-            if (result == true)
+            if ((bool)result)
             {
                 // Open document
                 Uri loadedStudyName = new Uri(dlg.FileName);
                 if (loadedStudyName.AbsolutePath.ToLower().EndsWith(".stud"))
                 {
-                    MessageBox.Show("Send to Timbrook to deserialize: " + loadedStudyName);
-                    StudySession loadedStudy = new StudySession(loadedStudyName);
-                    //Study loadedStudy = Study(loadedStudyName);
+                    try
+                    {
+                        var loadedStudy = new StudySession(loadedStudyName);
+                        this.loadStudy(loadedStudy);
+                    }
+                    catch (IOException exp)
+                    {
+                        MessageBox.Show("There was a issue with your study, it may be corrupted.");
+                    }
                 }
             }
         }
 
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
-            // Get all data, then send to MainWindow
-            MessageBox.Show("Hey there. Let's make a new study.");
-            this.createNewStudy();
-            var newImageView = new ImageView();
-            newImageView.Show();
+            // Prompt where to save the images
+            var savePromt = new Microsoft.Win32.SaveFileDialog();
+
+            savePromt.DefaultExt = "";
+            savePromt.Filter = "";
+
+            Nullable<bool> result = savePromt.ShowDialog();
+            if ((bool)result)
+            {
+                var path = savePromt.FileName;
+                var name = path.Split('\\').Last();
+                try
+                {
+                    var study = new StudySession(new Uri(path), name);
+                    this.loadStudy(study);
+                }
+                catch (IOException exp)
+                {
+                    MessageBox.Show("There was a issue with your study, it may be corrupted.");
+                }
+            }
         }
     }
 }
+
+
+
+
+
