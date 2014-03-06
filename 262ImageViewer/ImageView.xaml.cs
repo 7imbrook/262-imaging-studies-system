@@ -166,8 +166,6 @@ namespace _262ImageViewer
             else
             {
                 //Switch from four to one
-                index = index - 3;
-
                 if (index < 0)
                 {
                     index = 0;
