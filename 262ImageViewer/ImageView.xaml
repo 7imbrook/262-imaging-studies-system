@@ -4,14 +4,22 @@
         Title="ImageView" Height="300" Width="300">
     <Grid>
         <StackPanel>
-            <StackPanel Name="image_display">
+            <Grid Name="image_display">
                 
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Left" Height="69" Margin="10,190,0,0" VerticalAlignment="Top" Width="272" Orientation="Horizontal"
+            </Grid>
+            <Grid HorizontalAlignment="Left" Height="69" Margin="10,190,0,0" VerticalAlignment="Top" Width="272"
                     >
-                <Button Content="Prevous" MinWidth="50" Height="40" Margin="80,0,0,0" Click="prevImage_Click"/>
-                <Button Content="Next" MinWidth="50" Height="40" Margin="20,0,0,0" Click="nextImage_Click"/>
-            </StackPanel>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Name="display_four_button" MinWidth="50" Height="40" Margin="0,0,0,0" Content="Display Four" VerticalAlignment="Bottom" Click="switchMode_Click" Grid.Column="0"/>
+                <Button Name="prev_button" Content="Prevous" MinWidth="50" Height="40" Margin="0,0,0,0" Click="prevImage_Click" VerticalAlignment="Bottom" Grid.Column="1"/>
+                <Button Name="next_button" Content="Next" MinWidth="50" Height="40" Margin="0,0,0,0" Click="nextImage_Click"  VerticalAlignment="Bottom" Grid.Column="2"/>
+                <Button Name="display_one_button" MinWidth="50" Height="40" Margin="0,0,0,0" Content="Display One" VerticalAlignment="Bottom" Click="switchMode_Click" Grid.Column="3"/>
+            </Grid>
         </StackPanel>
         <Canvas Name="image_counter" HorizontalAlignment="Left" Margin="243,10,0,0" VerticalAlignment="Top" Width="39" Height="21"/>
 
