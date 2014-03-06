@@ -149,9 +149,7 @@ namespace _262ImageViewer
                 double x = (index - 1) / 4;
                 int new_index = 4 * (int)Math.Floor(x) + 1;
                 index = new_index;
-                //display_four(imageList[index]);
-                prev_button.IsEnabled = false;
-                next_button.IsEnabled = false;
+                display_four(localImage, index);
                 modeSelect = false;
             }
             else
@@ -170,8 +168,6 @@ namespace _262ImageViewer
 
                 display_image(localImage[index]);
 
-                prev_button.IsEnabled = true;
-                next_button.IsEnabled = true;
                 modeSelect = true;
             }
 
