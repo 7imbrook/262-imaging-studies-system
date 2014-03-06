@@ -121,7 +121,7 @@ namespace _262ImageViewer
             if (result == MessageBoxResult.Yes)
             {
                 // Check if current study is saved, and prompt to save if not
-                this.studySession.saveSync();
+                this.studySession.updateState(imageView.index, imageView.modeSelect);
             }/*
             if (result == MessageBoxResult.No)
             {

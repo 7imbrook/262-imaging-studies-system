@@ -20,7 +20,11 @@ namespace _262ImageViewer
     /// </summary>
     public partial class ImageView : Page
     {
-        private bool modeSelect;
+        public bool modeSelect
+        {
+            get;
+            private set;
+        }
         public int index
         {
             get;
