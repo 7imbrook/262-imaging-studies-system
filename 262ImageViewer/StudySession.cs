@@ -18,9 +18,9 @@ namespace _262ImageViewer
     [Serializable]
     class StudyMetadata
     {
-        public string fileName;
-        public int index;
-        public bool mode;
+        public string fileName = "";
+        public int index = 0;
+        public bool mode = true;
     }
 
     public class StudySession
@@ -105,6 +105,7 @@ namespace _262ImageViewer
             try
             {
                 this.metadata = (StudyMetadata)format.Deserialize(dataStream);
+                Debug.WriteLine("{0} {1}", this.metadata.index, this.metadata.mode);
             }
             catch
             {
@@ -118,6 +119,7 @@ namespace _262ImageViewer
          */
         public void updateState(int index, bool mode)
         {
+            Debug.WriteLine("{0} {1}", index, mode);
             this.metadata.index = index;
             this.metadata.mode = mode;
             this.saveSync();
@@ -125,8 +127,8 @@ namespace _262ImageViewer
 
         public bool saveSync()
         {
-            var format = new BinaryFormatter();
-            Stream stream = new FileStream(this.imagePath.AbsolutePath + this.fileName + ".stud", FileMode.Create, FileAccess.Write, FileShare.None);
+            BinaryFormatter format = new BinaryFormatter();
+            Stream stream = new FileStream(this.imagePath.AbsolutePath + "/" + this.fileName + ".stud", FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
             format.Serialize(stream, this.metadata);
             stream.Close();
             return File.Exists(this.imagePath.AbsolutePath);
