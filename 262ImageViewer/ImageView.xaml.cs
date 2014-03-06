@@ -17,7 +17,7 @@ namespace _262ImageViewer
     /// <summary>
     /// Interaction logic for ImageView.xaml
     /// </summary>
-    public partial class ImageView : Window
+    public partial class ImageView : Page
     {
         bool modeSelect;
         int counter;    //Counter of image array position
