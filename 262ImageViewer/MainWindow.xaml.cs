@@ -149,7 +149,7 @@ namespace _262ImageViewer
 
         private void closeConfirmation()
         {
-            MessageBoxResult result = MessageBox.Show("Do you want to save your changes?", "Team Olaf", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Do you want to save your changes?", "Save", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 // Check if current study is saved, and prompt to save if not
