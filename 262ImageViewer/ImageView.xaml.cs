@@ -24,16 +24,11 @@ namespace _262ImageViewer
         public int index;    //Counter of image array position
         public ImageLoader localImage;
 
-        public ImageView()
+        public ImageView(ImageLoader image)
         {
             InitializeComponent();
             index = 0;
             modeSelect = true; //True is one, False is four
-        }
-
-        public void addImages(ImageLoader image)
-        {
-            localImage = image;
         }
 
         /**
