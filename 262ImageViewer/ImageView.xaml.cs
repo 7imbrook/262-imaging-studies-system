@@ -19,18 +19,26 @@ namespace _262ImageViewer
     /// </summary>
     public partial class ImageView : Page
     {
-        bool modeSelect;
-        int counter;    //Counter of image array position
-        int total_img_count;
-        //LocalImages image_location = new LocalImages("");
+        public bool modeSelect;
+        public int index;    //Counter of image array position
+        public List<BitmapImage> imageList;
+
         public ImageView()
         {
             InitializeComponent();
             //Application.Current.MainWindow.Height = study.Current.Height + 200;
             //Application.Current.MainWindow.Width = study.Current.Width;
-            counter = 1;
+            index = 0;
             modeSelect = true; //True is one, False is four
-            display_counter();
+            imageList = null;
+            //display_counter();
+        }
+        public ImageView(List<BitmapImage> list)
+        {
+            InitializeComponent();
+            index = 0;
+            modeSelect = true;
+            imageList = list;
         }
 
         /**
@@ -39,7 +47,7 @@ namespace _262ImageViewer
          * counter that keeps track of the position in the array, except +1
          * to the integer.
          **/
-        private void display_counter()
+        /*private void display_counter()
         {
             //string position_string = study.position.ToString();
             string position_string = "1";
@@ -49,7 +57,7 @@ namespace _262ImageViewer
             current_img.Text = position_string + "/" + counter_total_string;
             //current_img.TextWrapping = TextWrapping.Wrap;
             image_counter.Children.Add(current_img);
-        }
+        }*/
 
         /**
          * Displays image based on the array position given by the counter.
@@ -98,9 +106,16 @@ namespace _262ImageViewer
          * the new image located in the array position determined by
          * the counter. Displays counter number as well.
          **/
-        private void nextImage_Click(object sender, RoutedEventArgs e)
+        public void nextImage_Click(object sender, RoutedEventArgs e)
         {
-
+            if (modeSelect)
+            {
+                if (index < imageList.Count)
+                {
+                    index++;
+                    display_image(imageList[index]);
+                }
+            }
         }
 
         /**
@@ -108,27 +123,29 @@ namespace _262ImageViewer
          * the new image located in the array position determined by
          * the counter. Displays counter number as well.
          **/
-        private void prevImage_Click(object sender, RoutedEventArgs e)
+        public void prevImage_Click(object sender, RoutedEventArgs e)
         {
-
+            if (modeSelect)
+            {
+                if(index > imageList.Count)
+                {
+                    index--;
+                    display_image(imageList[index]);
+                }
+            }
         }
 
-        private void switchMode_Click(object sender, RoutedEventArgs e)
+        public void switchMode_Click(object sender, RoutedEventArgs e)
         {
             if (modeSelect == true)
             {
                 display_four();
-                display_one_button.IsEnabled = true;
-                display_four_button.IsEnabled = false;
                 prev_button.IsEnabled = false;
                 next_button.IsEnabled = false;
                 modeSelect = false;
             }
             else
             {
-
-                display_one_button.IsEnabled = false;
-                display_four_button.IsEnabled = true;
                 prev_button.IsEnabled = true;
                 next_button.IsEnabled = true;
                 modeSelect = true;

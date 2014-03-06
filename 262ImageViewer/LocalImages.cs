@@ -8,16 +8,12 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace _262ImageViewer
 {
-    public class LocalImages : ImageLoader
+    public class LocalImages : List<Uri>, ImageLoader
     {
-        /*
-         * The list of jpgs in the directory.
-         */
-        private List<Uri> fileNames = new List<Uri>();
-
         /*
          * The current index of the list.
          */
@@ -26,12 +22,22 @@ namespace _262ImageViewer
         /**
          * Use this thing like a list bra
          */
-        public object this[int i]
+
+        public BitmapImage this[int i]
         {
             get
             {
-                return new BitmapImage(fileNames[i]);
+                return new BitmapImage(base[i]);
             }
+            set
+            {
+                // Nope
+            }
+        }
+
+        public int Count()
+        {
+            return base.Count;
         }
 
         /*
@@ -55,7 +61,7 @@ namespace _262ImageViewer
                 {
                     if (file.EndsWith(".jpg"))
                     {
-                        fileNames.Add(new Uri(file));
+                        base.Add(new Uri(file));
                     }
                 }
             }
@@ -63,86 +69,6 @@ namespace _262ImageViewer
             {
                 throw new IOException(folder.AbsolutePath + " is not a valid path.");
             }
-        }
-
-        /*
-         * Verify that the given index is within the bounds of the filename list.
-         */
-        private bool isValidIndex(int index) 
-        {
-            return (index < fileNames.Count && index >= 0);
-        }
-
-        /*
-         * Get the next given number of images, as a List of BitmapImages.
-         * If there are no more images, return an empty list.
-         */
-        public List<BitmapImage> GetNext(int numImages) 
-        {
-            List<BitmapImage> returnList = new List<BitmapImage>();
-            // Check if the next index is valid
-            if (isValidIndex(position + 1))
-            {
-                for (int i = 0; i < numImages; i++)
-                {
-                    if (isValidIndex(position + 1))
-                    {
-                        position++;
-                        returnList.Add(new BitmapImage(fileNames[position]));
-                    }
-                    else
-                    {
-                        // Pad the list with blanks, using the resolution of the first image
-                        if (returnList.Count > 0)
-                        {
-                            //Bitmap b = new Bitmap(1, 1);
-                            //b.SetPixel(0, 0, Color.White);
-                            //b = new Bitmap(b, returnList[0].PixelWidth, returnList[0].PixelHeight);
-                            // DOESN'T WORK YET
-                            // TODO: Fix this.
-                            // For now, just duplicate the last image.
-                            returnList.Add(returnList[0]);
-                        }
-                    }
-                }
-            }
-            return returnList;
-        }
-
-        /*
-         * Get the previous given number of images, as a List of BitmapImages.
-         * If there are no more images, return an empty list.
-         */
-        public List<BitmapImage> GetPrev(int numImages)
-        {
-            List<BitmapImage> returnList = new List<BitmapImage>();
-            // Check if the previous index is valid
-            if (isValidIndex(position - 1))
-            {
-                for (int i = 0; i < numImages; i++)
-                {
-                    if (isValidIndex(position - 1))
-                    {
-                        position--;
-                        returnList.Add(new BitmapImage(fileNames[position]));
-                    }
-                    else
-                    {
-                        // Pad the list with blanks, using the resolution of the first image
-                        if (returnList.Count > 0)
-                        {
-                            //Bitmap b = new Bitmap(1, 1);
-                            //b.SetPixel(0, 0, Color.White);
-                            //b = new Bitmap(b, returnList[0].PixelWidth, returnList[0].PixelHeight);
-                            // DOESN'T WORK YET
-                            // TODO: Fix this.
-                            // For now, just duplicate the last image.
-                            returnList.Add(returnList[0]);
-                        }
-                    }
-                }
-            }
-            return returnList;
         }
     }
 }
