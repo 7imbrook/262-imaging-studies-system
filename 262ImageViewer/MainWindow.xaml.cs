@@ -91,14 +91,49 @@ namespace _262ImageViewer
             }
         }
 
+        private void save_Confirmation()
+        {
+            // Prompt where to save the images
+            var savePrompt = new Microsoft.Win32.SaveFileDialog();
+
+            savePrompt.DefaultExt = "";
+            savePrompt.Filter = "";
+
+            Nullable<bool> result = savePrompt.ShowDialog();
+            if ((bool)result)
+            {
+                var path = savePrompt.FileName;
+                var name = path.Split('\\').Last();
+                try
+                {
+                    var study = new StudySession(new Uri(path), name);
+                    this.loadStudy(study);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("There was a issue with your study, it may be corrupted.");
+                }
+            }
+        }
+
         private void _Close_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Do you want to save your changes?", "Team Olaf", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            closeConfirmation();
+        }
+
+        private void closeConfirmation()
+        {
+            MessageBoxResult result = MessageBox.Show("Do you want to save your changes?", "Team Olaf", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 // Check if current study is saved, and prompt to save if not
-                _NewStudy_Click(sender, e);
-            }
+                save_Confirmation();
+            }/*
             if (result == MessageBoxResult.No)
             {
                 // Close main window using "exit" menuItem 
@@ -107,7 +142,7 @@ namespace _262ImageViewer
             if (result == MessageBoxResult.Cancel)
             {
 
-            }
+            }*/
         }
 
         private void _View_Click(object sender, RoutedEventArgs e)
