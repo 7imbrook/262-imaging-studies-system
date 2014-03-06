@@ -52,7 +52,14 @@ namespace _262ImageViewer
             imageLoader = imgLdr;
             if (isValidIndex(index))
             {
-                display_image(imageLoader[index]);
+                if (modeSelect == true)
+                {
+                    display_image(imageLoader[index]);
+                }
+                else
+                {
+                    display_four(imageLoader, index);
+                }
             }
         }
 
