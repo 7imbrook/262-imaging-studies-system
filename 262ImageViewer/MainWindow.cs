@@ -17,7 +17,7 @@ namespace _262ImageViewer
         {
             // Associate the things
             ImageLoader imageloader = new LocalImages(session.imagePath);
-            Debug.WriteLine("Print an image? {0}", imageloader.GetNext(10).Count);
+            //Debug.WriteLine("Print an image? {0}", imageloader.GetNext(10).Count);
         }
 
     }
