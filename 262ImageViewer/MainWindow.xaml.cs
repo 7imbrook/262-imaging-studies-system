@@ -69,15 +69,15 @@ namespace _262ImageViewer
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
             // Prompt where to save the images
-            var savePromt = new Microsoft.Win32.SaveFileDialog();
+            var savePrompt = new Microsoft.Win32.SaveFileDialog();
 
-            savePromt.DefaultExt = "";
-            savePromt.Filter = "";
+            savePrompt.DefaultExt = "";
+            savePrompt.Filter = "";
 
-            Nullable<bool> result = savePromt.ShowDialog();
+            Nullable<bool> result = savePrompt.ShowDialog();
             if ((bool)result)
             {
-                var path = savePromt.FileName;
+                var path = savePrompt.FileName;
                 var name = path.Split('\\').Last();
                 try
                 {
