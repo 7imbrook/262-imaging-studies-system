@@ -144,8 +144,11 @@ namespace _262ImageViewer
             }
             else
             {
-                index += 4;
-                display_four(imageLoader, index);
+                if (isValidIndex(index + 4))
+                {
+                    index += 4;
+                    display_four(imageLoader, index);
+                }
             }
 
         }
