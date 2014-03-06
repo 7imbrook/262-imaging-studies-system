@@ -69,15 +69,15 @@ namespace _262ImageViewer
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
             // Prompt where to save the images
-            var savePromt = new Microsoft.Win32.SaveFileDialog();
+            var savePrompt = new Microsoft.Win32.SaveFileDialog();
 
-            savePromt.DefaultExt = "";
-            savePromt.Filter = "";
+            savePrompt.DefaultExt = "";
+            savePrompt.Filter = "";
 
-            Nullable<bool> result = savePromt.ShowDialog();
+            Nullable<bool> result = savePrompt.ShowDialog();
             if ((bool)result)
             {
-                var path = savePromt.FileName;
+                var path = savePrompt.FileName;
                 var name = path.Split('\\').Last();
                 try
                 {
@@ -97,20 +97,7 @@ namespace _262ImageViewer
             if (result == MessageBoxResult.Yes)
             {
                 // Check if current study is saved, and prompt to save if not
-                var savePromt = new Microsoft.Win32.SaveFileDialog();
-
-                savePromt.DefaultExt = "";
-                savePromt.Filter = "";
-
-                Nullable<bool> answer = savePromt.ShowDialog();
-                if ((bool)answer)
-                {
-                    var path = savePromt.FileName;
-                    var name = path.Split('\\').Last();
-
-                    var study = new StudySession(new Uri(path), name);
-
-                }
+                _NewStudy_Click(sender, e);
             }
             if (result == MessageBoxResult.No)
             {
