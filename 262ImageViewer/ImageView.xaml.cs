@@ -45,7 +45,6 @@ namespace _262ImageViewer
         public void addImages(List<BitmapImage> list)
         {
             imageList = list;
-            MainWindow.
         }
         /**
          * Displays the current image the user is in. There is only
