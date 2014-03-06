@@ -19,32 +19,19 @@ namespace _262ImageViewer
     /// </summary>
     public partial class ImageView : Window
     {
-
+        bool modeSelect;
         int counter;    //Counter of image array position
-        //Placeholer "Study"
-        BitmapImage[] image_list = new BitmapImage[4];
+        int total_img_count;
+        //LocalImages image_location = new LocalImages("");
+        ImageEnum study;
 
         public ImageView()
         {
             InitializeComponent();
-            //Placeholder pictures for "Study"
-            /* Old code remains I don't want to chuck yet
-            BitmapImage image_0 = new BitmapImage(new Uri("picture.jpg", UriKind.Relative));
-            BitmapImage image_1 = new BitmapImage(new Uri("picture2.jpg", UriKind.Relative));
-            BitmapImage image_2 = new BitmapImage(new Uri("picture3.jpg", UriKind.Relative));
-            BitmapImage image_3 = new BitmapImage(new Uri("picture4.jpg", UriKind.Relative));
-            */
-            BitmapImage image_0 = new BitmapImage();
-            BitmapImage image_1 = new BitmapImage();
-            BitmapImage image_2 = new BitmapImage();
-            BitmapImage image_3 = new BitmapImage();
-
-            image_list[0] = image_0;
-            image_list[1] = image_1;
-            image_list[2] = image_2;
-            image_list[3] = image_3;
-            //
+            //Application.Current.MainWindow.Height = study.Current.Height + 200;
+            //Application.Current.MainWindow.Width = study.Current.Width;
             counter = 1;
+            modeSelect = true; //True is one, False is four
             display_counter();
         }
 
@@ -56,29 +43,56 @@ namespace _262ImageViewer
          **/
         private void display_counter()
         {
-            string counter_string = counter.ToString();
+            //string position_string = study.position.ToString();
+            string position_string = "1";
+            string counter_total_string = "2";
             TextBox current_img = new TextBox();
             current_img.Name = "counter";
-            current_img.Text = counter_string + "/4";
-            current_img.TextWrapping = TextWrapping.Wrap;
+            current_img.Text = position_string + "/" + counter_total_string;
+            //current_img.TextWrapping = TextWrapping.Wrap;
             image_counter.Children.Add(current_img);
         }
 
         /**
          * Displays image based on the array position given by the counter.
          **/
-        private void display_image(int position)
+        private void display_image(BitmapImage image)
         {
-            image_display.Children.Clear(); //Clear current image(s)
+            image_display.Children.Clear();
             Image i = new Image();
-            
-            //Source of the image is located in the URI referenced by the BitmapImage...
-            BitmapImage img_src = image_list[position - 1];
-            i.Width = 500; //Placeholder, need to check requirements
-            i.Source = img_src;
-            i.Stretch = Stretch.Uniform;
-            //int x = img_src.PixelWidth; //Renders image
+
+            i.Source = image;
             image_display.Children.Add(i);
+        }
+
+        private void display_four()
+        {
+            image_display.Children.Clear();
+
+            var four_grid = new Grid();
+
+            RowDefinition row1 = new RowDefinition();
+            row1.Height = new GridLength(0.5, GridUnitType.Star);
+            four_grid.RowDefinitions.Add(row1);
+
+            RowDefinition row2 = new RowDefinition();
+            row2.Height = new GridLength(0.5, GridUnitType.Star);
+            four_grid.RowDefinitions.Add(row2);
+
+            ColumnDefinition col1 = new ColumnDefinition();
+            col1.Width = new GridLength(0.5, GridUnitType.Star);
+            four_grid.ColumnDefinitions.Add(col1);
+
+            ColumnDefinition col2 = new ColumnDefinition();
+            col2.Width = new GridLength(0.5, GridUnitType.Star);
+            four_grid.ColumnDefinitions.Add(col2);
+
+            /*
+            for (int position = 0; position < 2; position++)
+            {
+
+            }
+             */
         }
 
         /**
@@ -88,19 +102,7 @@ namespace _262ImageViewer
          **/
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
-            if(counter >= 4)
-            {
-                counter = 4;
-                display_counter();
-                display_image(counter);
-            }
 
-            else
-            {
-                counter++;
-                display_counter();
-                display_image(counter);
-            }
         }
 
         /**
@@ -110,17 +112,28 @@ namespace _262ImageViewer
          **/
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
-            if (counter <= 1)
+
+        }
+
+        private void switchMode_Click(object sender, RoutedEventArgs e)
+        {
+            if (modeSelect == true)
             {
-                counter = 1;
-                display_counter();
-                display_image(counter);
+                display_four();
+                display_one_button.IsEnabled = true;
+                display_four_button.IsEnabled = false;
+                prev_button.IsEnabled = false;
+                next_button.IsEnabled = false;
+                modeSelect = false;
             }
             else
             {
-                counter--;
-                display_counter();
-                display_image(counter);
+
+                display_one_button.IsEnabled = false;
+                display_four_button.IsEnabled = true;
+                prev_button.IsEnabled = true;
+                next_button.IsEnabled = true;
+                modeSelect = true;
             }
         }
     }
