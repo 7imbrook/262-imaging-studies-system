@@ -114,12 +114,19 @@ namespace _262ImageViewer
             image_display.Children.Add(i);
         }
 
+        /*
+         * Creates a 2x2 grid and adds the images starting from top left
+         * being the lowest numbered image of the set to bottom right
+         * being the highest numbered image.
+         */
         private void display_four(ImageLoader imageList, int index)
         {
+            //Clear any leftover images.
             image_display.Children.Clear();
 
             var four_grid = new Grid();
 
+            //Create the 2x2 grid.
             RowDefinition row1 = new RowDefinition();
             row1.Height = new GridLength(0.5, GridUnitType.Star);
             four_grid.RowDefinitions.Add(row1);
@@ -136,7 +143,8 @@ namespace _262ImageViewer
             col2.Width = new GridLength(0.5, GridUnitType.Star);
             four_grid.ColumnDefinitions.Add(col2);
 
-                        
+            //Add the images belonging in the first row of the grid
+            //If there exists no image, leave it blank.
             for (int position = 0; position < 2; position++)
             {
                 if (isValidIndex(index))
@@ -153,6 +161,8 @@ namespace _262ImageViewer
                 }
             }
 
+            //Add the images belonging in the second row of the grid.
+            //If there exists no image, leave it blank.
             for (int position = 0; position < 2; position++)
             {
                 if (isValidIndex(index))
@@ -167,7 +177,7 @@ namespace _262ImageViewer
                     four_grid.Children.Add(to_display);
                 }
             }
-
+            //Add the grid of images to the image_display.
             image_display.Children.Add(four_grid);
             
         }
