@@ -67,6 +67,7 @@ namespace _262ImageViewer
             //this.mainFrame.Source = new Uri("ImageView.xaml", UriKind.Relative);
             this.mainFrame.Content = iv;
         }
+
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
             // Prompt where to save the images
@@ -92,6 +93,7 @@ namespace _262ImageViewer
             }
         }
 
+        //Needed a helper fuction without arguments
         private void save_Confirmation()
         {
             // Prompt where to save the images
