@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace _262ImageViewer
 {
@@ -26,35 +27,14 @@ namespace _262ImageViewer
         public ImageView()
         {
             InitializeComponent();
-            //Application.Current.MainWindow.Height = study.Current.Height + 200;
-            //Application.Current.MainWindow.Width = study.Current.Width;
             index = 0;
             modeSelect = true; //True is one, False is four
-            localImage = null;
-            //display_counter();
         }
 
         public void addImages(ImageLoader image)
         {
             localImage = image;
         }
-        /**
-         * Displays the current image the user is in. There is only
-         * 1~4 images. Displays by #/4. The number is obtained by the
-         * counter that keeps track of the position in the array, except +1
-         * to the integer.
-         **/
-        /*private void display_counter()
-        {
-            //string position_string = study.position.ToString();
-            string position_string = "1";
-            string counter_total_string = "2";
-            TextBox current_img = new TextBox();
-            current_img.Name = "counter";
-            current_img.Text = position_string + "/" + counter_total_string;
-            //current_img.TextWrapping = TextWrapping.Wrap;
-            image_counter.Children.Add(current_img);
-        }*/
 
         /**
          * Displays image based on the array position given by the counter.
@@ -126,9 +106,10 @@ namespace _262ImageViewer
          **/
         public void nextImage_Click(object sender, RoutedEventArgs e)
         {
+
             if (modeSelect && localImage != null)
             {
-                if (index < localImage.Count())
+                if (isValidIndex(index))
                 {
                     index++;
                     display_image(localImage[index]);
@@ -145,7 +126,7 @@ namespace _262ImageViewer
         {
             if (modeSelect && localImage != null)
             {
-                if (index > localImage.Count())
+                if (isValidIndex(index))
                 {
                     index--;
                     display_image(localImage[index]);
@@ -156,6 +137,10 @@ namespace _262ImageViewer
                 display_four(localImage, index);
 
             }
+        }
+        private bool isValidIndex(int i)
+        {
+            return (0 < i && i < localImage.Count());
         }
 
         public void switchMode()
