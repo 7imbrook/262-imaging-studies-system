@@ -21,6 +21,8 @@
                 <MenuItem Header="_Save Study" />
                 <MenuItem Header="_Save Study As..." />
                 <Separator />
+                <MenuItem Header="Set Current Study as Default" Click="set_current_default"/>
+                <Separator />
                 <MenuItem Header="_Exit" Command="ApplicationCommands.Close" />
             </MenuItem>
             <MenuItem Header="_View">

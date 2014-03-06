@@ -14,33 +14,33 @@ namespace _262ImageViewer
 {
     public class LocalImages : List<Uri>, ImageLoader
     {
-        /**
-         * Use this like a list.
-         */
+        /*
+        * Make a new LocalImages based on the given directory Uri.
+        */
+        public LocalImages(Uri folder)
+        {
+            readFiles(folder);
+        }
 
+        /*
+         * When the list is subscripted, return a new BitmapImage 
+         * from the Uri at the index given.
+         */
         public new BitmapImage this[int i]
         {
             get
             {
                 return new BitmapImage(base[i]);
             }
-            set
-            {
-                // Nope
-            }
-        }
-
-        public new int Count()
-        {
-            return base.Count;
+            set {}
         }
 
         /*
-         * Make a new LocalImages based on the given directory Uri.
+         * Override count to return the base list's count
          */
-        public LocalImages(Uri folder)
+        public new int Count()
         {
-            readFiles(folder);
+            return base.Count;
         }
 
         /*
@@ -54,7 +54,7 @@ namespace _262ImageViewer
                 string[] fileArray = Directory.GetFiles(folder.AbsolutePath);
                 foreach (string file in fileArray)
                 {
-                    if (file.EndsWith(".jpg"))
+                    if (file.ToLower().EndsWith(".jpg"))
                     {
                         base.Add(new Uri(file));
                     }

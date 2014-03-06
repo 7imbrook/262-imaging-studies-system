@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,19 +15,42 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace _262ImageViewer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
-            //InitializeComponent();
-            //Study studyTest = new Study();
+            InitializeComponent();
+            string settingsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string fileName = "startup.b";
+            string settingsPath = System.IO.Path.Combine(settingsDirectory, fileName);
+            if (File.Exists(settingsPath))
+            {
+                var format = new BinaryFormatter();
+                var dataStream = new FileStream(settingsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                Uri path = (Uri)format.Deserialize(dataStream);
+                dataStream.Close();
+                Debug.WriteLine(path);
+                string stud = "";
+                string[] fileArray = Directory.GetFiles(path.AbsolutePath);
+                foreach (string file in fileArray)
+                {
+                    if (file.EndsWith(".stud"))
+                    {
+                        stud = file;
+                        break;
+                    }
+                }
+                var session = new StudySession(new Uri(stud));
+                this.loadStudy(session);
+            }
         }
 
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
@@ -139,6 +163,18 @@ namespace _262ImageViewer
             {
                 imageView.switchMode();
             }
+        }
+
+        private void set_current_default(object sender, RoutedEventArgs e)
+        {
+            string settingsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            if (!Directory.Exists(settingsDirectory))
+                Directory.CreateDirectory(settingsDirectory);
+            string fileName = "startup.b";
+            var format = new BinaryFormatter();
+            Stream stream = new FileStream(settingsDirectory + "/" + fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            format.Serialize(stream, this.studySession.imagePath);
+            stream.Close();
         }
     }
 }
