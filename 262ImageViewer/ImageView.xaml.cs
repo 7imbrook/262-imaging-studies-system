@@ -92,7 +92,7 @@ namespace _262ImageViewer
                 to_display.Stretch = Stretch.Uniform;
                 int x = source.PixelWidth;
                 Grid.SetRow(to_display, 1);
-                Grid.SetColumn(to_display, position - 2);
+                Grid.SetColumn(to_display, position);
                 four_grid.Children.Add(to_display);
             }
 
