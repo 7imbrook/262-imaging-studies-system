@@ -60,6 +60,10 @@ namespace _262ImageViewer
             }
         }
 
+        public void setFrameImageView()
+        {
+            this.mainFrame.Source = new Uri("ImageView.xmal", UriKind.Relative);
+        }
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
             // Prompt where to save the images
