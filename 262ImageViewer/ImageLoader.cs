@@ -9,7 +9,11 @@ namespace _262ImageViewer
 {
     public interface ImageLoader
     {
+        /*
+         * Return the number of objects in the list.
+         */
         int Count();
+
         BitmapImage this[int i]
         {
             get;
