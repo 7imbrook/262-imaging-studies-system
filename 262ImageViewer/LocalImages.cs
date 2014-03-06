@@ -1,4 +1,14 @@
-﻿using System;
+﻿/* 
+ * LocalImages.cs
+ * 
+ * Version: 
+ *     $Id$ 
+ * 
+ * Revisions: 
+ *     $Log$ 
+ */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +22,9 @@ using System.Diagnostics;
 
 namespace _262ImageViewer
 {
+    /*
+     * An ImageLoader for local images and studies.
+     */
     public class LocalImages : List<Uri>, ImageLoader
     {
         /*
