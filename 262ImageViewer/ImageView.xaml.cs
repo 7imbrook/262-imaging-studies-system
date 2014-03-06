@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace _262ImageViewer
 {
@@ -34,10 +35,17 @@ namespace _262ImageViewer
             //display_counter();
         }
 
-        public void addImages(ImageLoader image)
+        public ImageView(ImageLoader imgLdr)
         {
-            localImage = image;
+            InitializeComponent();
+            //Application.Current.MainWindow.Height = study.Current.Height + 200;
+            //Application.Current.MainWindow.Width = study.Current.Width;
+            index = 0;
+            modeSelect = true; //True is one, False is four
+            localImage = imgLdr;
+            //display_counter();
         }
+
         /**
          * Displays the current image the user is in. There is only
          * 1~4 images. Displays by #/4. The number is obtained by the
@@ -124,16 +132,11 @@ namespace _262ImageViewer
         {
             if (modeSelect && localImage != null)
             {
-                if (index > localImage.Count())
+                if (index < localImage.Count())
                 {
                     index--;
                     display_image(localImage[index]);
                 }
-            }
-            else
-            {
-                //display_four(imageList[index]);
-
             }
         }
 
