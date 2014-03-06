@@ -120,6 +120,11 @@ namespace _262ImageViewer
 
             }
         }
+
+        private void _View_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
 
