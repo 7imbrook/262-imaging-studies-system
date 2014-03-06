@@ -73,6 +73,7 @@ namespace _262ImageViewer
             Image i = new Image();
 
             i.Source = image;
+            i.Stretch = Stretch.None;
             image_display.Children.Add(i);
         }
 

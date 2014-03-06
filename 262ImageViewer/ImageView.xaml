@@ -17,9 +17,9 @@
             <RowDefinition Height="97*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="prev_button" Content="Prevous" MinWidth="50" Height="40" Margin="278,0,46,0" Click="prevImage_Click" VerticalAlignment="Bottom" Width="75"/>
-        <Button x:Name="next_button" Content="Next" MinWidth="50" Height="40" Margin="64,0,261,0" Click="nextImage_Click"  VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="-0.58,0.563" Grid.Column="1"/>
-        <Grid x:Name="image_display" Margin="0,0,0,55" Grid.ColumnSpan="2" Height="643" VerticalAlignment="Bottom" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
+        <Button x:Name="prev_button" Content="Previous" MinWidth="50" Height="40" Margin="278,0,46,0" Click="prevImage_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75"/>
+        <Button x:Name="next_button" Content="Next" MinWidth="50" Height="40" Margin="64,0,261,0" Click="nextImage_Click"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" RenderTransformOrigin="-0.58,0.563" Grid.Column="1"/>
+        <Grid x:Name="image_display" Margin="0,0,0,55" Grid.ColumnSpan="2" Height="643" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Page>
