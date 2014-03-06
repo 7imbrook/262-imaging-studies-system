@@ -25,5 +25,6 @@
                 <MenuItem Header="4 Image View" IsCheckable="True" />
             </MenuItem>
         </Menu>
+        <Frame HorizontalAlignment="Center" Height="408" VerticalAlignment="Center" Width="494" Source="/262ImageViewer;component/ImageView.xaml" Margin="305,188,173,93"/>
     </Grid>
 </Window>
