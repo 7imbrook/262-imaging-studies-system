@@ -30,6 +30,10 @@ namespace _262ImageViewer
             index = 0;
             modeSelect = true; //True is one, False is four
             localImage = imgLdr;
+            if (isValidIndex(index))
+            {
+                display_image(localImage[index]);
+            }
             
         }
 
