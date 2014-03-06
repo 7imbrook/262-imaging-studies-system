@@ -70,5 +70,37 @@ namespace _262ImageViewer
                 
             }
         }
+
+        private void _Close_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Do you want to save your changes?", "Team Olaf", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Check if current study is saved, and prompt to save if not
+                var savePromt = new Microsoft.Win32.SaveFileDialog();
+
+                savePromt.DefaultExt = "";
+                savePromt.Filter = "";
+
+                Nullable<bool> answer = savePromt.ShowDialog();
+                if ((bool)answer)
+                {
+                    var path = savePromt.FileName;
+                    var name = path.Split('\\').Last();
+
+                    var study = new StudySession(new Uri(path), name);
+
+                }
+            }
+            if (result == MessageBoxResult.No)
+            {
+                // Close main window using "exit" menuItem 
+                Close();
+            }
+            if (result == MessageBoxResult.Cancel)
+            {
+
+            }
+        }
     }
 }
