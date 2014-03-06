@@ -39,7 +39,6 @@ namespace _262ImageViewer
                     var dataStream = new FileStream(settingsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                     Uri path = (Uri)format.Deserialize(dataStream);
                     dataStream.Close();
-                    Debug.WriteLine(path);
                     string stud = "";
                     string[] fileArray = Directory.GetFiles(path.AbsolutePath);
                     foreach (string file in fileArray)
@@ -50,7 +49,6 @@ namespace _262ImageViewer
                             break;
                         }
                     }
-                    Debug.WriteLine(path);
                     var session = new StudySession(new Uri(stud));
                     this.loadStudy(session);
                 }
@@ -165,7 +163,6 @@ namespace _262ImageViewer
 
         private void _View_Click(object sender, RoutedEventArgs e)
         {
-            //Debug.WriteLine(layoutToggle);
             if (imageView != null)
             {
                 imageView.switchMode();
