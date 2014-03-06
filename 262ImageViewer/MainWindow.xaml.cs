@@ -135,7 +135,10 @@ namespace _262ImageViewer
         private void _View_Click(object sender, RoutedEventArgs e)
         {
             //Debug.WriteLine(layoutToggle);
-            imageView.switchMode();
+            if (imageView != null)
+            {
+                imageView.switchMode();
+            }
         }
     }
 }
