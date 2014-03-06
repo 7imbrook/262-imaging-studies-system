@@ -182,8 +182,8 @@ namespace _262ImageViewer
             {
 
                 //Switch from one to four
-                double x = (index) / 4;
-                int new_index = 4 * (int)Math.Floor(x) + 1;
+                double x = (index + 1) / 4;
+                int new_index = 4 * (int)Math.Floor(x);
                 index = new_index;
                 display_four(imageLoader, index);
                 modeSelect = false;
