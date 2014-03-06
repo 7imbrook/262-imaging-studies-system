@@ -113,7 +113,7 @@ namespace _262ImageViewer
          **/
         public void nextImage_Click(object sender, RoutedEventArgs e)
         {
-            if (modeSelect)
+            if (modeSelect && imageList != null)
             {
                 if (index < imageList.Count)
                 {
@@ -130,7 +130,7 @@ namespace _262ImageViewer
          **/
         public void prevImage_Click(object sender, RoutedEventArgs e)
         {
-            if (modeSelect)
+            if (modeSelect && imageList != null)
             {
                 if(index > imageList.Count)
                 {
