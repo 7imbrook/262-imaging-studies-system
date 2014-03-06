@@ -71,6 +71,11 @@ namespace _262ImageViewer
 
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
+            if (studySession != null)
+            {
+                closeConfirmation();
+            }
+            
             // Prompt where to save the images
             var savePrompt = new Microsoft.Win32.SaveFileDialog();
 
