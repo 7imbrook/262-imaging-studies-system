@@ -13,17 +13,26 @@ namespace _262ImageViewer
 {
     public class LocalImages : ImageLoader
     {
+        /*
+         * The list of jpgs in the directory.
+         */
+        private List<Uri> fileNames = new List<Uri>();
 
-        private List<Uri> fileNames = new List<Uri> { };
+        /*
+         * The current index of the list.
+         */
         private int position = 0;
 
+        /*
+         * Make a new LocalImages based on the given directory Uri.
         public LocalImages(Uri folder)
         {
             readFiles(folder);
         }
 
         /*
-         * Read in all of the jpgs inside the given directory Uri
+         * Find in all of the jpgs inside the given directory Uri 
+         * and add them to the list.
          */
         private void readFiles(Uri folder)
         {
@@ -44,6 +53,9 @@ namespace _262ImageViewer
             }
         }
 
+        /*
+         * Verify that the given index is within the bounds of the filename list.
+         */
         private bool isValidIndex(int index) 
         {
             return (index < fileNames.Count && index >= 0);
@@ -85,6 +97,10 @@ namespace _262ImageViewer
             return returnList;
         }
 
+        /*
+         * Get the previous given number of images, as a List of BitmapImages.
+         * If there are no more images, return an empty list.
+         */
         public List<BitmapImage> GetPrev(int numImages)
         {
             List<BitmapImage> returnList = new List<BitmapImage>();

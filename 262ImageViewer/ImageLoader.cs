@@ -9,7 +9,16 @@ namespace _262ImageViewer
 {
     interface ImageLoader
     {
+        /*
+         * Get the next given number of images, as a List of BitmapImages.
+         * If there are no more images, return an empty list.
+         */
         List<BitmapImage> GetNext(int numImages);
+
+        /*
+         * Get the previous given number of images, as a List of BitmapImages.
+         * If there are no more images, return an empty list.
+         */
         List<BitmapImage> GetPrev(int numImages);
     }
 }
