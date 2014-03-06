@@ -1,4 +1,14 @@
-﻿using System;
+﻿/* 
+ * ImageView.xaml.cs
+ * 
+ * Version: 
+ *     $Id$ 
+ * 
+ * Revisions: 
+ *     $Log$ 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,18 +30,34 @@ namespace _262ImageViewer
     /// </summary>
     public partial class ImageView : Page
     {
+        /*
+         * Selects which display mode the ImageView is in.
+         * True = 1-up
+         * False = 4-up
+         */
         public bool modeSelect
         {
             get;
             private set;
         }
+
+        /*
+         * The current index of the BitmapImage list.
+         */
         public int index
         {
             get;
             private set;
         }
+
+        /*
+         * The ImageLoader in use.
+         */
         private ImageLoader imageLoader;
 
+        /*
+         * Constructor that takes an ImageLoader
+         */
         public ImageView(ImageLoader imgLdr)
         {
             InitializeComponent();
@@ -44,6 +70,9 @@ namespace _262ImageViewer
             }
         }
 
+        /*
+         * Constructor that creates the ImageView with defined state.
+         */
         public ImageView(ImageLoader imgLdr, int i, bool mode)
         {
             InitializeComponent();
@@ -64,16 +93,17 @@ namespace _262ImageViewer
             }
         }
 
-        /**
+        /*
          * Displays image based on the array position given by the counter.
-         **/
+         */
         private void display_image(BitmapImage image)
         {
             image_display.Children.Clear();
             Image i = new Image();
-
             i.Source = image;
-            if (Application.Current.MainWindow.ActualHeight < image.Height || Application.Current.MainWindow.ActualWidth < image.Width)
+            // If the image won't fit at native resolution, scale it.
+            if (Application.Current.MainWindow.ActualHeight < image.Height || 
+                Application.Current.MainWindow.ActualWidth < image.Width)
             {
                 i.Stretch = Stretch.Uniform;
             }
@@ -82,7 +112,6 @@ namespace _262ImageViewer
                 i.Stretch = Stretch.None;
             }
             image_display.Children.Add(i);
-
         }
 
         private void display_four(ImageLoader imageList, int index)
@@ -143,14 +172,13 @@ namespace _262ImageViewer
             
         }
 
-        /**
+        /*
          * Increases the image position counter by one, then displays
          * the new image located in the array position determined by
          * the counter. Displays counter number as well.
-         **/
+         */
         public void nextImage_Click(object sender, RoutedEventArgs e)
         {
-
             if (modeSelect && imageLoader != null)
             {
                 if (isValidIndex(index + 1))
@@ -168,14 +196,13 @@ namespace _262ImageViewer
                 }
             }
             buttonCheck();
-
         }
 
-        /**
+        /*
          * Decreases the image position counter by one, then displays
          * the new image located in the array position determined by
          * the counter. Displays counter number as well.
-         **/
+         */
         public void prevImage_Click(object sender, RoutedEventArgs e)
         {
             if (modeSelect && imageLoader != null)
@@ -192,55 +219,67 @@ namespace _262ImageViewer
                 {
                     index -= 4;
                     display_four(imageLoader, index);
-                
                 }
             }
             buttonCheck();
         }
+
+        /*
+         * Helper function to check if an index is within bounds.
+         */
         private bool isValidIndex(int i)
         {
             return (0 <= i && i < imageLoader.Count());
         }
 
+        /*
+         * Check if the current index is at either end of the list.
+         * If so, disable the corresponding button.
+         */
         private void buttonCheck()
         {
+            // Check and disable prev.
             if (!isValidIndex(index - 1))
             {
                 prev_button.IsEnabled = false;
             }
-            
+
+            // Check and disable prev.
             if(!isValidIndex(index + 1) && modeSelect == true)
             {
                 next_button.IsEnabled = false;
             }
-            
+
+            // Check and enable prev.
             if (isValidIndex(index - 1))
             {
                 prev_button.IsEnabled = true;
             }
-            
+
+            // Check and enable next
             if (isValidIndex(index + 1) && modeSelect == true)
             {
                 next_button.IsEnabled = true;
             }
 
+            // Check and enable next
             if (isValidIndex(index + 4) && modeSelect == false)
             {
                 next_button.IsEnabled = true;
-            }
-
+            } // Check and disable next
             else if (!isValidIndex(index + 4) && modeSelect == false)
             {
                 next_button.IsEnabled = false;
             }
-
         }
 
+        /*
+         * Switch between 4-up and 1-up modes.
+         */
         public void switchMode()
         {
             if (modeSelect)
             {
-
                 //Switch from one to four
                 double x = (index) / 4;
                 int new_index = 4 * (int)Math.Floor(x) + 1;
@@ -264,8 +303,6 @@ namespace _262ImageViewer
 
                 modeSelect = true;
             }
-
         }
-
     }
 }

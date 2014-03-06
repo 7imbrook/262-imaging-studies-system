@@ -1,4 +1,14 @@
-﻿using System;
+﻿/* 
+ * ImageLoader.cs
+ * 
+ * Version: 
+ *     $Id$ 
+ * 
+ * Revisions: 
+ *     $Log$ 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +17,10 @@ using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
+    /*
+     * An interface for the loading of images. 
+     * Extended by RemoteImages and LocalImages.
+     */
     public interface ImageLoader
     {
         /*
@@ -14,6 +28,10 @@ namespace _262ImageViewer
          */
         int Count();
 
+        /*
+         * Allows access of a BitmapImage from an implementation
+         * of this interface.
+         */
         BitmapImage this[int i]
         {
             get;
