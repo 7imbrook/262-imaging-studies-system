@@ -29,7 +29,7 @@ namespace _262ImageViewer
         {
             InitializeComponent();
             string settingsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string fileName = "startup.b";
+            string fileName = "MedicalImageViewer.bin";
             string settingsPath = System.IO.Path.Combine(settingsDirectory, fileName);
             if (File.Exists(settingsPath))
             {
@@ -54,9 +54,9 @@ namespace _262ImageViewer
                 }
                 catch
                 {
-
                 }
             }
+
             if (studySession == null)
             {
                 _OpenStudy_Click(this, new RoutedEventArgs());
@@ -66,7 +66,9 @@ namespace _262ImageViewer
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
             if (studySession != null)
+            {
                 this.closeConfirmation();
+            }
             // Create OpenFileDialog
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
@@ -99,19 +101,19 @@ namespace _262ImageViewer
 
         public void setFrameImageView(ImageView iv)
         {
-            //this.mainFrame.Source = new Uri("ImageView.xaml", UriKind.Relative);
-            //this.mainFrame.ClearValue(Content);
             this.mainFrame.Content = iv;
         }
 
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
             if (studySession != null)
+            {
                 this.closeConfirmation();
+            }
             this.saveConfirmation();
         }
 
-        //Needed a helper fuction without arguments
+        // Needed a helper fuction without arguments
         private void saveConfirmation()
         {
             // Prompt where to save the images
@@ -144,7 +146,10 @@ namespace _262ImageViewer
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            closeConfirmation();
+            if (studySession != null)
+            {
+                this.closeConfirmation();
+            }
         }
 
         private void closeConfirmation()
@@ -154,15 +159,7 @@ namespace _262ImageViewer
             {
                 // Check if current study is saved, and prompt to save if not
                 this.studySession.updateState(imageView.index, imageView.modeSelect);
-            }/*
-            if (result == MessageBoxResult.No)
-            {
-                // Close main window using "exit" menuItem 
-                Close();
             }
-            if (result == MessageBoxResult.Cancel)
-            {
-            }*/
         }
 
         private void _View_Click(object sender, RoutedEventArgs e)
@@ -173,16 +170,50 @@ namespace _262ImageViewer
             }
         }
 
+        /*
+         * Set the current study as the default startup Study.
+         */
         private void set_current_default(object sender, RoutedEventArgs e)
         {
+            if (this.studySession != null)
+            {
+                string settingsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                if (!Directory.Exists(settingsDirectory))
+                    Directory.CreateDirectory(settingsDirectory);
+                string fileName = "MedicalImageViewer.bin";
+                var format = new BinaryFormatter();
+                Stream stream = new FileStream(settingsDirectory + "/" + fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+                format.Serialize(stream, this.studySession.imagePath);
+                stream.Close();
+                MessageBox.Show("Default study set.");
+            }
+            else
+            {
+                MessageBox.Show("You must first open a study.");
+            }
+        }
+
+        /*
+         * Clear the default startup study.
+         */
+        private void clear_default_study(object sender, RoutedEventArgs e)
+        {
             string settingsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            if (!Directory.Exists(settingsDirectory))
-                Directory.CreateDirectory(settingsDirectory);
-            string fileName = "startup.b";
-            var format = new BinaryFormatter();
-            Stream stream = new FileStream(settingsDirectory + "/" + fileName, FileMode.Create, FileAccess.Write, FileShare.None);
-            format.Serialize(stream, this.studySession.imagePath);
-            stream.Close();
+            string fileName = "MedicalImageViewer.bin";
+            string settingsPath = System.IO.Path.Combine(settingsDirectory, fileName);
+            if (File.Exists(settingsPath))
+            {
+                try
+                {
+                    File.Delete(settingsPath);
+                    MessageBox.Show("Default study cleared.");
+                }
+                catch
+                {
+                    MessageBox.Show("An error occured deleting the startup file.\nPlease delete the file:\n\"" +
+                        settingsPath + "\"");
+                }
+            }
         }
 
         private void _saveStudy(object sender, RoutedEventArgs e)
