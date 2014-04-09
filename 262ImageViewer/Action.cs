@@ -24,6 +24,11 @@ namespace Action
         }
 
         /**
+         * Undo the action
+         */
+        public abstract void undo(StudySession study);
+
+        /**
          * Get the next acction down the chain, returns null if at the end
          */
         public Action next()
@@ -38,6 +43,15 @@ namespace Action
         {
             this.nextAction = action;
         }
+
+        /**
+         * Remove the next action in the chain
+         */
+        public void removeNext()
+        {
+            this.nextAction = null;
+        }
+
     }
 
     namespace Grid
@@ -60,9 +74,14 @@ namespace Action
              */
             public void run(StudySession study)
             {
-
+                this.iv.nextImage();
                 // Call base
                 base.run(study);
+            }
+
+            public override void undo(StudySession study)
+            {
+                this.iv.prevImage();
             }
 
             public override string ToString()
@@ -90,9 +109,14 @@ namespace Action
              */
             public void run(StudySession study)
             {
-
+                this.iv.prevImage();
                 // Call base
                 base.run(study);
+            }
+
+            public override void undo(StudySession study)
+            {
+                this.iv.nextImage();
             }
 
             public override string ToString()

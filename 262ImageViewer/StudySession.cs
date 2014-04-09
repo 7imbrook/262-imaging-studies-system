@@ -51,6 +51,21 @@ namespace _262ImageViewer
             l.setNext(action);
         }
 
+        public void undoAction()
+        {
+            if (this.rootAction == null)
+            {
+                return;
+            }
+            Action.Action p = rootAction;
+            Action.Action r = rootAction;
+            while (r.next() != null) { 
+                p = r;
+                r = r.next();
+            }
+            r.undo(this);
+            p.removeNext();
+        }
 
         // Study Metadata object
         private StudyMetadata metadata;

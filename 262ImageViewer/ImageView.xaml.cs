@@ -187,7 +187,7 @@ namespace _262ImageViewer
          * the new image located in the array position determined by
          * the counter. Displays counter number as well.
          */
-        public void nextImage_Click(object sender, RoutedEventArgs e)
+        private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
             var a = new Action.Grid.Next(this);
@@ -199,7 +199,10 @@ namespace _262ImageViewer
             // Debugging stuff
             string debug = mw.studySession.rootAction.ToString();
             Debug.WriteLine(debug);
+        }
 
+        public void nextImage()
+        {
             if (modeSelect && imageLoader != null)
             {
                 if (isValidIndex(index + 1))
@@ -224,7 +227,7 @@ namespace _262ImageViewer
          * the new image located in the array position determined by
          * the counter. Displays counter number as well.
          */
-        public void prevImage_Click(object sender, RoutedEventArgs e)
+        private void prevImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
             var a = new Action.Grid.Previous(this);
@@ -236,8 +239,10 @@ namespace _262ImageViewer
             // Debugging stuff
             string debug = mw.studySession.rootAction.ToString();
             Debug.WriteLine(debug);
+        }
 
-
+        public void prevImage()
+        {
             if (modeSelect && imageLoader != null)
             {
                 if (isValidIndex(index - 1))

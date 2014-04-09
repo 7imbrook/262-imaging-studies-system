@@ -162,12 +162,21 @@ namespace _262ImageViewer
             }
         }
 
+        // Lets change the name of this...
         private void _View_Click(object sender, RoutedEventArgs e)
         {
             if (imageView != null)
             {
                 imageView.switchMode();
             }
+        }
+
+        private void _View_Undo(object sender, RoutedEventArgs e)
+        {
+            this.studySession.undoAction();
+            // Debugging stuff
+            string debug = this.studySession.rootAction.ToString();
+            Debug.WriteLine(debug);
         }
 
         /*
