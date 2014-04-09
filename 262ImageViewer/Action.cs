@@ -58,7 +58,7 @@ namespace Action
             /**
              * Next behavior
              */
-            public override void run(StudySession study)
+            public void run(StudySession study)
             {
 
                 // Call base
@@ -88,7 +88,7 @@ namespace Action
             /**
              * Previous behavior
              */
-            public override void run(StudySession study)
+            public void run(StudySession study)
             {
 
                 // Call base
