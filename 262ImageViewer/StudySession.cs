@@ -33,7 +33,7 @@ namespace _262ImageViewer
         public bool mode = true;
     }
 
-    public class StudySession
+    public class Study
     {
         // The root Action
         public Action.Action rootAction;
@@ -138,7 +138,7 @@ namespace _262ImageViewer
          * will be all the images associated with the study and a metadata
          * file that contains layout information and other references.
          */
-        public StudySession(Uri filePath, string fileName)
+        public Study(Uri filePath, string fileName)
         {
             this.metadata = new StudyMetadata();
             this.metadata.index = 0;
@@ -159,7 +159,7 @@ namespace _262ImageViewer
         /**
          * Given a .stud file path, creates a studySession with that information
          */
-        public StudySession(Uri studPath)
+        public Study(Uri studPath)
         {
             this.imagePath = new Uri(System.IO.Path.GetDirectoryName(studPath.AbsolutePath));
             var format = new BinaryFormatter();
