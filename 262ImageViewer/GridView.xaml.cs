@@ -28,7 +28,7 @@ namespace _262ImageViewer
     /// <summary>
     /// Interaction logic for ImageView.xaml
     /// </summary>
-    public partial class ImageView : Page
+    public partial class GridView : Page
     {
         /*
          * Selects which display mode the ImageView is in.
@@ -58,7 +58,7 @@ namespace _262ImageViewer
         /*
          * Constructor that takes an ImageLoader
          */
-        public ImageView(ImageLoader imgLdr)
+        public GridView(ImageLoader imgLdr)
         {
             InitializeComponent();
             index = 0;
@@ -73,7 +73,7 @@ namespace _262ImageViewer
         /*
          * Constructor that creates the ImageView with defined state.
          */
-        public ImageView(ImageLoader imgLdr, int i, bool mode)
+        public GridView(ImageLoader imgLdr, int i, bool mode)
         {
             InitializeComponent();
             index = i;
@@ -195,10 +195,6 @@ namespace _262ImageViewer
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             a.run(mw.studySession);
-
-            // Debugging stuff
-            string debug = mw.studySession.rootAction.ToString();
-            Debug.WriteLine(debug);
         }
 
         public void nextImage()
@@ -235,10 +231,6 @@ namespace _262ImageViewer
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             a.run(mw.studySession);
-
-            // Debugging stuff
-            string debug = mw.studySession.rootAction.ToString();
-            Debug.WriteLine(debug);
         }
 
         public void prevImage()
