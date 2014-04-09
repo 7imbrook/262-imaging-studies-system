@@ -125,6 +125,40 @@ namespace Action
             }
 
         }
-    }
 
+        public class Toggle : Action
+        {
+            // Image view that next interacts with
+            ImageView iv;
+
+            /**
+             * Previous action constructor, takes the Image view that the action will interact with.
+             */
+            public Toggle(ImageView view)
+            {
+                this.iv = view;
+            }
+
+            /**
+             * Previous behavior
+             */
+            public void run(StudySession study)
+            {
+                this.iv.switchMode();
+                // Call base
+                base.run(study);
+            }
+
+            public override void undo(StudySession study)
+            {
+                this.iv.switchMode();
+            }
+
+            public override string ToString()
+            {
+                return "toggleLayout -> " + (this.nextAction != null ? this.nextAction.ToString() : "end");
+            }
+
+        }
+    }
 }

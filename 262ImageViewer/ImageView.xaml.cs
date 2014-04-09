@@ -195,10 +195,6 @@ namespace _262ImageViewer
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             a.run(mw.studySession);
-
-            // Debugging stuff
-            string debug = mw.studySession.rootAction.ToString();
-            Debug.WriteLine(debug);
         }
 
         public void nextImage()
@@ -235,10 +231,6 @@ namespace _262ImageViewer
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             a.run(mw.studySession);
-
-            // Debugging stuff
-            string debug = mw.studySession.rootAction.ToString();
-            Debug.WriteLine(debug);
         }
 
         public void prevImage()

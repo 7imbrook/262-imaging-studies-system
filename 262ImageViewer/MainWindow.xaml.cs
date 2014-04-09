@@ -163,20 +163,18 @@ namespace _262ImageViewer
         }
 
         // Lets change the name of this...
-        private void _View_Click(object sender, RoutedEventArgs e)
+        private void _View_ToggleImageLayout(object sender, RoutedEventArgs e)
         {
             if (imageView != null)
             {
-                imageView.switchMode();
+                var a = new Action.Grid.Toggle(imageView);
+                a.run(studySession);
             }
         }
 
         private void _View_Undo(object sender, RoutedEventArgs e)
         {
             this.studySession.undoAction();
-            // Debugging stuff
-            string debug = this.studySession.rootAction.ToString();
-            Debug.WriteLine(debug);
         }
 
         /*

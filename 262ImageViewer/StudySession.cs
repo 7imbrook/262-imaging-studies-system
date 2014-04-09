@@ -49,6 +49,10 @@ namespace _262ImageViewer
             while (l.next() != null)
                 l = l.next();
             l.setNext(action);
+
+            // Debugging stuff
+            string debug = this.rootAction.ToString();
+            Debug.WriteLine(debug);
         }
 
         public void undoAction()
@@ -65,6 +69,10 @@ namespace _262ImageViewer
             }
             r.undo(this);
             p.removeNext();
+
+            // Debugging stuff
+            string debug = this.rootAction.ToString();
+            Debug.WriteLine(debug);
         }
 
         // Study Metadata object
