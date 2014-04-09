@@ -29,7 +29,7 @@ namespace Action
         public abstract void undo(Study study);
 
         /**
-         * Get the next acction down the chain, returns null if at the end
+         * Get the next action down the chain, returns null if at the end
          */
         public Action next()
         {
