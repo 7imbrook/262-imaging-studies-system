@@ -49,7 +49,7 @@ namespace _262ImageViewer
                             break;
                         }
                     }
-                    var session = new StudySession(new Uri(stud));
+                    var session = new Study(new Uri(stud));
                     this.loadStudy(session);
                 }
                 catch
@@ -88,7 +88,7 @@ namespace _262ImageViewer
                 {
                     try
                     {
-                        var loadedStudy = new StudySession(loadedStudyName);
+                        var loadedStudy = new Study(loadedStudyName);
                         this.loadStudy(loadedStudy);
                     }
                     catch (IOException)
@@ -99,7 +99,7 @@ namespace _262ImageViewer
             }
         }
 
-        public void setFrameImageView(ImageView iv)
+        public void setFrameImageView(GridView iv)
         {
             this.mainFrame.Content = iv;
         }
@@ -129,7 +129,7 @@ namespace _262ImageViewer
                 var name = path.Split('\\').Last();
                 try
                 {
-                    var study = new StudySession(new Uri(path), name);
+                    var study = new Study(new Uri(path), name);
                     this.loadStudy(study);
                 }
                 catch (IOException)
@@ -244,7 +244,7 @@ namespace _262ImageViewer
                 var name = path.Split('\\').Last();
                 try
                 {
-                    var study = new StudySession(new Uri(path), name);
+                    var study = new Study(new Uri(path), name);
                     study.updateState(i, s);
                     // Move files
                     string[] fileArray = Directory.GetFiles(curretImgPath.AbsolutePath);

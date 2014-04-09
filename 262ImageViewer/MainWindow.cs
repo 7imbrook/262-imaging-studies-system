@@ -26,21 +26,21 @@ namespace _262ImageViewer
         /*
          * The current ImageView
          */
-        private ImageView imageView;
+        private GridView imageView;
 
         /*
          * The current StudySession
          */
-        public StudySession studySession;
+        public Study studySession;
 
         /*
          * Given a study, make an image loader and view for it.
          */
-        public void loadStudy(StudySession session)
+        public void loadStudy(Study session)
         {
             // Associate objects together
             ImageLoader imageLoader = new LocalImages(session.imagePath);
-            imageView = new ImageView(imageLoader, session.imageIndex, session.imageMode);
+            imageView = new GridView(imageLoader, session.imageIndex, session.imageMode);
             studySession = session;
             setFrameImageView(imageView);
         }
