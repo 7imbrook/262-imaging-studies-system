@@ -168,7 +168,7 @@ namespace Action
             //public Create(AnalysisView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
-            public override string ToString() { return null; }
+            public override string ToString() { return "Analysis.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
         }
 
@@ -177,7 +177,7 @@ namespace Action
             //public Close(AnalysisView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
-            public override string ToString() { return null; }
+            public override string ToString() { return "Analysis.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
     }
 
@@ -189,7 +189,7 @@ namespace Action
             //public Create(ReconstructionView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
-            public override string ToString() { return null; }
+            public override string ToString() { return "Reconstruction.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
         }
 
@@ -198,7 +198,7 @@ namespace Action
             //public Close(ReconstructionView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
-            public override string ToString() { return null; }
+            public override string ToString() { return "Reconstruction.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
 
         public class NextReconstruction : Action
@@ -206,7 +206,7 @@ namespace Action
             //public NextReconstruction(ReconstructionView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
-            public override string ToString() { return null; }
+            public override string ToString() { return "NextReconstruction -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
 
         public class PreviousReconstruction : Action
@@ -214,7 +214,7 @@ namespace Action
             //public PreviousReconstruction(ReconstructionView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
-            public override string ToString() { return null; }
+            public override string ToString() { return "PreviousReconstruction -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
 
         public class Next : Action
@@ -222,7 +222,7 @@ namespace Action
             //public Next(ReconstructionView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
-            public override string ToString() { return null; }
+            public override string ToString() { return "Reconstruction.Next -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
 
         public class Previous : Action
@@ -230,7 +230,7 @@ namespace Action
             //public Previous(ReconstructionView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
-            public override string ToString() { return null; }
+            public override string ToString() { return "Reconstruction.Previous -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
 
     }
