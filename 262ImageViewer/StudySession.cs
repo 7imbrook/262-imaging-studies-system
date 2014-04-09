@@ -61,6 +61,13 @@ namespace _262ImageViewer
             {
                 return;
             }
+            // Edge case
+            if(this.rootAction.next() == null)
+            {
+                this.rootAction.undo(this);
+                this.rootAction = null;
+                return;
+            }
             Action.Action p = rootAction;
             Action.Action r = rootAction;
             while (r.next() != null) { 
