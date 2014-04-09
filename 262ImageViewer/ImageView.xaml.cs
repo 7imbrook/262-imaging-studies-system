@@ -189,6 +189,17 @@ namespace _262ImageViewer
          */
         public void nextImage_Click(object sender, RoutedEventArgs e)
         {
+            // create the action
+            var a = new Action.Grid.Next(this);
+
+            // Need the current study
+            MainWindow mw = (MainWindow)Application.Current.MainWindow;
+            a.run(mw.studySession);
+
+            // Debugging stuff
+            string debug = mw.studySession.rootAction.ToString();
+            Debug.WriteLine(debug);
+
             if (modeSelect && imageLoader != null)
             {
                 if (isValidIndex(index + 1))
@@ -215,6 +226,18 @@ namespace _262ImageViewer
          */
         public void prevImage_Click(object sender, RoutedEventArgs e)
         {
+            // create the action
+            var a = new Action.Grid.Previous(this);
+
+            // Need the current study
+            MainWindow mw = (MainWindow)Application.Current.MainWindow;
+            a.run(mw.studySession);
+
+            // Debugging stuff
+            string debug = mw.studySession.rootAction.ToString();
+            Debug.WriteLine(debug);
+
+
             if (modeSelect && imageLoader != null)
             {
                 if (isValidIndex(index - 1))

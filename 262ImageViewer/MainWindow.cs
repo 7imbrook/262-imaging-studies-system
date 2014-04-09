@@ -31,7 +31,7 @@ namespace _262ImageViewer
         /*
          * The current StudySession
          */
-        private StudySession studySession;
+        public StudySession studySession;
 
         /*
          * Given a study, make an image loader and view for it.

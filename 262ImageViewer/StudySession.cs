@@ -35,6 +35,23 @@ namespace _262ImageViewer
 
     public class StudySession
     {
+        // The root Action
+        public Action.Action rootAction;
+
+        public void addAction(Action.Action action)
+        {
+            if (this.rootAction == null)
+            {
+                this.rootAction = action;
+                return;
+            }
+            Action.Action l = rootAction;
+            while (l.next() != null)
+                l = l.next();
+            l.setNext(action);
+        }
+
+
         // Study Metadata object
         private StudyMetadata metadata;
         // The filename stored in the metadata object
