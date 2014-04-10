@@ -30,6 +30,7 @@
                 <MenuItem Header="Toggle Image View" Click="_View_ToggleImageLayout" />
                 <MenuItem Header="Analyze Image" Click="_View_CreateAnalysisView" />
                 <MenuItem Header="Reconstruct Image" Click="_View_Reconstruction" />
+                <MenuItem Header="Window Image" Click="_View_Windowing" />
                 <!--<MenuItem Header="4 Image View" IsCheckable="True" Click="_view_Click" />-->
             </MenuItem>
             <MenuItem Header="_Edit">

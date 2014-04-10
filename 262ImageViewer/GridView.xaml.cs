@@ -95,8 +95,8 @@ namespace _262ImageViewer
             Image i = new Image();
             i.Source = image.getSource();
             // If the image won't fit at native resolution, scale it.
-            if (Application.Current.MainWindow.ActualHeight < image.getHeight() || 
-                Application.Current.MainWindow.ActualWidth < image.getWidth())
+            if (Application.Current.MainWindow.Height < image.getHeight() || 
+                Application.Current.MainWindow.Width < image.getWidth())
             {
                 i.Stretch = Stretch.Uniform;
             }
