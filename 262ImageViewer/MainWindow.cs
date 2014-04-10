@@ -26,7 +26,8 @@ namespace _262ImageViewer
         /*
          * The current ImageView
          */
-        private GridView imageView;
+        public GridView imageView;
+
         /*
          * The current StudySession
          */
@@ -41,6 +42,7 @@ namespace _262ImageViewer
             ImageLoader imageLoader = new LocalImages(session.imagePath);
             imageView = new GridView(imageLoader, session.imageIndex, session.imageMode);
             studySession = session;
+            studySession.mainWindow = this;
             setFrameImageView(imageView);
         }
     }

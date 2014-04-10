@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using System.Drawing;
 
 namespace _262ImageViewer
 {
@@ -167,8 +168,17 @@ namespace _262ImageViewer
         {
             if (imageView != null)
             {
-                var a = new Action.Grid.Toggle(imageView);
-                a.run(studySession);
+                var a = new Action.Grid.Toggle();
+                a.run(this);
+            }
+        }
+
+        private void _View_CreateAnalysisView(object sender, RoutedEventArgs e)
+        {
+            if (studySession != null)
+            {
+                Bitmap bi = null;// new Bitmap();
+                var a = new Action.Analysis.Create(bi);
             }
         }
 

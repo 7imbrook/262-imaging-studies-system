@@ -86,9 +86,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Action.cs" />
+    <Compile Include="AnalysisView.xaml.cs">
+      <DependentUpon>AnalysisView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImageLoader.cs" />
     <Compile Include="MainWindow.cs" />
-    <Compile Include="LocalImages.cs" />
     <Compile Include="GridView.xaml.cs">
       <DependentUpon>GridView.xaml</DependentUpon>
     </Compile>
@@ -96,6 +98,14 @@
       <DependentUpon>ReconstructionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="StudySession.cs" />
+    <Compile Include="WindowedImage.cs" />
+    <Compile Include="WindowingView.xaml.cs">
+      <DependentUpon>WindowingView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AnalysisView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -113,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ReconstructionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,7 +150,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="262ImageViewer_TemporaryKey.pfx" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

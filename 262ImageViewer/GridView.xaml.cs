@@ -190,11 +190,11 @@ namespace _262ImageViewer
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Grid.Next(this);
+            var a = new Action.Grid.Next();
 
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            a.run(mw.studySession);
+            a.run(mw);
         }
 
         public void nextImage()
@@ -226,11 +226,11 @@ namespace _262ImageViewer
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Grid.Previous(this);
+            var a = new Action.Grid.Previous();
 
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            a.run(mw.studySession);
+            a.run(mw);
         }
 
         public void prevImage()
