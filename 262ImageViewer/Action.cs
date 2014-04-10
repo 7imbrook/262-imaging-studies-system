@@ -5,30 +5,38 @@ using System.Windows;
 
 namespace Action
 {
+    /*
+     * The Action system. Actions are in a chain, and are undoable.
+     */
     [Serializable]
     public abstract class Action
     {
-        // The next action down the chain
+        /*
+         * The next action down the chain
+         */
         protected Action nextAction;
 
-        /**
+        /*
          * Run the action on the particular study.
          */
         public abstract void run(MainWindow app);
        
+        /*
+         * Run the next action.
+         */
         protected void runNext(MainWindow app)
         {
-            var study = app.studySession;
+            Study study = app.studySession;
             if (this.nextAction != null)
                 this.nextAction.run(app);
         }
 
-        /**
+        /*
          * Undo the action
          */
         public abstract void undo(MainWindow study);
 
-        /**
+        /*
          * Get the next action down the chain, returns null if at the end
          */
         public Action next()
@@ -36,7 +44,7 @@ namespace Action
             return this.nextAction;
         }
 
-        /**
+        /*
          * Set the next action of this action
          */
         public void setNext(Action action)
@@ -44,7 +52,7 @@ namespace Action
             this.nextAction = action;
         }
 
-        /**
+        /*
          * Remove the next action in the chain
          */
         public void removeNext()
@@ -54,14 +62,17 @@ namespace Action
 
     }
 
+    /*
+     * Actions related to the GridView
+     */
     namespace Grid
     {
+        /*
+         * Next behavior
+         */
         [Serializable]
         public class Next : Action
         {
-            /**
-             * Next behavior
-             */
             public override void run(MainWindow app)
             {
                 app.imageView.nextImage();
@@ -78,14 +89,14 @@ namespace Action
             {
                 return "nextImage -> " + (this.nextAction != null ? this.nextAction.ToString() : "end");
             }
-
         }
+
+        /*
+         * Previous
+         */
         [Serializable]
         public class Previous : Action
         {
-            /**
-             * Previous behavior
-             */
             public override void run(MainWindow app)
             {
                 app.imageView.prevImage();
@@ -102,14 +113,14 @@ namespace Action
             {
                 return "prevImage -> " + (this.nextAction != null ? this.nextAction.ToString() : "end");
             }
-
         }
+
+        /*
+         * Toggle between 4- and 1-up display modes.
+         */
         [Serializable]
         public class Toggle : Action
         {
-            /**
-             * Previous behavior
-             */
             public override void run(MainWindow app)
             {
                 app.imageView.switchMode();
@@ -126,24 +137,29 @@ namespace Action
             {
                 return "toggleLayout -> " + (this.nextAction != null ? this.nextAction.ToString() : "end");
             }
-
         }
     }
+
+    /*
+     * Actions related to Statistical Analysis
+     */
     namespace Analysis
     {
+        /*
+         * Creation
+         */
         [Serializable]
         public class Create : Action
         {
             AnalysisView analysis;
-            Bitmap bitmap;
             public Create(Bitmap bi) 
             {
                 analysis = new AnalysisView(bi);
-                bitmap = bi;
             }
 
             public override void run(MainWindow main) 
             {
+                // Create and display a window with the analysis.
                 Window win = new Window();
                 win.Content = analysis;
                 win.SizeToContent = SizeToContent.WidthAndHeight;
@@ -153,35 +169,38 @@ namespace Action
             }
             public override void undo(MainWindow app) 
             {
-                Close close = new Close(bitmap);
-                app.studySession.addAction(close);
+                // Analysis creation is not undo-able.
             }
             public override string ToString() { return "Analysis.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
-
         }
+
+        /*
+         * Close action
+         */
         [Serializable]
         public class Close : Action
         {
-            Bitmap bitmap;
-            public Close(Bitmap bi)
-            {
-                bitmap = bi;
-            }
+            public Close() {}
             public override void run(MainWindow app)
             {
                 app.setFrameImageView(app.imageView);
             }
             public override void undo(MainWindow app)
             {
-                Create create = new Create(bitmap);
-                app.studySession.addAction(create);
+                // Analysis close is not undo-able
             }
             public override string ToString() { return "Analysis.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
     }
 
+    /*
+     * Actions related to Reconstruction
+     */
     namespace Reconstruction
     {
+        /*
+         * Creation
+         */
         [Serializable]
         public class Create : Action
         {
@@ -192,19 +211,25 @@ namespace Action
                 window = w;
                 reconstructionView = new ReconstructionView(session.imageCollection, window.imageView.index, false, session);
             }
+
             public override void run(MainWindow app)
             {
                 window.setFrameImageView(reconstructionView);
                 base.runNext(app);
             }
+
             public override void undo(MainWindow app) 
             {
-                var a = new Close(app);
+                Action a = new Close(app);
                 a.run(app);
             }
-            public override string ToString() { return "Reconstruction.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
+            public override string ToString() { return "Reconstruction.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
+
+        /*
+         * Close
+         */
         [Serializable]
         public class Close : Action
         {
@@ -215,18 +240,25 @@ namespace Action
                 window = w;
                 gridView = window.imageView;
             }
+
             public override void run(MainWindow app) 
             {
                 window.setFrameImageView(gridView);
                 base.runNext(app);            
             }
+
             public override void undo(MainWindow app) 
             {
-                var a = new Create(app, app.studySession);
+                Action a = new Create(app, app.studySession);
                 a.run(app);
             }
+
             public override string ToString() { return "Reconstruction.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
+
+        /*
+         * Next Reconstruction. Move to the next "slice" of the rebuilt image.
+         */
         [Serializable]
         public class NextReconstruction : Action
         {
@@ -235,19 +267,26 @@ namespace Action
             {
                 reconstruction = r;
             }
+
             public override void run(MainWindow app) 
             {
                 reconstruction.nextReconstruction();
                 // Call base
                 base.runNext(app);
             }
+
             public override void undo(MainWindow app) 
             {
-                var a = new PreviousReconstruction(reconstruction);
+                Action a = new PreviousReconstruction(reconstruction);
                 a.run(app);
             }
+
             public override string ToString() { return "NextReconstruction -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
+
+        /*
+         * Previous Reconstruction. Move to the previous "slice" of the rebuilt image.
+         */
         [Serializable]
         public class PreviousReconstruction : Action
         {
@@ -256,19 +295,26 @@ namespace Action
             {
                 reconstruction = r;
             }
+
             public override void run(MainWindow app) 
             {
                 reconstruction.previousReconstruction();
                 // Call base
                 base.runNext(app);
             }
+
             public override void undo(MainWindow app)
             {
-                var a = new NextReconstruction(reconstruction);
+                Action a = new NextReconstruction(reconstruction);
                 a.run(app);
             }
+
             public override string ToString() { return "PreviousReconstruction -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
+
+        /*
+         * Next. Move to the next image in the study.
+         */
         [Serializable]
         public class Next : Action
         {
@@ -277,19 +323,26 @@ namespace Action
             {
                 reconstruction = r;
             }
+
             public override void run(MainWindow app) 
             {
                 reconstruction.nextImage();
                 // Call base
                 base.runNext(app);
             }
+
             public override void undo(MainWindow app)
             {
-                var a = new Previous(reconstruction);
+                Action a = new Previous(reconstruction);
                 a.run(app);
             }
+
             public override string ToString() { return "Reconstruction.Next -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
+
+        /*
+         * Previous. Move to the previous image in the study.
+         */
         [Serializable]
         public class Previous : Action
         {
@@ -298,23 +351,32 @@ namespace Action
             {
                 reconstruction = r;
             }
+
             public override void run(MainWindow app) 
             {
                 reconstruction.prevImage();
                 // Call base
                 base.runNext(app);
             }
+
             public override void undo(MainWindow app)
             {
-                var a = new Next(reconstruction);
+                Action a = new Next(reconstruction);
                 a.run(app);
             }
+
             public override string ToString() { return "Reconstruction.Previous -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
     }
 
+    /*
+     * Actions related to Windowing
+     */
     namespace Windowing
     {
+        /*
+         * Creation
+         */
         [Serializable]
         public class Create : Action
         {
@@ -330,38 +392,58 @@ namespace Action
                 w.Show();
                 base.runNext(app);
             }
+
             public override void undo(MainWindow app)
             {
-                var a = new Close(app);
+                Action a = new Close(app);
                 a.run(app);
             }
-            public override string ToString() { return null; }
 
+            public override string ToString() { return null; }
         }
+
+        /*
+         * Close a WindowingView
+         */
         [Serializable]
         public class Close : Action
         {
             public Close(MainWindow w) { }
+
             public override void run(MainWindow app)
             {
                 app.setFrameImageView(app.imageView);
                 base.runNext(app);
             }
+
             public override void undo(MainWindow app) { }
+
             public override string ToString() { return null; }
         }
+
+        /*
+         * Next.
+         */
         [Serializable]
         public class Next : Action
         {
             public override void run(MainWindow app) { }
+
             public override void undo(MainWindow app) { }
+
             public override string ToString() { return null; }
         }
+
+        /*
+         * Previous.
+         */
         [Serializable]
         public class Previous : Action
         {
             public override void run(MainWindow app) { }
+
             public override void undo(MainWindow app) { }
+
             public override string ToString() { return null; }
         }
     }
