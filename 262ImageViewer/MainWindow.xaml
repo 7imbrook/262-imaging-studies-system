@@ -28,6 +28,7 @@
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="Toggle Image View" Click="_View_ToggleImageLayout" />
+                <MenuItem Header="Analysis Image" Click="_View_CreateAnalysisView" />
                 <!--<MenuItem Header="4 Image View" IsCheckable="True" Click="_view_Click" />-->
             </MenuItem>
             <MenuItem Header="_Edit">

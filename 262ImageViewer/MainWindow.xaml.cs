@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using System.Drawing;
 
 namespace _262ImageViewer
 {
@@ -99,7 +100,7 @@ namespace _262ImageViewer
             }
         }
 
-        public void setFrameImageView(GridView iv)
+        public void setFrameImageView(Page iv)
         {
             this.mainFrame.Content = iv;
         }
@@ -169,6 +170,15 @@ namespace _262ImageViewer
             {
                 var a = new Action.Grid.Toggle(imageView);
                 a.run(studySession);
+            }
+        }
+
+        private void _View_CreateAnalysisView(object sender, RoutedEventArgs e)
+        {
+            if (studySession != null)
+            {
+                Bitmap bi = null;// new Bitmap();
+                var a = new Action.Analysis.Create(bi);
             }
         }
 

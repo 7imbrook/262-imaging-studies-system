@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using _262ImageViewer;
+using System.Drawing;
 
 namespace Action
 {
@@ -165,8 +167,19 @@ namespace Action
     {
         public class Create : Action
         {
-            //public Create(AnalysisView view) { }
-            new public void run(Study study) { }
+            AnalysisView analysis;
+
+            public Create(Bitmap bi) 
+            {
+                analysis = new AnalysisView(bi);
+            }
+
+            new public void run(Study study, MainWindow main) 
+            {
+                main.setFrameImageView(analysis);
+                base.run(study);
+            }
+
             public override void undo(Study study) { }
             public override string ToString() { return "Analysis.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
