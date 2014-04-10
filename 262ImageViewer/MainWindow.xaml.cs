@@ -168,8 +168,8 @@ namespace _262ImageViewer
         {
             if (imageView != null)
             {
-                var a = new Action.Grid.Toggle(imageView);
-                a.run(studySession);
+                var a = new Action.Grid.Toggle();
+                a.run(this);
             }
         }
 

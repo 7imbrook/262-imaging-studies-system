@@ -38,6 +38,9 @@ namespace _262ImageViewer
         // The root Action
         public Action.Action rootAction;
 
+        //
+        public MainWindow mainWindow;
+
         public void addAction(Action.Action action)
         {
             if (this.rootAction == null)
@@ -64,7 +67,7 @@ namespace _262ImageViewer
             // Edge case
             if(this.rootAction.next() == null)
             {
-                this.rootAction.undo(this);
+                this.rootAction.undo(this.mainWindow);
                 this.rootAction = null;
                 return;
             }
@@ -74,7 +77,7 @@ namespace _262ImageViewer
                 p = r;
                 r = r.next();
             }
-            r.undo(this);
+            r.undo(this.mainWindow);
             p.removeNext();
 
             // Debugging stuff
