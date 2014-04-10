@@ -67,7 +67,7 @@ namespace _262ImageViewer
             {
                 if (modeSelect == true)
                 {
-                    display_image(imageLoader[index].getSource());
+                    display_image(imageLoader[index]);
                 }
                 else
                 {
@@ -80,14 +80,14 @@ namespace _262ImageViewer
         /*
          * Displays image based on the array position given by the counter.
          */
-        private void display_image(BitmapSource image)
+        private void display_image(ImageLoader.Image image)
         {
             image_display.Children.Clear();
             Image i = new Image();
-            i.Source = image;
+            i.Source = image.getSource();
             // If the image won't fit at native resolution, scale it.
-            if (Application.Current.MainWindow.ActualHeight < image.Height ||
-                Application.Current.MainWindow.ActualWidth < image.Width)
+            if (Application.Current.MainWindow.ActualHeight < image.getHeight() ||
+                Application.Current.MainWindow.ActualWidth < image.getWidth())
             {
                 i.Stretch = Stretch.Uniform;
             }
@@ -134,10 +134,10 @@ namespace _262ImageViewer
                 if (isValidIndex(index))
                 {
                     Image to_display = new Image();
-                    BitmapSource source = imageList[index].getSource();
-                    to_display.Source = source;
+                    ImageLoader.Image source = imageList[index];
+                    to_display.Source = source.getSource();
                     to_display.Stretch = Stretch.Uniform;
-                    int x = source.PixelWidth;
+                    int x = source.getWidth();
                     Grid.SetRow(to_display, 0);
                     Grid.SetColumn(to_display, position);
                     four_grid.Children.Add(to_display);
@@ -152,10 +152,10 @@ namespace _262ImageViewer
                 if (isValidIndex(index))
                 {
                     Image to_display = new Image();
-                    BitmapSource source = imageList[index++].getSource();
-                    to_display.Source = source;
+                    ImageLoader.Image source = imageList[index];
+                    to_display.Source = source.getSource();
                     to_display.Stretch = Stretch.Uniform;
-                    int x = source.PixelWidth;
+                    int x = source.getWidth();
                     Grid.SetRow(to_display, 1);
                     Grid.SetColumn(to_display, position);
                     four_grid.Children.Add(to_display);
@@ -216,7 +216,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index + 1))
                 {
                     index++;
-                    display_image(imageLoader[index].getSource());
+                    display_image(imageLoader[index]);
                 }
             }
             else
@@ -252,7 +252,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index - 1))
                 {
                     index--;
-                    display_image(imageLoader[index].getSource());
+                    display_image(imageLoader[index]);
                 }
             }
             else
@@ -341,7 +341,7 @@ namespace _262ImageViewer
                     index = imageLoader.Count();
                 }
 
-                display_image(imageLoader[index].getSource());
+                display_image(imageLoader[index]);
 
                 modeSelect = true;
             }

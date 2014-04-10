@@ -174,21 +174,36 @@ namespace Action
             public Create(MainWindow w, Study session)
             {
                 window = w;
-                reconstructionView = new ReconstructionView(session.imageCollection, 0, false, session);
+                reconstructionView = new ReconstructionView(session.imageCollection, window.imageView.index, false, session);
             }
             public override void run(MainWindow app)
             {
                 window.setFrameImageView(reconstructionView);
                 base.runNext(app);
             }
-            public override void undo(MainWindow app) { }
+            public override void undo(MainWindow app) 
+            {
+                var a = new Close(app);
+                a.run(app);
+            }
             public override string ToString() { return "Reconstruction.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
         }
         [Serializable]
         public class Close : Action
         {
-            public override void run(MainWindow app) { }
+            MainWindow window;
+            GridView gridView;
+            public Close(MainWindow w)
+            {
+                window = w;
+                gridView = window.imageView;
+            }
+            public override void run(MainWindow app) 
+            {
+                window.setFrameImageView(gridView);
+                base.runNext(app);            
+            }
             public override void undo(MainWindow app) { }
             public override string ToString() { return "Reconstruction.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
