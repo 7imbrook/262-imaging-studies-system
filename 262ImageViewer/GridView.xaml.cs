@@ -11,17 +11,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Diagnostics;
 
 namespace _262ImageViewer
 {
@@ -53,12 +46,12 @@ namespace _262ImageViewer
         /*
          * The ImageLoader in use.
          */
-        private List<BitmapImage> imageLoader;
+        private List<ImageLoader.Image> imageLoader;
 
         /*
          * Constructor that takes an ImageLoader
          */
-        public GridView(List<BitmapImage> imgLdr)
+        public GridView(List<ImageLoader.Image> imgLdr)
         {
             InitializeComponent();
             index = 0;
@@ -73,7 +66,7 @@ namespace _262ImageViewer
         /*
          * Constructor that creates the ImageView with defined state.
          */
-        public GridView(List<BitmapImage> imgLdr, int i, bool mode)
+        public GridView(List<ImageLoader.Image> imgLdr, int i, bool mode)
         {
             InitializeComponent();
             index = i;
@@ -96,14 +89,14 @@ namespace _262ImageViewer
         /*
          * Displays image based on the array position given by the counter.
          */
-        private void display_image(BitmapImage image)
+        private void display_image(ImageLoader.Image image)
         {
             image_display.Children.Clear();
             Image i = new Image();
-            i.Source = image;
+            i.Source = image.getImage();
             // If the image won't fit at native resolution, scale it.
-            if (Application.Current.MainWindow.ActualHeight < image.Height || 
-                Application.Current.MainWindow.ActualWidth < image.Width)
+            if (Application.Current.MainWindow.ActualHeight < image.getHeight() || 
+                Application.Current.MainWindow.ActualWidth < image.getWidth())
             {
                 i.Stretch = Stretch.Uniform;
             }
@@ -119,7 +112,7 @@ namespace _262ImageViewer
          * being the lowest numbered image of the set to bottom right
          * being the highest numbered image.
          */
-        private void display_four(List<BitmapImage> imageList, int index)
+        private void display_four(List<ImageLoader.Image> imageList, int index)
         {
             //Clear any leftover images.
             image_display.Children.Clear();
@@ -150,10 +143,10 @@ namespace _262ImageViewer
                 if (isValidIndex(index))
                 {
                     Image to_display = new Image();
-                    BitmapImage source = imageList[index];
-                    to_display.Source = source;
+                    ImageLoader.Image source = imageList[index];
+                    to_display.Source = source.getImage();
                     to_display.Stretch = Stretch.Uniform;
-                    int x = source.PixelWidth;
+                    int x = source.getWidth();
                     Grid.SetRow(to_display, 0);
                     Grid.SetColumn(to_display, position);
                     four_grid.Children.Add(to_display);
@@ -168,10 +161,10 @@ namespace _262ImageViewer
                 if (isValidIndex(index))
                 {
                     Image to_display = new Image();
-                    BitmapImage source = imageList[index++];
-                    to_display.Source = source;
+                    ImageLoader.Image source = imageList[index++];
+                    to_display.Source = source.getImage();
                     to_display.Stretch = Stretch.Uniform;
-                    int x = source.PixelWidth;
+                    int x = source.getWidth();
                     Grid.SetRow(to_display, 1);
                     Grid.SetColumn(to_display, position);
                     four_grid.Children.Add(to_display);
