@@ -27,7 +27,6 @@ namespace _262ImageViewer
          * The current ImageView
          */
         private GridView imageView;
-
         /*
          * The current StudySession
          */

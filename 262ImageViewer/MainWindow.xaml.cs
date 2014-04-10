@@ -99,7 +99,7 @@ namespace _262ImageViewer
             }
         }
 
-        public void setFrameImageView(GridView iv)
+        public void setFrameImageView(Page iv)
         {
             this.mainFrame.Content = iv;
         }
@@ -175,6 +175,12 @@ namespace _262ImageViewer
         private void _View_Undo(object sender, RoutedEventArgs e)
         {
             this.studySession.undoAction();
+        }
+
+        private void _View_Reconstruction(object sender, RoutedEventArgs e)
+        {
+            var a = new Action.Reconstruction.Create(this, studySession);
+            a.run(studySession);
         }
 
         /*

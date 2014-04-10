@@ -186,8 +186,20 @@ namespace Action
 
         public class Create : Action
         {
-            //public Create(ReconstructionView view) { }
-            public void run(Study study) { }
+            MainWindow window;
+            ReconstructionView reconstructionView;
+            public Create(MainWindow w, Study session) 
+            {
+                window = w;
+
+                ImageLoader imageLoader = new LocalImages(session.imagePath);
+                reconstructionView = new ReconstructionView(imageLoader, session.imageIndex, session.imageMode, session);
+            }
+            public void run(Study study) 
+            {
+                window.setFrameImageView(reconstructionView);
+                base.run(study);
+            }
             public override void undo(Study study) { }
             public override string ToString() { return "Reconstruction.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
@@ -219,7 +231,7 @@ namespace Action
 
         public class Next : Action
         {
-            //public Next(ReconstructionView view) { }
+            public Next(ReconstructionView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
             public override string ToString() { return "Reconstruction.Next -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
@@ -227,7 +239,7 @@ namespace Action
 
         public class Previous : Action
         {
-            //public Previous(ReconstructionView view) { }
+            public Previous(ReconstructionView view) { }
             public void run(Study study) { }
             public override void undo(Study study) { }
             public override string ToString() { return "Reconstruction.Previous -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
