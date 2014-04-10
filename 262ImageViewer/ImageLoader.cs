@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
@@ -158,7 +159,8 @@ namespace ImageLoader
          */
         public JPGImage(Uri imageURI)
         {
-            image = new Bitmap(imageURI.AbsolutePath);
+            Debug.WriteLine(imageURI.AbsolutePath);
+            image = new Bitmap(imageURI.LocalPath);
         }
 
         /*

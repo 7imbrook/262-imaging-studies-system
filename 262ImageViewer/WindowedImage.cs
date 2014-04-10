@@ -8,8 +8,13 @@ namespace _262ImageViewer
 {
     class WindowedImage
     {
+        public WindowedImage(int high, int low, Bitmap to_be_processed)
+        {
+            processImage(high, low, to_be_processed);
 
-        private Bitmap processImage(int high, int low, Bitmap to_be_processed)
+        }
+
+        public Bitmap processImage(int high, int low, Bitmap to_be_processed)
         {
             var image_height = to_be_processed.Height;
             var image_width = to_be_processed.Width;
