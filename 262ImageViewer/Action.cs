@@ -140,18 +140,10 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
-            AnalysisView analysis;
-            Bitmap bitmap;
-            public Create(Bitmap bi) 
-            {
-                analysis = new AnalysisView(bi);
-                bitmap = bi;
-            }
-
             public override void run(MainWindow main) 
             {
                 Window win = new Window();
-                win.Content = analysis;
+                win.Content = new AnalysisView(main.studySession.imageCollection[main.imageView.index].getImage());
                 win.SizeToContent = SizeToContent.WidthAndHeight;
                 win.Title = "Histogram";
                 win.Show();
@@ -159,7 +151,7 @@ namespace Action
             }
             public override void undo(MainWindow app) 
             {
-                Close close = new Close(bitmap);
+                Close close = new Close();
                 app.studySession.addAction(close);
             }
             public override string ToString() { return "Analysis.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
@@ -168,18 +160,13 @@ namespace Action
         [Serializable]
         public class Close : Action
         {
-            Bitmap bitmap;
-            public Close(Bitmap bi)
-            {
-                bitmap = bi;
-            }
             public override void run(MainWindow app)
             {
                 app.setFrameImageView(app.imageView);
             }
             public override void undo(MainWindow app)
             {
-                Create create = new Create(bitmap);
+                Create create = new Create();
                 app.studySession.addAction(create);
             }
             public override string ToString() { return "Analysis.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
@@ -191,21 +178,14 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
-            MainWindow window;
-            ReconstructionView reconstructionView;
-            public Create(MainWindow w, Study session)
-            {
-                window = w;
-                reconstructionView = new ReconstructionView(session.imageCollection, window.imageView.index, false, session);
-            }
             public override void run(MainWindow app)
             {
-                window.setFrameImageView(reconstructionView);
+                app.setFrameImageView(new ReconstructionView(app.studySession.imageCollection, app.imageView.index, false, app.studySession));
                 base.runNext(app);
             }
             public override void undo(MainWindow app) 
             {
-                var a = new Close(app);
+                var a = new Close();
                 a.run(app);
             }
             public override string ToString() { return "Reconstruction.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
@@ -214,21 +194,14 @@ namespace Action
         [Serializable]
         public class Close : Action
         {
-            MainWindow window;
-            GridView gridView;
-            public Close(MainWindow w)
-            {
-                window = w;
-                gridView = window.imageView;
-            }
             public override void run(MainWindow app) 
             {
-                window.setFrameImageView(gridView);
+                app.setFrameImageView(app.imageView);
                 base.runNext(app);            
             }
             public override void undo(MainWindow app) 
             {
-                var a = new Create(app, app.studySession);
+                var a = new Create();
                 a.run(app);
             }
             public override string ToString() { return "Reconstruction.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
@@ -236,20 +209,17 @@ namespace Action
         [Serializable]
         public class NextReconstruction : Action
         {
-            ReconstructionView reconstruction;
-            public NextReconstruction(ReconstructionView r)
-            {
-                reconstruction = r;
-            }
             public override void run(MainWindow app) 
             {
-                reconstruction.nextReconstruction();
-                // Call base
-                base.runNext(app);
+                    var rec =(ReconstructionView) app.mainFrame.Content;
+                    rec.nextReconstruction();
+                    // Call base
+                    base.runNext(app);
+                
             }
             public override void undo(MainWindow app) 
             {
-                var a = new PreviousReconstruction(reconstruction);
+                var a = new PreviousReconstruction();
                 a.run(app);
             }
             public override string ToString() { return "NextReconstruction -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
@@ -257,20 +227,16 @@ namespace Action
         [Serializable]
         public class PreviousReconstruction : Action
         {
-            ReconstructionView reconstruction;
-            public PreviousReconstruction(ReconstructionView r)
-            {
-                reconstruction = r;
-            }
             public override void run(MainWindow app) 
             {
-                reconstruction.previousReconstruction();
-                // Call base
-                base.runNext(app);
+                    var rec = (ReconstructionView)app.mainFrame.Content;
+                    rec.previousReconstruction();
+                    // Call base
+                    base.runNext(app);
             }
             public override void undo(MainWindow app)
             {
-                var a = new NextReconstruction(reconstruction);
+                var a = new NextReconstruction();
                 a.run(app);
             }
             public override string ToString() { return "PreviousReconstruction -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
@@ -278,20 +244,16 @@ namespace Action
         [Serializable]
         public class Next : Action
         {
-            ReconstructionView reconstruction;
-            public Next(ReconstructionView r)
-            {
-                reconstruction = r;
-            }
             public override void run(MainWindow app) 
             {
-                reconstruction.nextImage();
+                var rec = (ReconstructionView)app.mainFrame.Content;
+                rec.previousReconstruction();
                 // Call base
                 base.runNext(app);
             }
             public override void undo(MainWindow app)
             {
-                var a = new Previous(reconstruction);
+                var a = new Previous();
                 a.run(app);
             }
             public override string ToString() { return "Reconstruction.Next -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
@@ -299,20 +261,16 @@ namespace Action
         [Serializable]
         public class Previous : Action
         {
-            ReconstructionView reconstruction;
-            public Previous(ReconstructionView r)
-            {
-                reconstruction = r;
-            }
             public override void run(MainWindow app) 
             {
-                reconstruction.prevImage();
+                var rec = (ReconstructionView)app.mainFrame.Content;
+                rec.previousReconstruction();
                 // Call base
                 base.runNext(app);
             }
             public override void undo(MainWindow app)
             {
-                var a = new Next(reconstruction);
+                var a = new Next();
                 a.run(app);
             }
             public override string ToString() { return "Reconstruction.Previous -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
