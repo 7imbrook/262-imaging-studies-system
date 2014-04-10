@@ -1,5 +1,5 @@
 ﻿/* 
- * ImageView.xaml.cs
+ * ReconstructionView.xaml.cs
  * 
  * Version: 
  *     $Id$ 
@@ -28,7 +28,7 @@ namespace _262ImageViewer
     /// <summary>
     /// Interaction logic for ImageView.xaml
     /// </summary>
-    public partial class GridView : Page
+    public partial class ReconstructionView : Page
     {
         /*
          * Selects which display mode the ImageView is in.
@@ -53,31 +53,22 @@ namespace _262ImageViewer
         /*
          * The ImageLoader in use.
          */
-        private List<BitmapImage> imageLoader;
+        private ImageLoader imageLoader;
 
         /*
-         * Constructor that takes an ImageLoader
+         * The Current Study
          */
-        public GridView(List<BitmapImage> imgLdr)
-        {
-            InitializeComponent();
-            index = 0;
-            modeSelect = true; //True is one, False is four
-            imageLoader = imgLdr;
-            if (isValidIndex(index))
-            {
-                display_image(imageLoader[index]);
-            }
-        }
+        private Study studySession;
 
         /*
          * Constructor that creates the ImageView with defined state.
          */
-        public GridView(List<BitmapImage> imgLdr, int i, bool mode)
+        public ReconstructionView(ImageLoader imgLdr, int i, bool mode, Study session)
         {
             InitializeComponent();
+            studySession = session;
             index = i;
-            modeSelect = mode; //True is one, False is four
+            modeSelect = false; //True is one, False is four
             imageLoader = imgLdr;
             if (isValidIndex(index))
             {
@@ -102,7 +93,7 @@ namespace _262ImageViewer
             Image i = new Image();
             i.Source = image;
             // If the image won't fit at native resolution, scale it.
-            if (Application.Current.MainWindow.ActualHeight < image.Height || 
+            if (Application.Current.MainWindow.ActualHeight < image.Height ||
                 Application.Current.MainWindow.ActualWidth < image.Width)
             {
                 i.Stretch = Stretch.Uniform;
@@ -119,7 +110,7 @@ namespace _262ImageViewer
          * being the lowest numbered image of the set to bottom right
          * being the highest numbered image.
          */
-        private void display_four(List<BitmapImage> imageList, int index)
+        private void display_four(ImageLoader imageList, int index)
         {
             //Clear any leftover images.
             image_display.Children.Clear();
@@ -145,7 +136,7 @@ namespace _262ImageViewer
 
             //Add the images belonging in the first row of the grid
             //If there exists no image, leave it blank.
-            for (int position = 0; position < 2; position++)
+            for (int position = 0; position < 1; position++)
             {
                 if (isValidIndex(index))
                 {
@@ -163,7 +154,7 @@ namespace _262ImageViewer
 
             //Add the images belonging in the second row of the grid.
             //If there exists no image, leave it blank.
-            for (int position = 0; position < 2; position++)
+            for (int position = 1; position < 2; position++)
             {
                 if (isValidIndex(index))
                 {
@@ -179,8 +170,35 @@ namespace _262ImageViewer
             }
             //Add the grid of images to the image_display.
             image_display.Children.Add(four_grid);
-            
+
         }
+        /*
+        Bitmap reconstructor(Study studySession)
+        {
+            int size = 256;
+            boolean vertical = true;
+            int sliceIndex = 1;
+            int numImages = Study.Count()?
+
+            Bitmap reconst = new Bitmap(size, size);
+            using (Graphics g = Graphics.FromImage(reconst))
+            {
+                for (int i = 0; i < numImages; i++)
+                {
+                    if (vertical)
+                    {
+                        g1.DrawImage(studySession.getImage(i).getSlice(sliceIndex, true), i, 0);
+                    }
+                    else
+                    {
+                        g1.DrawImage(Study.getImage(i).getSlice(sliceIndex, false), 0, i);
+                    }
+                }
+            }
+
+            return reconst;
+        }
+        */
 
         /*
          * Increases the image position counter by one, then displays
@@ -190,10 +208,11 @@ namespace _262ImageViewer
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
+            var a = new Action.Reconstruction.Next(this);
+
+            // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            var a = new Action.Grid.Next();
-            mw.studySession.addAction(a);
-            a.run(mw);
+            a.run(mw.studySession);
         }
 
         public void nextImage()
@@ -225,10 +244,11 @@ namespace _262ImageViewer
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Grid.Previous();
+            var a = new Action.Reconstruction.Previous(this);
+
+            // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            mw.studySession.addAction(a);
-            a.run(mw);
+            a.run(mw.studySession);
         }
 
         public void prevImage()
@@ -273,7 +293,7 @@ namespace _262ImageViewer
             }
 
             // Check and disable prev.
-            if(!isValidIndex(index + 1) && modeSelect == true)
+            if (!isValidIndex(index + 1) && modeSelect == true)
             {
                 next_button.IsEnabled = false;
             }
