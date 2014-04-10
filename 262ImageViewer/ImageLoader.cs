@@ -15,27 +15,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace _262ImageViewer
+namespace ImageLoader
 {
     /*
-     * An interface for the loading of images. 
-     * Extended by RemoteImages and LocalImages.
+     * 
      */
-    public interface ImageLoader
+    public interface Image
     {
         /*
-         * Return the number of objects in the list.
+         * 
          */
-        int Count();
+        byte[] getSlice(int sliceIndex, Boolean vertical);
 
         /*
-         * Allows access of a BitmapImage from an implementation
-         * of this interface.
+         * 
          */
-        BitmapImage this[int i]
-        {
-            get;
-            set;
-        }
+        BitmapImage image;
     }
 }
