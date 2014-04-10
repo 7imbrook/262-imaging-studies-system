@@ -61,21 +61,21 @@ namespace ImageLoader
         }
         public Bitmap getImage()
         {
-            return accesse().getImage();
+            return getRealSubject().getImage();
         }
         public int getWidth()
         {
-            return accesse().getWidth();
+            return getRealSubject().getWidth();
         }
         public int getHeight()
         {
-            return accesse().getHeight();
+            return getRealSubject().getHeight();
         }
         public Bitmap getSlice(int sliceIndex, Boolean vertical)
         {
-            return accesse().getSlice(sliceIndex, vertical);
+            return getRealSubject().getSlice(sliceIndex, vertical);
         }
-        private Image accesse()
+        private Image getRealSubject()
         {
             if (accessed)
             {
