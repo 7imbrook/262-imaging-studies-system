@@ -137,6 +137,7 @@ namespace _262ImageViewer
         private void _View_Reconstruction(object sender, RoutedEventArgs e)
         {
             var a = new Action.Reconstruction.Create(this, studySession);
+            this.studySession.addAction(a);
             a.run(this);
         }
 
