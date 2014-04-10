@@ -150,7 +150,7 @@ namespace _262ImageViewer
 
         private void _View_Windowing(object sender, RoutedEventArgs e)
         {
-            var a = new Action.Windowing.Create(this, studySession);
+            var a = new Action.Windowing.Create(this);
             this.studySession.addAction(a);
             a.run(this);
         }

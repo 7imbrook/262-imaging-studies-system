@@ -34,6 +34,7 @@
             <MenuItem Header="_Edit">
                 <MenuItem Header="Undo" Click="_View_Undo" />
                 <MenuItem Header="Reconstruct Image" Click="_View_Reconstruction" />
+                <MenuItem Header="Window Image" Click="_View_Windowing" />
             </MenuItem>
         </Menu>
         <Frame Name="mainFrame" HorizontalAlignment="Left" Height="642" VerticalAlignment="Center" Width="944" Margin="0

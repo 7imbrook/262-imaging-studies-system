@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing;
 
+
 namespace _262ImageViewer
 {
     /// <summary>
@@ -34,31 +35,37 @@ namespace _262ImageViewer
         /*
          * The current index of the BitmapImage list.
          */
-        public int index
-        {
-            get;
-            private set;
-        }
+        public int index;
+        float high, low;
 
         private List<ImageLoader.Image> imageLoader;
 
-        public WindowingView(List<ImageLoader.Image> imgLdr, int cur_index, bool cur_mode)
+        MainWindow main;
+
+        public WindowingView(float high, float low, MainWindow win)
         {
             InitializeComponent();
-            index = cur_index;
-            modeSelect = cur_mode;
-            imageLoader = imgLdr;
+            main = win;
+            index = win.imageView.index;
+            modeSelect = win.imageView.modeSelect;
+            imageLoader = win.studySession.imageCollection;
+            
             if(isValidIndex(index))
             {
-                display_image(imageLoader[index]);
+                display_image(imageLoader[index], high, low);
             }
         }
 
-        private void display_image(ImageLoader.Image image) //Take in processed img
+        private void display_image(ImageLoader.Image image, float high, float low) //Take in processed img
         {
             image_display.Children.Clear();
+
             System.Windows.Controls.Image i = new System.Windows.Controls.Image();
-            i.Source = image.getSource();
+
+            BitmapSource wSource = windowedImage(high, low, image.getImage());
+
+
+            i.Source = wSource;
             // If the image won't fit at native resolution, scale it.
             if (Application.Current.MainWindow.ActualHeight < image.getHeight() ||
                 Application.Current.MainWindow.ActualWidth < image.getWidth())
@@ -114,7 +121,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index + 1))
                 {
                     index++;
-                    display_image(imageLoader[index]);
+                    display_image(imageLoader[index], high, low);
                 }
             }
             else
@@ -144,7 +151,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index - 1))
                 {
                     index--;
-                    display_image(imageLoader[index]);
+                    display_image(imageLoader[index], high, low);
                 }
             }
             else
@@ -167,7 +174,52 @@ namespace _262ImageViewer
         }
 
 
+        private BitmapSource windowedImage(float high, float low, Bitmap to_be_processed)
+        {
+            var image_height = to_be_processed.Height;
+            var image_width = to_be_processed.Width;
+            Bitmap processed_image = new Bitmap(image_width, image_height);
 
+            for (int i = 0; i < image_height; i++)
+            {
+                for (int j = 0; j < image_width; j++)
+                {
+                    System.Drawing.Color pixel = to_be_processed.GetPixel(i, j);
+                    if (pixel.GetBrightness() < low)
+                    {
+                        System.Drawing.Color new_pixel = System.Drawing.Color.Black;
+                        processed_image.SetPixel(i, j, new_pixel);
+                    }
+                    else if (pixel.GetBrightness() > high)
+                    {
+                        System.Drawing.Color new_pixel = System.Drawing.Color.White;
+                        processed_image.SetPixel(i, j, new_pixel);
+                    }
+                    else
+                    {
+                        float sf = equate_scale_factor(high, low, pixel);
+                        int color_value = (int)(sf * 255);
+                        System.Drawing.Color new_pixel = System.Drawing.Color.FromArgb(color_value, color_value, color_value);
+                        processed_image.SetPixel(i, j, pixel);
+                    }
+
+                }
+            }
+
+            BitmapSource windowedImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                processed_image.GetHbitmap(),
+                IntPtr.Zero,
+                System.Windows.Int32Rect.Empty,
+                BitmapSizeOptions.FromWidthAndHeight(processed_image.Width, processed_image.Height));
+
+            return windowedImage;
+        }
+
+        private float equate_scale_factor(float high, float low, System.Drawing.Color pixel)
+        {
+            float output = ((pixel.GetBrightness() - low) * high) / (high - low);
+            return output;
+        }
 
         /*
          * Check if the current index is at either end of the list.

@@ -102,6 +102,9 @@
     </Compile>
     <Compile Include="StudySession.cs" />
     <Compile Include="WindowedImage.cs" />
+    <Compile Include="WindowingPrompt.xaml.cs">
+      <DependentUpon>WindowingPrompt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowingView.xaml.cs">
       <DependentUpon>WindowingView.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="GridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowingPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

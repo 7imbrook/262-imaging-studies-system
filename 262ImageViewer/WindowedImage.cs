@@ -8,21 +8,21 @@ namespace _262ImageViewer
 {
     class WindowedImage
     {
-        public WindowedImage(int high, int low, Bitmap to_be_processed)
+        public WindowedImage(float high, float low, Bitmap to_be_processed)
         {
             processImage(high, low, to_be_processed);
 
         }
 
-        public Bitmap processImage(int high, int low, Bitmap to_be_processed)
+        public Bitmap processImage(float high, float low, Bitmap to_be_processed)
         {
             var image_height = to_be_processed.Height;
             var image_width = to_be_processed.Width;
             Bitmap processed_image = new Bitmap(image_width, image_height);
 
-            for (int i = 0; i <= image_height; i++)
+            for (int i = 0; i < image_height; i++)
             {
-                for (int j = 0; j <= image_width; j++)
+                for (int j = 0; j < image_width; j++)
                 {
                     Color pixel = to_be_processed.GetPixel(i, j);
                     if (pixel.GetBrightness() < low)
@@ -50,9 +50,11 @@ namespace _262ImageViewer
 
         }
 
-        private float equate_scale_factor(int high, int low, Color pixel)
+        private float equate_scale_factor(float high, float low, Color pixel)
         {
-            float output = ((pixel.GetBrightness() - low)*high) / (high - low);
+            float brightness = pixel.GetBrightness();
+            float output = ((brightness - low)*high) / (high - low);
+            //float output = 1;
             return output;
         }
 

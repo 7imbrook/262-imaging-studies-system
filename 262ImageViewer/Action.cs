@@ -264,17 +264,16 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
-            MainWindow window;
-            WindowingView windowingView;
-            public Create(MainWindow w, Study session)
+            public Create(MainWindow w)
             {
-                window = w;
-                windowingView = new WindowingView(session.imageCollection, window.imageView.index, false);
+                //windowingView = new WindowingView(session.imageCollection, window.imageView.index, false);
             }
 
             public override void run(MainWindow app)
             {
-                window.setFrameImageView(windowingView);
+                Window w = new WindowingPrompt(app);
+                w.Title = "Windowing";
+                w.Show();
                 base.runNext(app);
             }
             public override void undo(MainWindow app)
@@ -288,16 +287,10 @@ namespace Action
         [Serializable]
         public class Close : Action
         {
-            MainWindow window;
-            GridView gridView;
-            public Close(MainWindow w)
-            {
-                window = w;
-                gridView = window.imageView;
-            }
+            public Close(MainWindow w) { }
             public override void run(MainWindow app)
             {
-                window.setFrameImageView(gridView);
+                app.setFrameImageView(app.imageView);
                 base.runNext(app);
             }
             public override void undo(MainWindow app) { }
