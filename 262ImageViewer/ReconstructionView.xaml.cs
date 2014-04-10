@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,6 +45,11 @@ namespace _262ImageViewer
         }
 
         /*
+         * The current index of the reconstruction slice
+        */
+        public int sliceIndex = 0;
+
+        /*
          * The ImageLoader in use.
          */
         private List<ImageLoader.Image> imageLoader;
@@ -54,7 +60,7 @@ namespace _262ImageViewer
         private Study studySession;
 
         /*
-         * Constructor that creates the ImageView with defined state.
+         * Constructor that creates the ReconstructionView with defined state.
          */
         public ReconstructionView(List<ImageLoader.Image> imgLdr, int i, bool mode, Study session)
         {
@@ -83,7 +89,7 @@ namespace _262ImageViewer
         private void display_image(ImageLoader.Image image)
         {
             image_display.Children.Clear();
-            Image i = new Image();
+            System.Windows.Controls.Image i = new System.Windows.Controls.Image();
             i.Source = image.getSource();
             // If the image won't fit at native resolution, scale it.
             if (Application.Current.MainWindow.ActualHeight < image.getHeight() ||
@@ -133,7 +139,7 @@ namespace _262ImageViewer
             {
                 if (isValidIndex(index))
                 {
-                    Image to_display = new Image();
+                    System.Windows.Controls.Image to_display = new System.Windows.Controls.Image();
                     ImageLoader.Image source = imageList[index];
                     to_display.Source = source.getSource();
                     to_display.Stretch = Stretch.Uniform;
@@ -144,54 +150,73 @@ namespace _262ImageViewer
                     index++;
                 }
             }
+            //Vertical Reconstruction Image
+            //-----------------------------
+            System.Windows.Controls.Image vertical = new System.Windows.Controls.Image();
+            Bitmap vSource = reconstructor(studySession, true);
 
-            //Add the images belonging in the second row of the grid.
-            //If there exists no image, leave it blank.
-            for (int position = 1; position < 2; position++)
-            {
-                if (isValidIndex(index))
-                {
-                    Image to_display = new Image();
-                    ImageLoader.Image source = imageList[index];
-                    to_display.Source = source.getSource();
-                    to_display.Stretch = Stretch.Uniform;
-                    int x = source.getWidth();
-                    Grid.SetRow(to_display, 1);
-                    Grid.SetColumn(to_display, position);
-                    four_grid.Children.Add(to_display);
-                }
-            }
+            BitmapSource vBS = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                vSource.GetHbitmap(),
+                IntPtr.Zero,
+                System.Windows.Int32Rect.Empty,
+                BitmapSizeOptions.FromWidthAndHeight(vSource.Width, vSource.Height));
+
+            vertical.Source = vBS;
+            vertical.Stretch = Stretch.Uniform;
+            int y = vSource.Width;
+            Grid.SetRow(vertical, 0);
+            Grid.SetColumn(vertical, 1);
+            four_grid.Children.Add(vertical);
+            //-------------------------------
+            //Horizontal Reconstruction Image
+            //-------------------------------
+            System.Windows.Controls.Image horizontal = new System.Windows.Controls.Image();
+            Bitmap hSource = reconstructor(studySession, false);
+
+            BitmapSource hBS = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                hSource.GetHbitmap(),
+                IntPtr.Zero,
+                System.Windows.Int32Rect.Empty,
+                BitmapSizeOptions.FromWidthAndHeight(hSource.Width, hSource.Height));
+
+            horizontal.Source = hBS;
+            horizontal.Stretch = Stretch.Uniform;
+            int z = hSource.Width;
+            Grid.SetRow(horizontal, 1);
+            Grid.SetColumn(horizontal, 0);
+            four_grid.Children.Add(horizontal);
+            //---------------------------------
+
             //Add the grid of images to the image_display.
             image_display.Children.Add(four_grid);
 
         }
-        /*
-        Bitmap reconstructor(Study studySession)
+        
+        Bitmap reconstructor(Study studySession, bool axis)
         {
-            int size = 256;
-            boolean vertical = true;
-            int sliceIndex = 1;
-            int numImages = Study.Count()?
+            int height = studySession.imageCollection[0].getHeight();
+            int width = studySession.imageCollection[0].getWidth();
+            int numImages = studySession.imageCollection.Count();
 
-            Bitmap reconst = new Bitmap(size, size);
+            Bitmap reconst = new Bitmap(width, height);
             using (Graphics g = Graphics.FromImage(reconst))
             {
                 for (int i = 0; i < numImages; i++)
                 {
-                    if (vertical)
+                    if (axis)
                     {
-                        g1.DrawImage(studySession.getImage(i).getSlice(sliceIndex, true), i, 0);
+                        g.DrawImage(studySession.imageCollection[i].getSlice(sliceIndex, true), i, 0);
                     }
                     else
                     {
-                        g1.DrawImage(Study.getImage(i).getSlice(sliceIndex, false), 0, i);
+                        g.DrawImage(studySession.imageCollection[i].getSlice(sliceIndex, false), 0, i);
                     }
                 }
             }
 
             return reconst;
         }
-        */
+        
 
         /*
          * Increases the image position counter by one, then displays
@@ -202,8 +227,8 @@ namespace _262ImageViewer
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Reconstruction.Next();
-
+            var a = new Action.Reconstruction.Next(this);
+            studySession.addAction(a);
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             a.run(mw);
@@ -238,8 +263,8 @@ namespace _262ImageViewer
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Reconstruction.Previous();
-
+            var a = new Action.Reconstruction.Previous(this);
+            studySession.addAction(a);
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             a.run(mw);
@@ -266,6 +291,55 @@ namespace _262ImageViewer
             buttonCheck();
         }
 
+        private void nextReconstruction_Click(object sender, RoutedEventArgs e)
+        {
+            // create the action
+            var a = new Action.Reconstruction.NextReconstruction(this);
+            studySession.addAction(a);
+            // Need the current study
+            MainWindow mw = (MainWindow)Application.Current.MainWindow;
+            a.run(mw);
+        }
+
+        public void nextReconstruction()
+        {
+            if (isValidIndex(index + 1))
+            {
+                sliceIndex++;
+                display_four(imageLoader, index);
+            }
+            buttonCheck();
+        }
+
+        private void previousReconstruction_Click(object sender, RoutedEventArgs e)
+        {
+            // create the action
+            var a = new Action.Reconstruction.PreviousReconstruction(this);
+            studySession.addAction(a);
+            // Need the current study
+            MainWindow mw = (MainWindow)Application.Current.MainWindow;
+            a.run(mw);
+        }
+
+        public void previousReconstruction()
+        {
+            if (isValidIndex(index - 1))
+            {
+                sliceIndex--;
+                display_four(imageLoader, index);
+            }
+            buttonCheck();
+        }
+
+        private void close_Click(object sender, RoutedEventArgs e)
+        {
+            // create the action
+            MainWindow mw = (MainWindow)Application.Current.MainWindow;
+            var a = new Action.Reconstruction.Close(mw);
+            studySession.addAction(a);
+            // Need the current study
+            a.run(mw);
+        }
         /*
          * Helper function to check if an index is within bounds.
          */

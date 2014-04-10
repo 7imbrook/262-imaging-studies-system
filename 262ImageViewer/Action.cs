@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using _262ImageViewer;
+﻿using _262ImageViewer;
+using System;
 using System.Drawing;
 using System.Windows;
 
@@ -226,35 +220,95 @@ namespace Action
                 window.setFrameImageView(gridView);
                 base.runNext(app);            
             }
-            public override void undo(MainWindow app) { }
+            public override void undo(MainWindow app) 
+            {
+                var a = new Create(app, app.studySession);
+                a.run(app);
+            }
             public override string ToString() { return "Reconstruction.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
         [Serializable]
         public class NextReconstruction : Action
         {
-            public override void run(MainWindow app) { }
-            public override void undo(MainWindow app) { }
+            ReconstructionView reconstruction;
+            public NextReconstruction(ReconstructionView r)
+            {
+                reconstruction = r;
+            }
+            public override void run(MainWindow app) 
+            {
+                reconstruction.nextReconstruction();
+                // Call base
+                base.runNext(app);
+            }
+            public override void undo(MainWindow app) 
+            {
+                var a = new PreviousReconstruction(reconstruction);
+                a.run(app);
+            }
             public override string ToString() { return "NextReconstruction -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
         [Serializable]
         public class PreviousReconstruction : Action
         {
-            public override void run(MainWindow app) { }
-            public override void undo(MainWindow app) { }
+            ReconstructionView reconstruction;
+            public PreviousReconstruction(ReconstructionView r)
+            {
+                reconstruction = r;
+            }
+            public override void run(MainWindow app) 
+            {
+                reconstruction.previousReconstruction();
+                // Call base
+                base.runNext(app);
+            }
+            public override void undo(MainWindow app)
+            {
+                var a = new NextReconstruction(reconstruction);
+                a.run(app);
+            }
             public override string ToString() { return "PreviousReconstruction -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
         [Serializable]
         public class Next : Action
         {
-            public override void run(MainWindow app) { }
-            public override void undo(MainWindow app) { }
+            ReconstructionView reconstruction;
+            public Next(ReconstructionView r)
+            {
+                reconstruction = r;
+            }
+            public override void run(MainWindow app) 
+            {
+                reconstruction.nextImage();
+                // Call base
+                base.runNext(app);
+            }
+            public override void undo(MainWindow app)
+            {
+                var a = new Previous(reconstruction);
+                a.run(app);
+            }
             public override string ToString() { return "Reconstruction.Next -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
         [Serializable]
         public class Previous : Action
         {
-            public override void run(MainWindow app) { }
-            public override void undo(MainWindow app) { }
+            ReconstructionView reconstruction;
+            public Previous(ReconstructionView r)
+            {
+                reconstruction = r;
+            }
+            public override void run(MainWindow app) 
+            {
+                reconstruction.prevImage();
+                // Call base
+                base.runNext(app);
+            }
+            public override void undo(MainWindow app)
+            {
+                var a = new Next(reconstruction);
+                a.run(app);
+            }
             public override string ToString() { return "Reconstruction.Previous -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
     }
