@@ -69,6 +69,7 @@ namespace _262ImageViewer
                 Debug.WriteLine(studyDir.ToString());
                 var study = new Study(studyDir);
                 this.loadStudy(study);
+                this.populateTreeView();
             }
         }
 
