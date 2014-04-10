@@ -71,5 +71,17 @@ namespace _262ImageViewer
             four_grid.ColumnDefinitions.Add(col2);
 
         }
+
+        private void nextImage_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void prevImage_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }
