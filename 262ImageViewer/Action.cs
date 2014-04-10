@@ -242,15 +242,42 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
-            public override void run(MainWindow app) { }
-            public override void undo(MainWindow app) { }
+            MainWindow window;
+            WindowingView windowingView;
+            public Create(MainWindow w, Study session)
+            {
+                window = w;
+                windowingView = new WindowingView(session.imageCollection, window.imageView.index, false);
+            }
+
+            public override void run(MainWindow app)
+            {
+                window.setFrameImageView(windowingView);
+                base.runNext(app);
+            }
+            public override void undo(MainWindow app)
+            {
+                var a = new Close(app);
+                a.run(app);
+            }
             public override string ToString() { return null; }
 
         }
         [Serializable]
         public class Close : Action
         {
-            public override void run(MainWindow app) { }
+            MainWindow window;
+            GridView gridView;
+            public Close(MainWindow w)
+            {
+                window = w;
+                gridView = window.imageView;
+            }
+            public override void run(MainWindow app)
+            {
+                window.setFrameImageView(gridView);
+                base.runNext(app);
+            }
             public override void undo(MainWindow app) { }
             public override string ToString() { return null; }
         }

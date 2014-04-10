@@ -141,6 +141,13 @@ namespace _262ImageViewer
             a.run(this);
         }
 
+        private void _View_Windowing(object sender, RoutedEventArgs e)
+        {
+            var a = new Action.Windowing.Create(this, studySession);
+            this.studySession.addAction(a);
+            a.run(this);
+        }
+        
         /*
          * Set the current study as the default startup Study.
          */
