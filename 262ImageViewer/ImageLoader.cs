@@ -85,7 +85,7 @@ namespace ImageLoader
             {
                 String path = fileName.AbsolutePath;
                 String ext = path.Substring(path.Length - 4);
-                if(ext == ".jpg")
+                if (ext == ".jpg")
                 {
                     realSubject = new JPGImage(fileName);
                     accessed = true;
@@ -101,9 +101,9 @@ namespace ImageLoader
                 {
                     throw new System.IO.FileFormatException();
                 }
+            }
         }
     }
-
     /*
      * JPGImage
      */
