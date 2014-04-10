@@ -174,15 +174,14 @@ namespace Action
             public Create(MainWindow w, Study session)
             {
                 window = w;
-                ImageLoader imageLoader = new LocalImages(session.imagePath);
-                reconstructionView = new ReconstructionView(imageLoader, session.imageIndex, session.imageMode, session);
+                reconstructionView = new ReconstructionView(session.imageCollection, 0, false, session);
             }
-            public void run(MainWindow app)
+            public override void run(MainWindow app)
             {
                 window.setFrameImageView(reconstructionView);
-                base.run(app);
+                base.runNext(app);
             }
-            public override void undo(Study study) { }
+            public override void undo(MainWindow app) { }
             public override string ToString() { return "Reconstruction.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
         }
