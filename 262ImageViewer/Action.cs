@@ -140,10 +140,11 @@ namespace Action
         public class Create : Action
         {
             AnalysisView analysis;
-
+            Bitmap bitmap;
             public Create(Bitmap bi) 
             {
                 analysis = new AnalysisView(bi);
+                bitmap = bi;
             }
 
             public override void run(MainWindow main) 
@@ -151,15 +152,31 @@ namespace Action
                 main.setFrameImageView(analysis);
                 base.runNext(main);
             }
-            public override void undo(MainWindow app) { }
+            public override void undo(MainWindow app) 
+            {
+                Close close = new Close(bitmap);
+                app.studySession.addAction(close);
+            }
             public override string ToString() { return "Analysis.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
         }
         [Serializable]
         public class Close : Action
         {
-            public override void run(MainWindow app) { }
-            public override void undo(MainWindow app) { }
+            Bitmap bitmap;
+            public Close(Bitmap bi)
+            {
+                bitmap = bi;
+            }
+            public override void run(MainWindow app)
+            {
+                app.setFrameImageView(app.imageView);
+            }
+            public override void undo(MainWindow app)
+            {
+                Create create = new Create(bitmap);
+                app.studySession.addAction(create);
+            }
             public override string ToString() { return "Analysis.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
     }
