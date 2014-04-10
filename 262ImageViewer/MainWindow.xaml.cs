@@ -187,6 +187,12 @@ namespace _262ImageViewer
             this.studySession.undoAction();
         }
 
+        private void _View_Reconstruction(object sender, RoutedEventArgs e)
+        {
+            var a = new Action.Reconstruction.Create(this, studySession);
+            a.run(studySession);
+        }
+
         /*
          * Set the current study as the default startup Study.
          */

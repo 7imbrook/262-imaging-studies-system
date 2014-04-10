@@ -94,6 +94,9 @@
     <Compile Include="GridView.xaml.cs">
       <DependentUpon>GridView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReconstructionView.xaml.cs">
+      <DependentUpon>ReconstructionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StudySession.cs" />
     <Compile Include="WindowedImage.cs" />
     <Compile Include="WindowingView.xaml.cs">
@@ -116,6 +119,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="GridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReconstructionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
