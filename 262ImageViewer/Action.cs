@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using _262ImageViewer;
+﻿using _262ImageViewer;
+using System;
 using System.Drawing;
 using System.Windows;
 

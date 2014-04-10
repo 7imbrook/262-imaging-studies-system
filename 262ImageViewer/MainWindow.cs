@@ -9,15 +9,8 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Controls;
 
 namespace _262ImageViewer
 {
@@ -53,12 +46,18 @@ namespace _262ImageViewer
             setFrameImageView(imageView);
         }
 
+        /*
+         * 
+         */
         private void populateTreeView()
         {
             this.studyTree.Items.Clear();
             this.studyTree.Items.Add(treeAtPath(this.rootPath.LocalPath));  
         }
 
+        /*
+         * 
+         */
         private TreeViewItem treeAtPath(string path)
         {
             string[] pathComp = path.Split('\\');
@@ -71,6 +70,5 @@ namespace _262ImageViewer
             }
             return item;
         }
-
     }
 }
