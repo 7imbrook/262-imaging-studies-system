@@ -41,7 +41,6 @@ namespace _262ImageViewer
             }
             // Set the root path, will be the same a the imediatly opened study
             this.rootPath = studySession.imagePath;
-
         }
 
         private void LoadedWindow(object sender, RoutedEventArgs e)
@@ -69,6 +68,12 @@ namespace _262ImageViewer
                 var study = new Study(studyDir);
                 this.loadStudy(study);
                 this.rootPath = study.imagePath;
+            }
+            else
+            {
+                // Close the app if they cancel.
+                //Application.Current.Shutdown();
+                Process.GetCurrentProcess().Kill();
             }
         }
 
