@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using _262ImageViewer;
 using System.Drawing;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Action
 {
@@ -211,7 +212,8 @@ namespace Action
         {
             public override void run(MainWindow app) 
             {
-                var rec =(ReconstructionView) app.mainFrame.Content;
+                Debug.WriteLine(app.mainFrame.Content);
+                var rec = app.mainFrame.Content;
                 rec.nextReconstruction();
                 // Call base
                 base.runNext(app);
