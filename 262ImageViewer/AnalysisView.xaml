@@ -6,8 +6,16 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="AnalysisView">
-
-    <Grid>
-        
+    <Grid HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="300">
+        <Rectangle Name="Rect01" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="0,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect02" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="30,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect03" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="60,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect04" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="90,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect05" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="120,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect06" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="150,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect07" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="180,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect08" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="210,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect09" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="240,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect10" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="270,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
     </Grid>
 </Page>

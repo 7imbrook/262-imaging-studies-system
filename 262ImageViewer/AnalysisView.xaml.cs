@@ -21,18 +21,17 @@ namespace _262ImageViewer
     /// </summary>
     public partial class AnalysisView : Page
     {
-        public AnalysisView(Bitmap bi)
+        public AnalysisView(Bitmap image)
         {
-            float[] brightness = new float[bi.Width * bi.Height];
-            int count = 0;
-            for (int x = 0; x < bi.Width; x++)
+            List<float> brightness = new List<float>();
+            for (int x = 0; x < image.Width; x++)
             {
-                for (int y = 0; y < bi.Height; y++)
+                for (int y = 0; y < image.Height; y++)
                 {
-                    brightness[count] = bi.GetPixel(x, y).GetBrightness();
-                    count++;
+                    brightness.Add(image.GetPixel(x, y).GetBrightness());
                 }
             }
+            
         }
     }
 }
