@@ -91,7 +91,6 @@
     </Compile>
     <Compile Include="ImageLoader.cs" />
     <Compile Include="MainWindow.cs" />
-    <Compile Include="LocalImages.cs" />
     <Compile Include="GridView.xaml.cs">
       <DependentUpon>GridView.xaml</DependentUpon>
     </Compile>
