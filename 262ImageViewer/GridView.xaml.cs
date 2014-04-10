@@ -53,12 +53,12 @@ namespace _262ImageViewer
         /*
          * The ImageLoader in use.
          */
-        private ImageLoader imageLoader;
+        private List<BitmapImage> imageLoader;
 
         /*
          * Constructor that takes an ImageLoader
          */
-        public GridView(ImageLoader imgLdr)
+        public GridView(List<BitmapImage> imgLdr)
         {
             InitializeComponent();
             index = 0;
@@ -73,7 +73,7 @@ namespace _262ImageViewer
         /*
          * Constructor that creates the ImageView with defined state.
          */
-        public GridView(ImageLoader imgLdr, int i, bool mode)
+        public GridView(List<BitmapImage> imgLdr, int i, bool mode)
         {
             InitializeComponent();
             index = i;
@@ -119,7 +119,7 @@ namespace _262ImageViewer
          * being the lowest numbered image of the set to bottom right
          * being the highest numbered image.
          */
-        private void display_four(ImageLoader imageList, int index)
+        private void display_four(List<BitmapImage> imageList, int index)
         {
             //Clear any leftover images.
             image_display.Children.Clear();
@@ -190,10 +190,9 @@ namespace _262ImageViewer
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Grid.Next();
-
-            // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
+            var a = new Action.Grid.Next();
+            mw.studySession.addAction(a);
             a.run(mw);
         }
 
@@ -227,9 +226,8 @@ namespace _262ImageViewer
         {
             // create the action
             var a = new Action.Grid.Previous();
-
-            // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
+            mw.studySession.addAction(a);
             a.run(mw);
         }
 

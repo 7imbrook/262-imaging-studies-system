@@ -39,8 +39,7 @@ namespace _262ImageViewer
         public void loadStudy(Study session)
         {
             // Associate objects together
-            ImageLoader imageLoader = new LocalImages(session.imagePath);
-            imageView = new GridView(imageLoader, session.imageIndex, session.imageMode);
+            imageView = new GridView(session.imageCollection, 0, true);
             studySession = session;
             studySession.mainWindow = this;
             setFrameImageView(imageView);
