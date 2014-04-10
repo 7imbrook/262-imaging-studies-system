@@ -8,9 +8,9 @@ namespace _262ImageViewer
 {
     class WindowedImage
     {
-        public Bitmap WindowedImage(int high, int low, Bitmap to_be_processed)
+        public WindowedImage(int high, int low, Bitmap to_be_processed)
         {
-            return processImage(high, low, to_be_processed);
+            processImage(high, low, to_be_processed);
 
         }
 
