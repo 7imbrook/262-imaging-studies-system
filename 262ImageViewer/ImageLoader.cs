@@ -51,7 +51,57 @@ namespace ImageLoader
      */
     public class ImageProxy : Image
     {
-        
+        bool accessed = false;
+        Image realSubject;
+        Uri fileName;
+
+        public ImageProxy(Uri imageUri)
+        {
+            fileName = imageUri;
+        }
+        public Bitmap getImage()
+        {
+            return accesse().getImage();
+        }
+        public int getWidth()
+        {
+            return accesse().getWidth();
+        }
+        public int getHeight()
+        {
+            return accesse().getHeight();
+        }
+        public Bitmap getSlice(int sliceIndex, Boolean vertical)
+        {
+            return accesse().getSlice(sliceIndex, vertical);
+        }
+        private Image accesse()
+        {
+            if (accessed)
+            {
+                return realSubject;
+            }
+            else
+            {
+                String path = fileName.AbsolutePath;
+                String ext = path.Substring(path.Length - 4);
+                if(ext == ".jpg")
+                {
+                    realSubject = new JPGImage(fileName);
+                    accessed = true;
+                    return realSubject;
+                }
+                else if (ext == ".acr")
+                {
+                    realSubject = new ACRImage(fileName);
+                    accessed = true;
+                    return realSubject;
+                }
+                else
+                {
+                    throw new System.IO.FileFormatException();
+                }
+        }
     }
 
     /*
