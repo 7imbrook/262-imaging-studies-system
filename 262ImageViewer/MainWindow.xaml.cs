@@ -122,7 +122,7 @@ namespace _262ImageViewer
         {
             if (studySession != null)
             {
-                Bitmap bi = null;// new Bitmap();
+                Bitmap bi = studySession.imageCollection[this.imageView.index].getImage();
                 var a = new Action.Analysis.Create(bi);
                 this.studySession.addAction(a);
                 a.run(this);

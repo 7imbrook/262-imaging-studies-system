@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using _262ImageViewer;
 using System.Drawing;
+using System.Windows;
 
 namespace Action
 {
@@ -148,7 +149,12 @@ namespace Action
 
             public override void run(MainWindow main) 
             {
-                main.setFrameImageView(analysis);
+                Window win = new Window();
+                win.Content = analysis;
+                win.SizeToContent = SizeToContent.WidthAndHeight;
+                win.Title = "Histogram";
+                win.Show();
+                //main.setFrameImageView(analysis);
                 base.runNext(main);
             }
             public override void undo(MainWindow app) { }
