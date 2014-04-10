@@ -167,8 +167,20 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
-            new public void run(MainWindow app) { }
-            public override void undo(MainWindow app) { }
+            MainWindow window;
+            ReconstructionView reconstructionView;
+            public Create(MainWindow w, Study session)
+            {
+                window = w;
+                ImageLoader imageLoader = new LocalImages(session.imagePath);
+                reconstructionView = new ReconstructionView(imageLoader, session.imageIndex, session.imageMode, session);
+            }
+            public void run(MainWindow app)
+            {
+                window.setFrameImageView(reconstructionView);
+                base.run(app);
+            }
+            public override void undo(Study study) { }
             public override string ToString() { return "Reconstruction.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
         }
