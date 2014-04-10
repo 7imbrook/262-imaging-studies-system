@@ -126,7 +126,7 @@ namespace _262ImageViewer
         {
             if (studySession != null)
             {
-                Bitmap bi = null;// new Bitmap();
+                Bitmap bi = studySession.imageCollection[this.imageView.index].getImage();
                 var a = new Action.Analysis.Create(bi);
                 this.studySession.addAction(a);
                 a.run(this);
@@ -141,9 +141,17 @@ namespace _262ImageViewer
         private void _View_Reconstruction(object sender, RoutedEventArgs e)
         {
             var a = new Action.Reconstruction.Create(this, studySession);
+            this.studySession.addAction(a);
             a.run(this);
         }
 
+        private void _View_Windowing(object sender, RoutedEventArgs e)
+        {
+            var a = new Action.Windowing.Create(this, studySession);
+            this.studySession.addAction(a);
+            a.run(this);
+        }
+        
         /*
          * Set the current study as the default startup Study.
          */

@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using _262ImageViewer;
 using System.Drawing;
+using System.Windows;
 
 namespace Action
 {
@@ -140,26 +141,48 @@ namespace Action
         public class Create : Action
         {
             AnalysisView analysis;
-
+            Bitmap bitmap;
             public Create(Bitmap bi) 
             {
                 analysis = new AnalysisView(bi);
+                bitmap = bi;
             }
 
             public override void run(MainWindow main) 
             {
-                main.setFrameImageView(analysis);
+                Window win = new Window();
+                win.Content = analysis;
+                win.SizeToContent = SizeToContent.WidthAndHeight;
+                win.Title = "Histogram";
+                win.Show();
+                //main.setFrameImageView(analysis);
                 base.runNext(main);
             }
-            public override void undo(MainWindow app) { }
+            public override void undo(MainWindow app) 
+            {
+                Close close = new Close(bitmap);
+                app.studySession.addAction(close);
+            }
             public override string ToString() { return "Analysis.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
         }
         [Serializable]
         public class Close : Action
         {
-            public override void run(MainWindow app) { }
-            public override void undo(MainWindow app) { }
+            Bitmap bitmap;
+            public Close(Bitmap bi)
+            {
+                bitmap = bi;
+            }
+            public override void run(MainWindow app)
+            {
+                app.setFrameImageView(app.imageView);
+            }
+            public override void undo(MainWindow app)
+            {
+                Create create = new Create(bitmap);
+                app.studySession.addAction(create);
+            }
             public override string ToString() { return "Analysis.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
     }
@@ -174,21 +197,36 @@ namespace Action
             public Create(MainWindow w, Study session)
             {
                 window = w;
-                reconstructionView = new ReconstructionView(session.imageCollection, 0, false, session);
+                reconstructionView = new ReconstructionView(session.imageCollection, window.imageView.index, false, session);
             }
             public override void run(MainWindow app)
             {
                 window.setFrameImageView(reconstructionView);
                 base.runNext(app);
             }
-            public override void undo(MainWindow app) { }
+            public override void undo(MainWindow app) 
+            {
+                var a = new Close(app);
+                a.run(app);
+            }
             public override string ToString() { return "Reconstruction.Create -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
 
         }
         [Serializable]
         public class Close : Action
         {
-            public override void run(MainWindow app) { }
+            MainWindow window;
+            GridView gridView;
+            public Close(MainWindow w)
+            {
+                window = w;
+                gridView = window.imageView;
+            }
+            public override void run(MainWindow app) 
+            {
+                window.setFrameImageView(gridView);
+                base.runNext(app);            
+            }
             public override void undo(MainWindow app) { }
             public override string ToString() { return "Reconstruction.Close -> " + (this.nextAction != null ? this.nextAction.ToString() : "end"); }
         }
@@ -227,15 +265,42 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
-            public override void run(MainWindow app) { }
-            public override void undo(MainWindow app) { }
+            MainWindow window;
+            WindowingView windowingView;
+            public Create(MainWindow w, Study session)
+            {
+                window = w;
+                windowingView = new WindowingView(session.imageCollection, window.imageView.index, false);
+            }
+
+            public override void run(MainWindow app)
+            {
+                window.setFrameImageView(windowingView);
+                base.runNext(app);
+            }
+            public override void undo(MainWindow app)
+            {
+                var a = new Close(app);
+                a.run(app);
+            }
             public override string ToString() { return null; }
 
         }
         [Serializable]
         public class Close : Action
         {
-            public override void run(MainWindow app) { }
+            MainWindow window;
+            GridView gridView;
+            public Close(MainWindow w)
+            {
+                window = w;
+                gridView = window.imageView;
+            }
+            public override void run(MainWindow app)
+            {
+                window.setFrameImageView(gridView);
+                base.runNext(app);
+            }
             public override void undo(MainWindow app) { }
             public override string ToString() { return null; }
         }
