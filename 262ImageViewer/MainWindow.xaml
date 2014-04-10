@@ -29,11 +29,11 @@
             <MenuItem Header="_View">
                 <MenuItem Header="Toggle Image View" Click="_View_ToggleImageLayout" />
                 <MenuItem Header="Analysis Image" Click="_View_CreateAnalysisView" />
+                <MenuItem Header="Reconstruct Image" Click="_View_Reconstruction" />
                 <!--<MenuItem Header="4 Image View" IsCheckable="True" Click="_view_Click" />-->
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Undo" Click="_View_Undo" />
-                <MenuItem Header="Reconstruct Image" Click="_View_Reconstruction" />
             </MenuItem>
         </Menu>
         <Frame Name="mainFrame" HorizontalAlignment="Center" Height="642" VerticalAlignment="Center" Width="944" Margin="10,29,10,10" NavigationUIVisibility="Hidden"/>
