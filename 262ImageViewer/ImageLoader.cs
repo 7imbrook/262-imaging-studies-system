@@ -20,7 +20,8 @@ using System.Windows.Media.Imaging;
 namespace ImageLoader
 {
     /*
-     * 
+     * Image interface.
+     * Used to allow ImageProxy to load images when necessary.
      */
     public interface Image
     {
