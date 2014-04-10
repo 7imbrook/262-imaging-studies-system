@@ -43,6 +43,10 @@ namespace _262ImageViewer
             // Set the root path, will be the same a the imediatly opened study
             this.rootPath = studySession.imagePath;
 
+        }
+
+        private void LoadedWindow(object sender, RoutedEventArgs e)
+        {
             // Run the previous actions to return to state
             if (this.studySession.rootAction != null)
                 this.studySession.rootAction.run(this);
@@ -217,6 +221,7 @@ namespace _262ImageViewer
                 var item = (TreeViewItem)treeView.SelectedItem;
                 Debug.WriteLine("{0}:{1}", item.Header, item.ToolTip);
                 var study = new Study((Uri)item.ToolTip);
+                this.studySession.saveSync();
                 this.loadStudy(study);
                 if (this.studySession.rootAction != null)
                     this.studySession.rootAction.run(this);

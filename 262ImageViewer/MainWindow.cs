@@ -55,7 +55,7 @@ namespace _262ImageViewer
 
         private void populateTreeView()
         {
-            this.studyTree.Items.Add(treeAtPath(this.rootPath.LocalPath));   
+            this.studyTree.Items.Add(treeAtPath(this.rootPath.LocalPath));  
         }
 
         private TreeViewItem treeAtPath(string path)

@@ -13,12 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
@@ -82,7 +77,6 @@ namespace _262ImageViewer
         {
             if (this.rootAction == null)
                 return false;
-            Debug.WriteLine("Saving chain: {0}", this.rootAction);
             BinaryFormatter format = new BinaryFormatter();
             Stream stream = new FileStream(this.imagePath.AbsolutePath + "/.studyinfo", FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
             format.Serialize(stream, this.rootAction);
@@ -133,10 +127,6 @@ namespace _262ImageViewer
 
             r.undo(mainWindow);
             p.removeNext();
-
-            // Debugging stuff
-            string debug = this.rootAction.ToString();
-            Debug.WriteLine(debug);
         }
 
     }

@@ -159,7 +159,6 @@ namespace ImageLoader
          */
         public JPGImage(Uri imageURI)
         {
-            Debug.WriteLine(imageURI.AbsolutePath);
             image = new Bitmap(imageURI.LocalPath);
         }
 
