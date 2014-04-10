@@ -21,26 +21,77 @@ using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
-    /**
-     * StudyMetadata will besaved and restored from disk. Any data kept
-     * in the StudySession object will have to be recreated.
-     */
-    [Serializable]
-    class StudyMetadata
-    {
-        public string fileName = "";
-        public int index = 0;
-        public bool mode = true;
-    }
-
     public class Study
     {
         // The root Action
         public Action.Action rootAction;
-
-        //
+        // using in the undoing of actions
         public MainWindow mainWindow;
 
+        // Image locations
+        public Uri imagePath;
+
+        // The Image Collection
+        public List<BitmapImage> imageCollection;
+
+        /**
+         * Given a path looks for a .studyinfo file to load study data ->  open images
+         */
+        public Study(Uri studPath)
+        {
+            this.imagePath = studPath;
+
+            // Check if there's a saved state and load if there is
+            string fileName = ".studyinfo";
+            string settingsPath = System.IO.Path.Combine(studPath.AbsolutePath, fileName);
+            if (File.Exists(settingsPath))
+            {     
+                try
+                {
+                    var format = new BinaryFormatter();
+                    var dataStream = new FileStream(studPath.AbsolutePath + "/" + fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    this.rootAction = (Action.Action)format.Deserialize(dataStream);
+                    dataStream.Close();
+                }
+                catch
+                {
+                    throw new IOException("Invalid file");
+                }
+            }
+            // Load image proxies
+            this.imageCollection = new List<BitmapImage>();
+
+            string[] fileArray = Directory.GetFiles(this.imagePath.AbsolutePath);
+            foreach (string file in fileArray)
+            {
+                string lf = file.ToLower();
+                if (lf.EndsWith(".jpg") || lf.EndsWith(".acr"))
+                {
+                    var img = new Uri(file);
+                    BitmapImage bmp = new BitmapImage(img);
+                    this.imageCollection.Add(bmp);
+                }
+            }
+        }
+
+        /**
+         * Save the session information to disk
+         */
+        public bool saveSync()
+        {
+            if (this.rootAction == null)
+                return false;
+            Debug.WriteLine("Saving chain: {0}", this.rootAction);
+            BinaryFormatter format = new BinaryFormatter();
+            Stream stream = new FileStream(this.imagePath.AbsolutePath + "/.studyinfo", FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            format.Serialize(stream, this.rootAction);
+            stream.Close();
+            return File.Exists(this.imagePath.AbsolutePath);
+        }
+
+        /**
+        * adds an action to the chain
+        */
         public void addAction(Action.Action action)
         {
             if (this.rootAction == null)
@@ -52,12 +103,11 @@ namespace _262ImageViewer
             while (l.next() != null)
                 l = l.next();
             l.setNext(action);
-
-            // Debugging stuff
-            string debug = this.rootAction.ToString();
-            Debug.WriteLine(debug);
         }
 
+        /**
+         * undoes and pop an action
+         */
         public void undoAction()
         {
             if (this.rootAction == null)
@@ -65,144 +115,27 @@ namespace _262ImageViewer
                 return;
             }
             // Edge case
-            if(this.rootAction.next() == null)
+            if (this.rootAction.next() == null)
             {
-                this.rootAction.undo(this.mainWindow);
+
+                this.rootAction.undo(mainWindow);
                 this.rootAction = null;
                 return;
             }
             Action.Action p = rootAction;
             Action.Action r = rootAction;
-            while (r.next() != null) { 
+            while (r.next() != null)
+            {
                 p = r;
                 r = r.next();
             }
-            r.undo(this.mainWindow);
+
+            r.undo(mainWindow);
             p.removeNext();
 
             // Debugging stuff
             string debug = this.rootAction.ToString();
             Debug.WriteLine(debug);
-        }
-
-        // Study Metadata object
-        private StudyMetadata metadata;
-        // The filename stored in the metadata object
-        private string fileName
-        {
-            get
-            {
-                return this.metadata.fileName;
-            }
-            set
-            {
-                this.metadata.fileName = value;
-            }
-        }
-        // The current image index stored in metadata
-        public int imageIndex
-        {
-            get
-            {
-                return this.metadata.index;
-            }
-            private set
-            {
-                
-            }
-        }
-        // The current mode stored in metadata
-        public bool imageMode
-        {
-            get
-            {
-                return this.metadata.mode;
-            }
-            private set
-            {
-
-            }
-        }
-        // Image locations
-        public Uri imagePath;
-        // The current active path of the stud file
-        public string currentPath
-        {
-            get
-            {
-                return (this.imagePath.AbsolutePath + "/" + this.fileName + ".stud");
-            }
-            private set {}
-        }
-
-        /**
-         * Create a study and initialize with a name and directory path
-         * this will create a folder title fileName and inside that folder
-         * will be all the images associated with the study and a metadata
-         * file that contains layout information and other references.
-         */
-        public Study(Uri filePath, string fileName)
-        {
-            this.metadata = new StudyMetadata();
-            this.metadata.index = 0;
-            this.metadata.mode = true;
-            this.fileName = fileName;
-            this.imagePath = new Uri(filePath, fileName + "/");
-            if (Directory.Exists(this.imagePath.AbsolutePath))
-            {
-               throw new IOException("File exists");
-            }
-            else
-            {
-                Directory.CreateDirectory(this.imagePath.AbsolutePath);
-                this.saveSync();
-            }
-        }
-
-        /**
-         * Given a .stud file path, creates a studySession with that information
-         */
-        public Study(Uri studPath)
-        {
-            this.imagePath = new Uri(System.IO.Path.GetDirectoryName(studPath.AbsolutePath));
-            var format = new BinaryFormatter();
-            var dataStream = new FileStream(studPath.AbsolutePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            try
-            {
-                this.metadata = (StudyMetadata)format.Deserialize(dataStream);
-            }
-            catch
-            {
-                throw new IOException("Invalid file");
-            }
-            dataStream.Close();
-        }
-
-        /**
-         * Updates the state and save the file.
-         */
-        public void updateState(int index, bool mode)
-        {
-            this.metadata.index = index;
-            this.metadata.mode = mode;
-            this.saveSync();
-        }
-
-        /**
-         * Save the session information to disk
-         */
-        public bool saveSync()
-        {
-            BinaryFormatter format = new BinaryFormatter();
-            Stream stream = new FileStream(this.imagePath.AbsolutePath + "/" + this.fileName + ".stud", FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
-            format.Serialize(stream, this.metadata);
-            stream.Close();
-            return File.Exists(this.imagePath.AbsolutePath);
-        }
-
-        public override string ToString()
-        {
-            return this.fileName;
         }
 
     }

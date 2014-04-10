@@ -49,10 +49,10 @@ namespace ImageLoader
     /*
      * ImageProxy
      */
-    public class ImageProxy : Image
-    {
-        
-    }
+    //public class ImageProxy : Image
+    //{
+    //    
+    //}
 
     /*
      * JPGImage
