@@ -211,10 +211,10 @@ namespace Action
         {
             public override void run(MainWindow app) 
             {
-                    var rec =(ReconstructionView) app.mainFrame.Content;
-                    rec.nextReconstruction();
-                    // Call base
-                    base.runNext(app);
+                var rec =(ReconstructionView) app.mainFrame.Content;
+                rec.nextReconstruction();
+                // Call base
+                base.runNext(app);
                 
             }
             public override void undo(MainWindow app) 
