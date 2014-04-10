@@ -53,7 +53,7 @@ namespace _262ImageViewer
         /*
          * The ImageLoader in use.
          */
-        private ImageLoader imageLoader;
+        private List<BitmapImage> imageLoader;
 
         /*
          * The Current Study
@@ -63,7 +63,7 @@ namespace _262ImageViewer
         /*
          * Constructor that creates the ImageView with defined state.
          */
-        public ReconstructionView(ImageLoader imgLdr, int i, bool mode, Study session)
+        public ReconstructionView(List<BitmapImage> imgLdr, int i, bool mode, Study session)
         {
             InitializeComponent();
             studySession = session;
@@ -110,7 +110,7 @@ namespace _262ImageViewer
          * being the lowest numbered image of the set to bottom right
          * being the highest numbered image.
          */
-        private void display_four(ImageLoader imageList, int index)
+        private void display_four(List<BitmapImage> imageList, int index)
         {
             //Clear any leftover images.
             image_display.Children.Clear();

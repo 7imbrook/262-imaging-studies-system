@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Linq;
 using System.Drawing;
+
 
 namespace _262ImageViewer
 {
@@ -39,65 +28,44 @@ namespace _262ImageViewer
                     var format = new BinaryFormatter();
                     var dataStream = new FileStream(settingsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                     Uri path = (Uri)format.Deserialize(dataStream);
-                    dataStream.Close();
-                    string stud = "";
-                    string[] fileArray = Directory.GetFiles(path.AbsolutePath);
-                    foreach (string file in fileArray)
-                    {
-                        if (file.EndsWith(".stud"))
-                        {
-                            stud = file;
-                            break;
-                        }
-                    }
-                    var session = new Study(new Uri(stud));
-                    this.loadStudy(session);
-                }
+                    var study = new Study(path);
+                    this.loadStudy(study);
+                } 
                 catch
                 {
+                    this.openStudyDialog();
                 }
             }
-
             if (studySession == null)
             {
                 _OpenStudy_Click(this, new RoutedEventArgs());
+            }
+
+            // Run the previous actions to return to state
+            this.studySession.rootAction.run(this);
+
+        }
+
+        private void openStudyDialog()
+        {
+            // Create OpenFileDialog
+            var dlg = new System.Windows.Forms.FolderBrowserDialog();
+
+            // Display OpenFileDialog by calling ShowDialog method
+            System.Windows.Forms.DialogResult result = dlg.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                Uri studyDir = new Uri(dlg.SelectedPath);
+                Debug.WriteLine(studyDir.ToString());
+                var study = new Study(studyDir);
+                this.loadStudy(study);
             }
         }
 
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
-            if (studySession != null)
-            {
-                this.closeConfirmation();
-            }
-            // Create OpenFileDialog
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-            // Set filter for file extension and default file extension
-            dlg.DefaultExt = ".stud";
-            dlg.Filter = "Studies (.stud)|*.stud";
-
-            // Display OpenFileDialog by calling ShowDialog method
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox
-            if ((bool)result)
-            {
-                // Open document
-                Uri loadedStudyName = new Uri(dlg.FileName);
-                if (loadedStudyName.AbsolutePath.ToLower().EndsWith(".stud"))
-                {
-                    try
-                    {
-                        var loadedStudy = new Study(loadedStudyName);
-                        this.loadStudy(loadedStudy);
-                    }
-                    catch (IOException)
-                    {
-                        MessageBox.Show("There was a issue with your study, it may be corrupted.");
-                    }
-                }
-            }
+            this.openStudyDialog();
         }
 
         public void setFrameImageView(Page iv)
@@ -110,34 +78,9 @@ namespace _262ImageViewer
             if (studySession != null)
             {
                 this.closeConfirmation();
+                this.studySession = null;
             }
-            this.saveConfirmation();
-        }
-
-        // Needed a helper fuction without arguments
-        private void saveConfirmation()
-        {
-            // Prompt where to save the images
-            var savePrompt = new Microsoft.Win32.SaveFileDialog();
-
-            savePrompt.DefaultExt = "";
-            savePrompt.Filter = "";
-
-            Nullable<bool> result = savePrompt.ShowDialog();
-            if ((bool)result)
-            {
-                var path = savePrompt.FileName;
-                var name = path.Split('\\').Last();
-                try
-                {
-                    var study = new Study(new Uri(path), name);
-                    this.loadStudy(study);
-                }
-                catch (IOException)
-                {
-                    MessageBox.Show("There was a issue with your study, it may be corrupted.");
-                }
-            }
+            this.openStudyDialog();
         }
 
         private void _Close_Click(object sender, RoutedEventArgs e)
@@ -159,7 +102,7 @@ namespace _262ImageViewer
             if (result == MessageBoxResult.Yes)
             {
                 // Check if current study is saved, and prompt to save if not
-                this.studySession.updateState(imageView.index, imageView.modeSelect);
+                this.studySession.saveSync();
             }
         }
 
@@ -169,6 +112,7 @@ namespace _262ImageViewer
             if (imageView != null)
             {
                 var a = new Action.Grid.Toggle();
+                this.studySession.addAction(a);
                 a.run(this);
             }
         }
@@ -179,6 +123,8 @@ namespace _262ImageViewer
             {
                 Bitmap bi = null;// new Bitmap();
                 var a = new Action.Analysis.Create(bi);
+                this.studySession.addAction(a);
+                a.run(this);
             }
         }
 
@@ -190,7 +136,7 @@ namespace _262ImageViewer
         private void _View_Reconstruction(object sender, RoutedEventArgs e)
         {
             var a = new Action.Reconstruction.Create(this, studySession);
-            a.run(studySession);
+            a.run(this);
         }
 
         /*
@@ -241,43 +187,13 @@ namespace _262ImageViewer
 
         private void _saveStudy(object sender, RoutedEventArgs e)
         {
-            this.studySession.updateState(imageView.index, imageView.modeSelect);
+            this.studySession.saveSync();
+            MessageBox.Show("Saved.");
         }
 
         private void _saveAs(object sender, RoutedEventArgs e)
         {
-            var savePrompt = new Microsoft.Win32.SaveFileDialog();
-            var curretImgPath = studySession.imagePath;
-            var i = studySession.imageIndex;
-            var s = studySession.imageMode;
-            savePrompt.DefaultExt = "";
-            savePrompt.Filter = "";
-
-            Nullable<bool> result = savePrompt.ShowDialog();
-            if ((bool)result)
-            {
-                var path = savePrompt.FileName;
-                var name = path.Split('\\').Last();
-                try
-                {
-                    var study = new Study(new Uri(path), name);
-                    study.updateState(i, s);
-                    // Move files
-                    string[] fileArray = Directory.GetFiles(curretImgPath.AbsolutePath);
-                    foreach (string file in fileArray)
-                    {
-                        if (file.EndsWith(".jpg"))
-                        {
-                            System.IO.File.Copy(file, System.IO.Path.Combine(study.imagePath.AbsolutePath, System.IO.Path.GetFileName(file)));
-                        }
-                    }
-                    this.loadStudy(study);
-                }
-                catch (IOException)
-                {
-                    MessageBox.Show("There was a issue with your study, it may be corrupted.");
-                }
-            }
+            // Copy...
         }
     }
 }
