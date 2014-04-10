@@ -42,7 +42,8 @@ namespace _262ImageViewer
             }
 
             // Run the previous actions to return to state
-            this.studySession.rootAction.run(this);
+            if (this.studySession.rootAction != null)
+                this.studySession.rootAction.run(this);
 
         }
 
