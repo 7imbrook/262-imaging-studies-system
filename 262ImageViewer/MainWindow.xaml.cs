@@ -40,11 +40,15 @@ namespace _262ImageViewer
             {
                 _OpenStudy_Click(this, new RoutedEventArgs());
             }
+            // Set the root path, will be the same a the imediatly opened study
+            this.rootPath = studySession.imagePath;
 
             // Run the previous actions to return to state
             if (this.studySession.rootAction != null)
                 this.studySession.rootAction.run(this);
 
+            // Create the directory listing
+            this.populateTreeView();
         }
 
         private void openStudyDialog()
@@ -196,6 +200,21 @@ namespace _262ImageViewer
         {
             // Copy...
         }
+
+        private void _select_study(object sender, RoutedEventArgs e)
+        {
+            var treeView = (TreeView)sender;
+            if(treeView.SelectedItem != null)
+            {
+                var item = (TreeViewItem)treeView.SelectedItem;
+                Debug.WriteLine("{0}:{1}", item.Header, item.ToolTip);
+                var study = new Study((Uri)item.ToolTip);
+                this.loadStudy(study);
+                if (this.studySession.rootAction != null)
+                    this.studySession.rootAction.run(this);
+            }
+        }
+
     }
 }
 
