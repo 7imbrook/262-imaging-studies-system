@@ -51,7 +51,7 @@ namespace _262ImageViewer
             if (this.studySession.rootAction != null)
                 this.studySession.rootAction.run(this);
 
-            // Create the directory listing
+            // Refreash tree
             this.populateTreeView();
         }
 
@@ -69,13 +69,14 @@ namespace _262ImageViewer
                 Debug.WriteLine(studyDir.ToString());
                 var study = new Study(studyDir);
                 this.loadStudy(study);
-                this.populateTreeView();
+                this.rootPath = study.imagePath;
             }
         }
 
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
             this.openStudyDialog();
+            this.populateTreeView();
         }
 
         public void setFrameImageView(Page iv)
