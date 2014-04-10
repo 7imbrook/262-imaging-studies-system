@@ -11,17 +11,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Diagnostics;
 
 namespace _262ImageViewer
 {
@@ -53,7 +46,7 @@ namespace _262ImageViewer
         /*
          * The ImageLoader in use.
          */
-        private ImageLoader imageLoader;
+        private List<ImageLoader.Image> imageLoader;
 
         /*
          * The Current Study
@@ -63,7 +56,7 @@ namespace _262ImageViewer
         /*
          * Constructor that creates the ImageView with defined state.
          */
-        public ReconstructionView(ImageLoader imgLdr, int i, bool mode, Study session)
+        public ReconstructionView(List<ImageLoader.Image> imgLdr, int i, bool mode, Study session)
         {
             InitializeComponent();
             studySession = session;
@@ -74,7 +67,7 @@ namespace _262ImageViewer
             {
                 if (modeSelect == true)
                 {
-                    display_image(imageLoader[index]);
+                    display_image(imageLoader[index].getImage());
                 }
                 else
                 {
@@ -110,7 +103,7 @@ namespace _262ImageViewer
          * being the lowest numbered image of the set to bottom right
          * being the highest numbered image.
          */
-        private void display_four(ImageLoader imageList, int index)
+        private void display_four(List<ImageLoader.Image> imageList, int index)
         {
             //Clear any leftover images.
             image_display.Children.Clear();
@@ -141,7 +134,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index))
                 {
                     Image to_display = new Image();
-                    BitmapImage source = imageList[index];
+                    BitmapImage source = imageList[index].getImage();
                     to_display.Source = source;
                     to_display.Stretch = Stretch.Uniform;
                     int x = source.PixelWidth;
@@ -159,7 +152,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index))
                 {
                     Image to_display = new Image();
-                    BitmapImage source = imageList[index++];
+                    BitmapImage source = imageList[index++].getImage();
                     to_display.Source = source;
                     to_display.Stretch = Stretch.Uniform;
                     int x = source.PixelWidth;
@@ -208,11 +201,11 @@ namespace _262ImageViewer
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Reconstruction.Next(this);
+            var a = new Action.Reconstruction.Next();
 
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            a.run(mw.studySession);
+            a.run(mw);
         }
 
         public void nextImage()
@@ -222,7 +215,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index + 1))
                 {
                     index++;
-                    display_image(imageLoader[index]);
+                    display_image(imageLoader[index].getImage());
                 }
             }
             else
@@ -244,11 +237,11 @@ namespace _262ImageViewer
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Reconstruction.Previous(this);
+            var a = new Action.Reconstruction.Previous();
 
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            a.run(mw.studySession);
+            a.run(mw);
         }
 
         public void prevImage()
@@ -258,7 +251,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index - 1))
                 {
                     index--;
-                    display_image(imageLoader[index]);
+                    display_image(imageLoader[index].getImage());
                 }
             }
             else
@@ -347,7 +340,7 @@ namespace _262ImageViewer
                     index = imageLoader.Count();
                 }
 
-                display_image(imageLoader[index]);
+                display_image(imageLoader[index].getImage());
 
                 modeSelect = true;
             }
