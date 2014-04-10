@@ -155,7 +155,6 @@ namespace Action
                 win.SizeToContent = SizeToContent.WidthAndHeight;
                 win.Title = "Histogram";
                 win.Show();
-                //main.setFrameImageView(analysis);
                 base.runNext(main);
             }
             public override void undo(MainWindow app) 
