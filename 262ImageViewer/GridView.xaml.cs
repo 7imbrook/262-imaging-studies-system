@@ -93,7 +93,7 @@ namespace _262ImageViewer
         {
             image_display.Children.Clear();
             Image i = new Image();
-            i.Source = image.getImage();
+            i.Source = image.getSource();
             // If the image won't fit at native resolution, scale it.
             if (Application.Current.MainWindow.ActualHeight < image.getHeight() || 
                 Application.Current.MainWindow.ActualWidth < image.getWidth())
@@ -144,7 +144,7 @@ namespace _262ImageViewer
                 {
                     Image to_display = new Image();
                     ImageLoader.Image source = imageList[index];
-                    to_display.Source = source.getImage();
+                    to_display.Source = source.getSource();
                     to_display.Stretch = Stretch.Uniform;
                     int x = source.getWidth();
                     Grid.SetRow(to_display, 0);
@@ -162,7 +162,7 @@ namespace _262ImageViewer
                 {
                     Image to_display = new Image();
                     ImageLoader.Image source = imageList[index++];
-                    to_display.Source = source.getImage();
+                    to_display.Source = source.getSource();
                     to_display.Stretch = Stretch.Uniform;
                     int x = source.getWidth();
                     Grid.SetRow(to_display, 1);

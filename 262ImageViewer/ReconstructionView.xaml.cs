@@ -67,7 +67,7 @@ namespace _262ImageViewer
             {
                 if (modeSelect == true)
                 {
-                    display_image(imageLoader[index].getImage());
+                    display_image(imageLoader[index].getSource());
                 }
                 else
                 {
@@ -80,7 +80,7 @@ namespace _262ImageViewer
         /*
          * Displays image based on the array position given by the counter.
          */
-        private void display_image(BitmapImage image)
+        private void display_image(BitmapSource image)
         {
             image_display.Children.Clear();
             Image i = new Image();
@@ -134,7 +134,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index))
                 {
                     Image to_display = new Image();
-                    BitmapImage source = imageList[index].getImage();
+                    BitmapSource source = imageList[index].getSource();
                     to_display.Source = source;
                     to_display.Stretch = Stretch.Uniform;
                     int x = source.PixelWidth;
@@ -152,7 +152,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index))
                 {
                     Image to_display = new Image();
-                    BitmapImage source = imageList[index++].getImage();
+                    BitmapSource source = imageList[index++].getSource();
                     to_display.Source = source;
                     to_display.Stretch = Stretch.Uniform;
                     int x = source.PixelWidth;
@@ -198,6 +198,7 @@ namespace _262ImageViewer
          * the new image located in the array position determined by
          * the counter. Displays counter number as well.
          */
+
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
@@ -215,7 +216,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index + 1))
                 {
                     index++;
-                    display_image(imageLoader[index].getImage());
+                    display_image(imageLoader[index].getSource());
                 }
             }
             else
@@ -251,7 +252,7 @@ namespace _262ImageViewer
                 if (isValidIndex(index - 1))
                 {
                     index--;
-                    display_image(imageLoader[index].getImage());
+                    display_image(imageLoader[index].getSource());
                 }
             }
             else
@@ -340,7 +341,7 @@ namespace _262ImageViewer
                     index = imageLoader.Count();
                 }
 
-                display_image(imageLoader[index].getImage());
+                display_image(imageLoader[index].getSource());
 
                 modeSelect = true;
             }
