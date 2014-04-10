@@ -7,7 +7,7 @@
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="AnalysisView">
     <Grid HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="300">
-        <Rectangle Name="Rect01" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="0,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
+        <Rectangle Name="Rect01" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="290" Stroke="Black" VerticalAlignment="Top" Width="30"/>
         <Rectangle Name="Rect02" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="30,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
         <Rectangle Name="Rect03" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="60,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>
         <Rectangle Name="Rect04" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="90,190,0,0" Stroke="Black" VerticalAlignment="Top" Width="30"/>

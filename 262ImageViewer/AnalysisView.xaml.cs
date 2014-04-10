@@ -21,6 +21,9 @@ namespace _262ImageViewer
     /// </summary>
     public partial class AnalysisView : Page
     {
+
+        public float average;
+
         public AnalysisView(Bitmap image)
         {
             List<float> brightness = new List<float>();
@@ -31,7 +34,30 @@ namespace _262ImageViewer
                     brightness.Add(image.GetPixel(x, y).GetBrightness());
                 }
             }
-            
+            average = brightness.ToArray().Average();
+            brightness.Sort();
+            List<int> hist = new List<int>(10);
+            // Loop through the List
+            foreach(float flt in brightness)
+            {
+                int bright = (int) Math.Floor(flt * 10) + 1;
+                if (bright >= 10)
+                {
+                    bright = 10;
+                }
+                hist[bright]++;
+            }
+            int maxVal = hist.Max();
+            Rect01.Height = (290 / maxVal) * hist[1];
+            Rect02.Height = (290 / maxVal) * hist[2];
+            Rect03.Height = (290 / maxVal) * hist[3];
+            Rect04.Height = (290 / maxVal) * hist[4];
+            Rect05.Height = (290 / maxVal) * hist[5];
+            Rect06.Height = (290 / maxVal) * hist[6];
+            Rect07.Height = (290 / maxVal) * hist[7];
+            Rect08.Height = (290 / maxVal) * hist[8];
+            Rect09.Height = (290 / maxVal) * hist[9];
+            Rect10.Height = (290 / maxVal) * hist[10];
         }
     }
 }
