@@ -11,6 +11,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace ImageLoader
 {
@@ -44,6 +45,11 @@ namespace ImageLoader
          * Get the Bitmap's height.
          */
         int getHeight();
+
+        /*
+         * Get the BitmapSource
+         */
+        BitmapSource getSource();
     }
 
     /*
@@ -59,23 +65,56 @@ namespace ImageLoader
         {
             fileName = imageUri;
         }
+
+        /*
+         * Get the Bitmap representation of the image.
+         */
         public Bitmap getImage()
         {
-            return accesse().getImage();
+            return getRealSubject().getImage();
         }
+
+        /*
+         * Get the Bitmap's width.
+         */
         public int getWidth()
         {
-            return accesse().getWidth();
+            return getRealSubject().getWidth();
         }
+
+        /*
+         * Get the Bitmap's height.
+         */
         public int getHeight()
         {
-            return accesse().getHeight();
+            return getRealSubject().getHeight();
         }
+
+        /*
+          * Get a given slice of the image.
+          * sliceIndex is the pixel index from top-left corner;
+          * vertical is true if the slice cuts vertically, else horizontal.
+          * 
+          * Returns a bitmap where one dimension is 1 pixel,
+          *  and the other is the size of the bitmap.
+          */
         public Bitmap getSlice(int sliceIndex, Boolean vertical)
         {
-            return accesse().getSlice(sliceIndex, vertical);
+            return getRealSubject().getSlice(sliceIndex, vertical);
         }
-        private Image accesse()
+
+        /*
+         * Get the BitmapSource
+         */
+        public BitmapSource getSource()
+        {
+            return getRealSubject().getSource();
+        }
+
+        /*
+         * returns the real subject or creates the real subject if it is the first time accessed.
+         */
+        private Image getRealSubject()
         {
             if (accessed)
             {
@@ -147,6 +186,19 @@ namespace ImageLoader
         }
 
         /*
+         * Get the BitmapSource
+         */
+        public BitmapSource getSource()
+        {
+            BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                image.GetHbitmap(),
+                IntPtr.Zero,
+                System.Windows.Int32Rect.Empty,
+                BitmapSizeOptions.FromWidthAndHeight(image.Width, image.Height));
+            return bs;
+        }
+
+        /*
          * Get a given slice of the image.
          * sliceIndex is the pixel index from top-left corner;
          * vertical is true if the slice cuts vertically, else horizontal.
@@ -207,6 +259,19 @@ namespace ImageLoader
         public int getHeight()
         {
             return image.Height;
+        }
+
+        /*
+         * Get the BitmapSource
+         */
+        public BitmapSource getSource()
+        {
+            BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                image.GetHbitmap(),
+                IntPtr.Zero,
+                System.Windows.Int32Rect.Empty,
+                BitmapSizeOptions.FromWidthAndHeight(image.Width, image.Height));
+            return bs;
         }
 
         /*

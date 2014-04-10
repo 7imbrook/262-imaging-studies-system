@@ -8,6 +8,7 @@
  *     $Log$ 
  */
 
+using ImageLoader;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,7 +33,7 @@ namespace _262ImageViewer
         public Uri imagePath;
 
         // The Image Collection
-        public List<BitmapImage> imageCollection;
+        public List<ImageLoader.Image> imageCollection;
 
         /**
          * Given a path looks for a .studyinfo file to load study data ->  open images
@@ -59,7 +60,7 @@ namespace _262ImageViewer
                 }
             }
             // Load image proxies
-            this.imageCollection = new List<BitmapImage>();
+            this.imageCollection = new List<ImageLoader.Image>();
 
             string[] fileArray = Directory.GetFiles(this.imagePath.AbsolutePath);
             foreach (string file in fileArray)
@@ -68,7 +69,7 @@ namespace _262ImageViewer
                 if (lf.EndsWith(".jpg") || lf.EndsWith(".acr"))
                 {
                     var img = new Uri(file);
-                    BitmapImage bmp = new BitmapImage(img);
+                    ImageLoader.Image bmp = new ImageProxy(img);
                     this.imageCollection.Add(bmp);
                 }
             }
