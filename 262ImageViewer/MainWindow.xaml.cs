@@ -40,11 +40,19 @@ namespace _262ImageViewer
             {
                 _OpenStudy_Click(this, new RoutedEventArgs());
             }
+            // Set the root path, will be the same a the imediatly opened study
+            this.rootPath = studySession.imagePath;
 
+        }
+
+        private void LoadedWindow(object sender, RoutedEventArgs e)
+        {
             // Run the previous actions to return to state
             if (this.studySession.rootAction != null)
                 this.studySession.rootAction.run(this);
 
+            // Refreash tree
+            this.populateTreeView();
         }
 
         private void openStudyDialog()
@@ -61,12 +69,14 @@ namespace _262ImageViewer
                 Debug.WriteLine(studyDir.ToString());
                 var study = new Study(studyDir);
                 this.loadStudy(study);
+                this.rootPath = study.imagePath;
             }
         }
 
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
             this.openStudyDialog();
+            this.populateTreeView();
         }
 
         public void setFrameImageView(Page iv)
@@ -122,9 +132,8 @@ namespace _262ImageViewer
         {
             if (studySession != null)
             {
-                Bitmap bi = null;// new Bitmap();
+                Bitmap bi = studySession.imageCollection[this.imageView.index].getImage();
                 var a = new Action.Analysis.Create(bi);
-                this.studySession.addAction(a);
                 a.run(this);
             }
         }
@@ -141,6 +150,13 @@ namespace _262ImageViewer
             a.run(this);
         }
 
+        private void _View_Windowing(object sender, RoutedEventArgs e)
+        {
+            var a = new Action.Windowing.Create(this, studySession);
+            this.studySession.addAction(a);
+            a.run(this);
+        }
+        
         /*
          * Set the current study as the default startup Study.
          */
@@ -197,6 +213,22 @@ namespace _262ImageViewer
         {
             // Copy...
         }
+
+        private void _select_study(object sender, RoutedEventArgs e)
+        {
+            var treeView = (TreeView)sender;
+            if(treeView.SelectedItem != null)
+            {
+                var item = (TreeViewItem)treeView.SelectedItem;
+                Debug.WriteLine("{0}:{1}", item.Header, item.ToolTip);
+                var study = new Study((Uri)item.ToolTip);
+                this.studySession.saveSync();
+                this.loadStudy(study);
+                if (this.studySession.rootAction != null)
+                    this.studySession.rootAction.run(this);
+            }
+        }
+
     }
 }
 

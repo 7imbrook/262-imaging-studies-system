@@ -21,11 +21,9 @@ namespace _262ImageViewer
     /// </summary>
     public partial class AnalysisView : Page
     {
-
-        public float average;
-
         public AnalysisView(Bitmap image)
         {
+            InitializeComponent();
             List<float> brightness = new List<float>();
             for (int x = 0; x < image.Width; x++)
             {
@@ -34,9 +32,9 @@ namespace _262ImageViewer
                     brightness.Add(image.GetPixel(x, y).GetBrightness());
                 }
             }
-            average = brightness.ToArray().Average();
+            AverageLBL.Content = (brightness.ToArray().Average() * 100).ToString() + "%";
             brightness.Sort();
-            List<int> hist = new List<int>(10);
+            List<int> hist = new List<int>(new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             // Loop through the List
             foreach(float flt in brightness)
             {
@@ -45,19 +43,31 @@ namespace _262ImageViewer
                 {
                     bright = 10;
                 }
-                hist[bright]++;
+                hist[bright] += 1;
             }
             int maxVal = hist.Max();
-            Rect01.Height = (290 / maxVal) * hist[1];
-            Rect02.Height = (290 / maxVal) * hist[2];
-            Rect03.Height = (290 / maxVal) * hist[3];
-            Rect04.Height = (290 / maxVal) * hist[4];
-            Rect05.Height = (290 / maxVal) * hist[5];
-            Rect06.Height = (290 / maxVal) * hist[6];
-            Rect07.Height = (290 / maxVal) * hist[7];
-            Rect08.Height = (290 / maxVal) * hist[8];
-            Rect09.Height = (290 / maxVal) * hist[9];
-            Rect10.Height = (290 / maxVal) * hist[10];
+
+            Prog01.Maximum = maxVal;
+            Prog02.Maximum = maxVal;
+            Prog03.Maximum = maxVal;
+            Prog04.Maximum = maxVal;
+            Prog05.Maximum = maxVal;
+            Prog06.Maximum = maxVal;
+            Prog07.Maximum = maxVal;
+            Prog08.Maximum = maxVal;
+            Prog09.Maximum = maxVal;
+            Prog10.Maximum = maxVal;
+
+            Prog01.Value = hist[1];
+            Prog02.Value = hist[2];
+            Prog03.Value = hist[3];
+            Prog04.Value = hist[4];
+            Prog05.Value = hist[5];
+            Prog06.Value = hist[6];
+            Prog07.Value = hist[7];
+            Prog08.Value = hist[8];
+            Prog09.Value = hist[9];
+            Prog10.Value = hist[10];
         }
     }
 }
