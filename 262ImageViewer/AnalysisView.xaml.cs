@@ -12,6 +12,9 @@ namespace _262ImageViewer
     /// </summary>
     public partial class AnalysisView : Page
     {
+        /*
+         * Constructor. Build an AnalysisView based on the given Bitmap.
+         */
         public AnalysisView(Bitmap image)
         {
             InitializeComponent();
@@ -24,11 +27,11 @@ namespace _262ImageViewer
                 }
             }
             AverageLBL.Content = (brightness.ToArray().Average() * 100).ToString() + "%";
-            brightness.Sort();
             List<int> hist = new List<int>(new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             // Loop through the List
             foreach(float flt in brightness)
             {
+                // Break the values into 10 categories 
                 int bright = (int) Math.Floor(flt * 10) + 1;
                 if (bright >= 10)
                 {
@@ -38,6 +41,7 @@ namespace _262ImageViewer
             }
             int maxVal = hist.Max();
 
+            // Set the bars' max and values.
             Prog01.Maximum = maxVal;
             Prog02.Maximum = maxVal;
             Prog03.Maximum = maxVal;
