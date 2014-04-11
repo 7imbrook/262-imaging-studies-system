@@ -144,7 +144,8 @@ namespace _262ImageViewer
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Grid.Previous();
+            Debug.WriteLine("Other Test");
+            var a = new Action.Windowing.Previous();
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             mw.studySession.addAction(a);
             a.run(mw);
