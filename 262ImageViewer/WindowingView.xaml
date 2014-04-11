@@ -18,8 +18,8 @@
                 <RowDefinition Height="97*"/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
-            <Button x:Name="prev_button" Content="Previous" MinWidth="50" Height="40" Margin="122,0,-40,9" Click="prevImage_Click" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Grid.ColumnSpan="2" Grid.Column="1"/>
-            <Button x:Name="next_button" Content="Next" MinWidth="50" Height="40" Margin="-36,0,117,9" Click="nextImage_Click" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="-0.58,0.563"/>
+            <Button x:Name="next_button" Content="Next" MinWidth="50" Height="40" Margin="122,0,-40,9" Click="nextImage_Click" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <Button x:Name="prev_button" Content="Previous" MinWidth="50" Height="40" Margin="-36,0,117,9" Click="prevImage_Click" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="-0.58,0.563"/>
             <Grid x:Name="image_display" Margin="0,-407,13,64" Grid.ColumnSpan="2" Height="643" VerticalAlignment="Bottom"/>
             <Button x:Name="close_button" Content="Close" MinWidth="50" Height="40" Margin="118,0,120,10" Click="close_Click" VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="-0.58,0.563" Grid.ColumnSpan="2"/>
 
