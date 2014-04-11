@@ -204,23 +204,17 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
-            MainWindow window;
-            ReconstructionView reconstructionView;
-            public Create(MainWindow w, Study session)
-            {
-                window = w;
-                reconstructionView = new ReconstructionView(session.imageCollection, window.imageView.index, false, session);
-            }
-
             public override void run(MainWindow app)
             {
-                window.setFrameImageView(reconstructionView);
+                ReconstructionView rec = new ReconstructionView(app.studySession.imageCollection, app.imageView.index, false, app.studySession);
+                app.reconstructionView = rec;
+                app.setFrameImageView(rec);
                 base.runNext(app);
             }
 
             public override void undo(MainWindow app) 
             {
-                Action a = new Close(app);
+                Action a = new Close();
                 a.run(app);
             }
 
@@ -233,23 +227,15 @@ namespace Action
         [Serializable]
         public class Close : Action
         {
-            MainWindow window;
-            GridView gridView;
-            public Close(MainWindow w)
-            {
-                window = w;
-                gridView = window.imageView;
-            }
-
             public override void run(MainWindow app) 
             {
-                window.setFrameImageView(gridView);
+                app.setFrameImageView(app.imageView);
                 base.runNext(app);            
             }
 
             public override void undo(MainWindow app) 
             {
-                Action a = new Create(app, app.studySession);
+                Action a = new Create();
                 a.run(app);
             }
 
@@ -262,22 +248,16 @@ namespace Action
         [Serializable]
         public class NextReconstruction : Action
         {
-            ReconstructionView reconstruction;
-            public NextReconstruction(ReconstructionView r)
-            {
-                reconstruction = r;
-            }
-
             public override void run(MainWindow app) 
             {
-                reconstruction.nextReconstruction();
+                app.reconstructionView.nextReconstruction();
                 // Call base
                 base.runNext(app);
             }
 
             public override void undo(MainWindow app) 
             {
-                Action a = new PreviousReconstruction(reconstruction);
+                Action a = new PreviousReconstruction();
                 a.run(app);
             }
 
@@ -290,22 +270,16 @@ namespace Action
         [Serializable]
         public class PreviousReconstruction : Action
         {
-            ReconstructionView reconstruction;
-            public PreviousReconstruction(ReconstructionView r)
-            {
-                reconstruction = r;
-            }
-
             public override void run(MainWindow app) 
             {
-                reconstruction.previousReconstruction();
+                app.reconstructionView.previousReconstruction();
                 // Call base
                 base.runNext(app);
             }
 
             public override void undo(MainWindow app)
             {
-                Action a = new NextReconstruction(reconstruction);
+                Action a = new NextReconstruction();
                 a.run(app);
             }
 
@@ -318,22 +292,16 @@ namespace Action
         [Serializable]
         public class Next : Action
         {
-            ReconstructionView reconstruction;
-            public Next(ReconstructionView r)
-            {
-                reconstruction = r;
-            }
-
             public override void run(MainWindow app) 
             {
-                reconstruction.nextImage();
+                app.reconstructionView.nextImage();
                 // Call base
                 base.runNext(app);
             }
 
             public override void undo(MainWindow app)
             {
-                Action a = new Previous(reconstruction);
+                Action a = new Previous();
                 a.run(app);
             }
 
@@ -346,22 +314,16 @@ namespace Action
         [Serializable]
         public class Previous : Action
         {
-            ReconstructionView reconstruction;
-            public Previous(ReconstructionView r)
-            {
-                reconstruction = r;
-            }
-
             public override void run(MainWindow app) 
             {
-                reconstruction.prevImage();
+                app.reconstructionView.prevImage();
                 // Call base
                 base.runNext(app);
             }
 
             public override void undo(MainWindow app)
             {
-                Action a = new Next(reconstruction);
+                Action a = new Next();
                 a.run(app);
             }
 

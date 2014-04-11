@@ -14,6 +14,8 @@ namespace _262ImageViewer
     /// 
     public partial class MainWindow : Window
     {
+        public ReconstructionView reconstructionView;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -149,7 +151,7 @@ namespace _262ImageViewer
 
         private void _View_Reconstruction(object sender, RoutedEventArgs e)
         {
-            var a = new Action.Reconstruction.Create(this, studySession);
+            var a = new Action.Reconstruction.Create();
             this.studySession.addAction(a);
             a.run(this);
         }
