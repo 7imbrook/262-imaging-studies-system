@@ -38,8 +38,6 @@ namespace _262ImageViewer
             String h = HighCut.Text;
             bool lowBool = float.TryParse(l, out low_cut);
             bool highBool = float.TryParse(h, out high_cut);
-            Debug.WriteLine(lowBool);
-            Debug.WriteLine(highBool);
             if (lowBool && highBool && isValidCuts(low_cut, high_cut)) 
             {
                 low_cut = float.Parse(LowCut.Text) * 0.01f;

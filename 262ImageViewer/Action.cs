@@ -389,7 +389,6 @@ namespace Action
 
             public override void undo(MainWindow app)
             {
-                Debug.WriteLine("Test");
                 app.setFrameImageView(app.windowingView);
             }
 

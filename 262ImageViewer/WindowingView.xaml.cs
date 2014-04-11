@@ -144,7 +144,6 @@ namespace _262ImageViewer
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            Debug.WriteLine("Other Test");
             var a = new Action.Windowing.Previous();
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             mw.studySession.addAction(a);
@@ -218,7 +217,6 @@ namespace _262ImageViewer
 
                 }
             }
-            Debug.WriteLine(processed_image.GetHbitmap());
             BitmapSource windowedImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
                 processed_image.GetHbitmap(),
                 IntPtr.Zero,
