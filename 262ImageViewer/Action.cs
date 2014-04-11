@@ -427,9 +427,21 @@ namespace Action
         [Serializable]
         public class Next : Action
         {
-            public override void run(MainWindow app) { }
-
-            public override void undo(MainWindow app) { }
+            WindowingView windowingView;
+            public Next(WindowingView w)
+            {
+                windowingView = w;
+            }
+            public override void run(MainWindow app)
+            {
+                windowingView.nextImage();
+                base.runNext(app);
+            }
+            public override void undo(MainWindow app)
+            {
+                var a = new Previous(windowingView);
+                a.run(app);
+            }
 
             public override string ToString() { return null; }
         }
@@ -440,9 +452,23 @@ namespace Action
         [Serializable]
         public class Previous : Action
         {
-            public override void run(MainWindow app) { }
+            WindowingView windowingView;
+            public Previous(WindowingView w)
+            {
+                windowingView = w;
+            }
 
-            public override void undo(MainWindow app) { }
+            public override void run(MainWindow app)
+            {
+                windowingView.prevImage();
+                base.runNext(app);
+            }
+
+            public override void undo(MainWindow app) 
+            {
+                Action a = new Next(windowingView);
+                a.run(app);
+            }
 
             public override string ToString() { return null; }
         }

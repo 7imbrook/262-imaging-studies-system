@@ -36,7 +36,8 @@ namespace _262ImageViewer
          * The current index of the BitmapImage list.
          */
         public int index;
-        float high, low;
+        public float high, low;
+
 
         private List<ImageLoader.Image> imageLoader;
 
@@ -108,9 +109,11 @@ namespace _262ImageViewer
 
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
+            var a = new Action.Windowing.Next(this);
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            var a = new Action.Grid.Next();
+
             mw.studySession.addAction(a);
+
             a.run(mw);
         }
 
