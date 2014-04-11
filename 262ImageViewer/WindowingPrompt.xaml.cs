@@ -19,7 +19,9 @@ namespace _262ImageViewer
     /// </summary>
     public partial class WindowingPrompt : Window
     {
-
+        /*
+         * User inputted low and high cutoff values for pixel intensity.
+         */
         public float low_cut, high_cut;
         
         //WindowingView windowingView;
@@ -32,6 +34,10 @@ namespace _262ImageViewer
             main = win;
         }
 
+        /*
+         * Upon click, evaluate if the numbers are in between 0 ~ 100. If they
+         * are valid, create a windowingView with the values.
+         */
         private void OKButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             String l = LowCut.Text;
@@ -42,11 +48,7 @@ namespace _262ImageViewer
             {
                 low_cut = float.Parse(LowCut.Text) * 0.01f;
                 high_cut = float.Parse(HighCut.Text) * 0.01f;
-                /**
-                windowingView = new WindowingView(high_cut, low_cut, main);
-                main.setFrameImageView(windowingView);
-                this.Close();
-                **/
+
                 main.winPrompt = this;
                 var a = new Action.Windowing.Create();
                 main.studySession.addAction(a);
@@ -59,6 +61,9 @@ namespace _262ImageViewer
             }
         }
 
+        /*
+         * Helper function to determine if the cuts are valid.
+         */
         private bool isValidCuts(float low, float high)
         {
             if (low >= 0 && high <= 100)
@@ -71,6 +76,9 @@ namespace _262ImageViewer
             return false;
         }
 
+        /*
+         * Close upon click.
+         */
         private void CancelButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             this.Close();
