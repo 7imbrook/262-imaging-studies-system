@@ -192,6 +192,9 @@ namespace _262ImageViewer
 
         }
         
+        /*
+         * Make a bitmap of the reconstruction of a study.
+         */
         Bitmap reconstructor(Study studySession, bool axis)
         {
             int height = studySession.imageCollection[0].getHeight();
@@ -213,17 +216,13 @@ namespace _262ImageViewer
                     }
                 }
             }
-
             return reconst;
         }
         
 
         /*
-         * Increases the image position counter by one, then displays
-         * the new image located in the array position determined by
-         * the counter. Displays counter number as well.
+         * Create the action to increase the image position counter by one.
          */
-
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
@@ -234,6 +233,11 @@ namespace _262ImageViewer
             a.run(mw);
         }
 
+        /*
+         * Increases the image position counter by one, then displays
+         * the new image located in the array position determined by
+         * the counter. Displays counter number as well.
+         */
         public void nextImage()
         {
             if (modeSelect && imageLoader != null)
@@ -256,9 +260,7 @@ namespace _262ImageViewer
         }
 
         /*
-         * Decreases the image position counter by one, then displays
-         * the new image located in the array position determined by
-         * the counter. Displays counter number as well.
+         * Create the action to decrease the image position counter by one.
          */
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
@@ -270,6 +272,11 @@ namespace _262ImageViewer
             a.run(mw);
         }
 
+        /*
+         * Decreases the image position counter by one, then displays
+         * the new image located in the array position determined by
+         * the counter. Displays counter number as well.
+         */
         public void prevImage()
         {
             if (modeSelect && imageLoader != null)
@@ -291,6 +298,9 @@ namespace _262ImageViewer
             buttonCheck();
         }
 
+        /*
+         * Create the action to go to the next reconstruction slice.
+         */
         private void nextReconstruction_Click(object sender, RoutedEventArgs e)
         {
             // create the action
@@ -301,6 +311,9 @@ namespace _262ImageViewer
             a.run(mw);
         }
 
+        /*
+         * Go to the next reconstruction slice.
+         */
         public void nextReconstruction()
         {
             if (isValidIndex(index + 1))
@@ -311,6 +324,9 @@ namespace _262ImageViewer
             buttonCheck();
         }
 
+        /*
+         * Create the action to go to the previous reconstruction slice.
+         */
         private void previousReconstruction_Click(object sender, RoutedEventArgs e)
         {
             // create the action
@@ -321,6 +337,9 @@ namespace _262ImageViewer
             a.run(mw);
         }
 
+        /*
+         * Go to the previous reconstruction slice.
+         */
         public void previousReconstruction()
         {
             if (isValidIndex(index - 1))
@@ -331,6 +350,9 @@ namespace _262ImageViewer
             buttonCheck();
         }
 
+        /*
+         * Create the action to close the reconstruction.
+         */
         private void close_Click(object sender, RoutedEventArgs e)
         {
             // create the action
@@ -340,6 +362,7 @@ namespace _262ImageViewer
             // Need the current study
             a.run(mw);
         }
+
         /*
          * Helper function to check if an index is within bounds.
          */

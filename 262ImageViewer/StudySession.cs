@@ -11,7 +11,6 @@
 using ImageLoader;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -30,7 +29,7 @@ namespace _262ImageViewer
         // The Image Collection
         public List<ImageLoader.Image> imageCollection;
 
-        /**
+        /*
          * Given a path looks for a .studyinfo file to load study data ->  open images
          */
         public Study(Uri studPath)
@@ -70,7 +69,7 @@ namespace _262ImageViewer
             }
         }
 
-        /**
+        /*
          * Save the session information to disk
          */
         public bool saveSync()
@@ -84,7 +83,7 @@ namespace _262ImageViewer
             return File.Exists(this.imagePath.AbsolutePath);
         }
 
-        /**
+        /*
         * adds an action to the chain
         */
         public void addAction(Action.Action action)
@@ -100,7 +99,7 @@ namespace _262ImageViewer
             l.setNext(action);
         }
 
-        /**
+        /*
          * undoes and pop an action
          */
         public void undoAction()
@@ -128,6 +127,5 @@ namespace _262ImageViewer
             r.undo(mainWindow);
             p.removeNext();
         }
-
     }
 }
