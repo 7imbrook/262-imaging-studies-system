@@ -14,7 +14,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace _262ImageViewer
 {
@@ -70,7 +69,7 @@ namespace _262ImageViewer
         {
             InitializeComponent();
             index = i;
-            modeSelect = mode; //True is one, False is four
+            modeSelect = mode; // true is 1-up, false is 4-up.
             imageLoader = imgLdr;
             if (isValidIndex(index))
             {
@@ -114,12 +113,12 @@ namespace _262ImageViewer
          */
         private void display_four(List<ImageLoader.Image> imageList, int index)
         {
-            //Clear any leftover images.
+            // Clear any leftover images.
             image_display.Children.Clear();
 
             var four_grid = new Grid();
 
-            //Create the 2x2 grid.
+            // Create the 2x2 grid.
             RowDefinition row1 = new RowDefinition();
             row1.Height = new GridLength(0.5, GridUnitType.Star);
             four_grid.RowDefinitions.Add(row1);
@@ -136,8 +135,8 @@ namespace _262ImageViewer
             col2.Width = new GridLength(0.5, GridUnitType.Star);
             four_grid.ColumnDefinitions.Add(col2);
 
-            //Add the images belonging in the first row of the grid
-            //If there exists no image, leave it blank.
+            // Add the images belonging in the first row of the grid.
+            // If there exists no image, leave it blank.
             for (int position = 0; position < 2; position++)
             {
                 if (isValidIndex(index))
@@ -154,8 +153,8 @@ namespace _262ImageViewer
                 }
             }
 
-            //Add the images belonging in the second row of the grid.
-            //If there exists no image, leave it blank.
+            // Add the images belonging in the second row of the grid.
+            // If there exists no image, leave it blank.
             for (int position = 0; position < 2; position++)
             {
                 if (isValidIndex(index))
@@ -170,9 +169,8 @@ namespace _262ImageViewer
                     four_grid.Children.Add(to_display);
                 }
             }
-            //Add the grid of images to the image_display.
+            // Add the grid of images to the image_display.
             image_display.Children.Add(four_grid);
-            
         }
 
         /*
@@ -182,13 +180,16 @@ namespace _262ImageViewer
          */
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
-            // create the action
+            // Create the action
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             var a = new Action.Grid.Next();
             mw.studySession.addAction(a);
             a.run(mw);
         }
 
+        /*
+         * Move to the next image or set of images.
+         */
         public void nextImage()
         {
             if (modeSelect && imageLoader != null)
@@ -217,13 +218,16 @@ namespace _262ImageViewer
          */
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
-            // create the action
+            // Create the action
             var a = new Action.Grid.Previous();
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             mw.studySession.addAction(a);
             a.run(mw);
         }
 
+        /*
+         * Move to the previous image or set of images.
+         */
         public void prevImage()
         {
             if (modeSelect && imageLoader != null)
