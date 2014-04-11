@@ -16,6 +16,9 @@ namespace _262ImageViewer
     {
         public ReconstructionView reconstructionView;
 
+        /*
+         * The main constructor for MainWindow.
+         */
         public WindowingPrompt winPrompt;
 
         public WindowingView windowingView;
@@ -49,6 +52,10 @@ namespace _262ImageViewer
             this.rootPath = studySession.imagePath;
         }
 
+        /*
+         * Called when the window has loaded. 
+         * Used to reload the study's state.
+         */
         private void LoadedWindow(object sender, RoutedEventArgs e)
         {
             // Run the previous actions to return to state
@@ -59,12 +66,15 @@ namespace _262ImageViewer
             this.populateTreeView();
         }
 
+        /*
+         * Prompt the user to select a study.
+         */
         private void openStudyDialog()
         {
-            // Create OpenFileDialog
+            // Create Folder Selection Dialog
             var dlg = new System.Windows.Forms.FolderBrowserDialog();
 
-            // Display OpenFileDialog by calling ShowDialog method
+            // Display the dialog by calling ShowDialog method
             System.Windows.Forms.DialogResult result = dlg.ShowDialog();
 
             if (result == System.Windows.Forms.DialogResult.OK)
@@ -83,17 +93,26 @@ namespace _262ImageViewer
             }
         }
 
+        /*
+         * Use openStudyDialog to prompt the user.
+         */
         private void _OpenStudy_Click(object sender, RoutedEventArgs e)
         {
             this.openStudyDialog();
             this.populateTreeView();
         }
 
+        /*
+         * Set MainWindow's Frame to the given Page.
+         */
         public void setFrameImageView(Page iv)
         {
             this.mainFrame.Content = iv;
         }
 
+        /*
+         * Prompt the user to select a new folder.
+         */
         private void _NewStudy_Click(object sender, RoutedEventArgs e)
         {
             if (studySession != null)
@@ -104,11 +123,17 @@ namespace _262ImageViewer
             this.openStudyDialog();
         }
 
+        /*
+         * Close the window.
+         */
         private void _Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /*
+         * Handle the close action to prompt to save.
+         */
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (studySession != null)
@@ -117,6 +142,9 @@ namespace _262ImageViewer
             }
         }
 
+        /*
+         * Prompt the user to save the study.
+         */
         private void closeConfirmation()
         {
             MessageBoxResult result = MessageBox.Show("Do you want to save your changes?", "Save", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -127,7 +155,9 @@ namespace _262ImageViewer
             }
         }
 
-        // Lets change the name of this...
+        /*
+         * Toggle between 1- and 4-up display modes.
+         */
         private void _View_ToggleImageLayout(object sender, RoutedEventArgs e)
         {
             if (imageView != null)
@@ -138,6 +168,9 @@ namespace _262ImageViewer
             }
         }
 
+        /*
+         * Create a new analysis on the current image.
+         */
         private void _View_CreateAnalysisView(object sender, RoutedEventArgs e)
         {
             if (studySession != null)
@@ -148,11 +181,17 @@ namespace _262ImageViewer
             }
         }
 
+        /*
+         * Undo the previous action.
+         */
         private void _View_Undo(object sender, RoutedEventArgs e)
         {
             this.studySession.undoAction();
         }
 
+        /*
+         * Create a new reconstruction of the current study.
+         */
         private void _View_Reconstruction(object sender, RoutedEventArgs e)
         {
             var a = new Action.Reconstruction.Create();
@@ -160,6 +199,9 @@ namespace _262ImageViewer
             a.run(this);
         }
 
+        /*
+         * Begin the windowing process.
+         */
         private void _View_Windowing(object sender, RoutedEventArgs e)
         {
             /**
@@ -219,17 +261,26 @@ namespace _262ImageViewer
             }
         }
 
+        /*
+         * Save the open study.
+         */
         private void _saveStudy(object sender, RoutedEventArgs e)
         {
             this.studySession.saveSync();
             MessageBox.Show("Saved.");
         }
 
+        /*
+         * Save the current study under a new name.
+         */
         private void _saveAs(object sender, RoutedEventArgs e)
         {
             // Copy...
         }
 
+        /*
+         * Select a new study from the TreeView.
+         */
         private void _select_study(object sender, RoutedEventArgs e)
         {
             var treeView = (TreeView)sender;
@@ -244,7 +295,6 @@ namespace _262ImageViewer
                     this.studySession.rootAction.run(this);
             }
         }
-
     }
 }
 

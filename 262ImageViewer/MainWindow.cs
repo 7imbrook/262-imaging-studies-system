@@ -47,7 +47,7 @@ namespace _262ImageViewer
         }
 
         /*
-         * 
+         * Clear and refresh the TreeView.
          */
         private void populateTreeView()
         {
@@ -56,7 +56,7 @@ namespace _262ImageViewer
         }
 
         /*
-         * 
+         * Set the TreeView to the given path.
          */
         private TreeViewItem treeAtPath(string path)
         {
