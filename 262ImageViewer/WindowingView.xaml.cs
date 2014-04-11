@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing;
+using System.Diagnostics;
 
 
 namespace _262ImageViewer
@@ -185,32 +186,30 @@ namespace _262ImageViewer
             var image_width = to_be_processed.Width;
             Bitmap processed_image = new Bitmap(image_width, image_height);
 
-            for (int i = 0; i < image_height; i++)
+            for (int i = 0; i < image_width; i++)
             {
-                for (int j = 0; j < image_width; j++)
+                for (int j = 0; j < image_height; j++)
                 {
                     System.Drawing.Color pixel = to_be_processed.GetPixel(i, j);
                     if (pixel.GetBrightness() < low)
                     {
-                        System.Drawing.Color new_pixel = System.Drawing.Color.Black;
-                        processed_image.SetPixel(i, j, new_pixel);
+                        processed_image.SetPixel(i, j, System.Drawing.Color.Black);
                     }
                     else if (pixel.GetBrightness() > high)
                     {
-                        System.Drawing.Color new_pixel = System.Drawing.Color.White;
-                        processed_image.SetPixel(i, j, new_pixel);
+                        processed_image.SetPixel(i, j, System.Drawing.Color.White);
                     }
                     else
                     {
                         float sf = equate_scale_factor(high, low, pixel);
                         int color_value = (int)(sf * 255);
-                        System.Drawing.Color new_pixel = System.Drawing.Color.FromArgb(color_value, color_value, color_value);
-                        processed_image.SetPixel(i, j, pixel);
+                        processed_image.SetPixel(i, j, System.Drawing.Color.FromArgb(color_value, color_value, color_value));
+                        
                     }
 
                 }
             }
-
+            Debug.WriteLine(processed_image.);
             BitmapSource windowedImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
                 processed_image.GetHbitmap(),
                 IntPtr.Zero,

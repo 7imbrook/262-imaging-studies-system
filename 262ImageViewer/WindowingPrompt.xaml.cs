@@ -22,7 +22,7 @@ namespace _262ImageViewer
 
         public float low_cut, high_cut;
         
-        WindowingView windowingView;
+        //WindowingView windowingView;
 
         MainWindow main;
 
