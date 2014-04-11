@@ -174,9 +174,7 @@ namespace _262ImageViewer
         }
 
         /*
-         * Increases the image position counter by one, then displays
-         * the new image located in the array position determined by
-         * the counter. Displays counter number as well.
+         * Goto the next image upon click.
          */
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
@@ -188,7 +186,9 @@ namespace _262ImageViewer
         }
 
         /*
-         * Move to the next image or set of images.
+         * Increases the image position counter by one, then displays
+         * the new image located in the array position determined by
+         * the counter. Displays counter number as well.
          */
         public void nextImage()
         {

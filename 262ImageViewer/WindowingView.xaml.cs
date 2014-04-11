@@ -37,13 +37,26 @@ namespace _262ImageViewer
          * The current index of the BitmapImage list.
          */
         public int index;
+
+        /*
+         * The cutoff values for windowing.
+         */
         public float high, low;
 
-
+        /*
+         * The ImageLoader in use.
+         */
         private List<ImageLoader.Image> imageLoader;
 
+        /*
+         * The main window.
+         */
         MainWindow main;
 
+
+        /*
+         * Constructor
+         */
         public WindowingView(float h, float l, MainWindow win)
         {
             InitializeComponent();
@@ -60,16 +73,19 @@ namespace _262ImageViewer
             }
         }
 
-        private void display_image(ImageLoader.Image image, float high, float low) //Take in processed img
+        /*
+         * Displays the given image by processing it first along with the high and low
+         * cutoff values.
+         */
+        private void display_image(ImageLoader.Image image, float high, float low)
         {
             image_display.Children.Clear();
-
             System.Windows.Controls.Image i = new System.Windows.Controls.Image();
 
+            //Take the image and create a windowed BitmapSource, then set i's source as that BitmapSource.
             BitmapSource wSource = windowedImage(high, low, image.getImage());
-
-
             i.Source = wSource;
+
             // If the image won't fit at native resolution, scale it.
             if (Application.Current.MainWindow.ActualHeight < image.getHeight() ||
                 Application.Current.MainWindow.ActualWidth < image.getWidth())
@@ -84,32 +100,9 @@ namespace _262ImageViewer
             
         }
 
-        private void display_four(List<ImageLoader.Image> imageList, int index) //Take in processed imgs
-        {
-            //Clear any leftover images.
-            image_display.Children.Clear();
-
-            var four_grid = new Grid();
-
-            //Create the 2x2 grid.
-            RowDefinition row1 = new RowDefinition();
-            row1.Height = new GridLength(0.5, GridUnitType.Star);
-            four_grid.RowDefinitions.Add(row1);
-
-            RowDefinition row2 = new RowDefinition();
-            row2.Height = new GridLength(0.5, GridUnitType.Star);
-            four_grid.RowDefinitions.Add(row2);
-
-            ColumnDefinition col1 = new ColumnDefinition();
-            col1.Width = new GridLength(0.5, GridUnitType.Star);
-            four_grid.ColumnDefinitions.Add(col1);
-
-            ColumnDefinition col2 = new ColumnDefinition();
-            col2.Width = new GridLength(0.5, GridUnitType.Star);
-            four_grid.ColumnDefinitions.Add(col2);
-
-        }
-
+        /*
+         * Display the next processed image upon click.
+         */
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             var a = new Action.Windowing.Next();
@@ -120,22 +113,18 @@ namespace _262ImageViewer
             a.run(mw);
         }
 
+        /*
+         * Increases the image position counter by one, then displays the
+         * new processed image located at the new index in imageLoader.
+         */
         public void nextImage()
         {
-            if (modeSelect && imageLoader != null)
+            if (imageLoader != null)
             {
                 if (isValidIndex(index + 1))
                 {
                     index++;
                     display_image(imageLoader[index], high, low);
-                }
-            }
-            else
-            {
-                if (isValidIndex(index + 4))
-                {
-                    index += 4;
-                    display_four(imageLoader, index);
                 }
             }
             buttonCheck();
@@ -151,9 +140,13 @@ namespace _262ImageViewer
             a.run(mw);
         }
 
+        /*
+         * Decreases the index by one, then displays the new processed image
+         * located at the new index in the imageLoader.
+         */
         public void prevImage()
         {
-            if (modeSelect && imageLoader != null)
+            if (imageLoader != null)
             {
                 if (isValidIndex(index - 1))
                 {
@@ -161,17 +154,13 @@ namespace _262ImageViewer
                     display_image(imageLoader[index], high, low);
                 }
             }
-            else
-            {
-                if (isValidIndex(index - 4))
-                {
-                    index -= 4;
-                    display_four(imageLoader, index);
-                }
-            }
+
             buttonCheck();
         }
 
+        /*
+         * Run the close action. Add to action chain.
+         */
         public void close_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
@@ -188,7 +177,10 @@ namespace _262ImageViewer
             return (0 <= i && i < imageLoader.Count());
         }
 
-
+        /*
+         * Helper function to redraw a bitmap to its windowed form.
+         * Returns as a BitmapSource.
+         */
         private BitmapSource windowedImage(float high, float low, Bitmap to_be_processed)
         {
             var image_height = to_be_processed.Height;
@@ -200,14 +192,20 @@ namespace _262ImageViewer
                 for (int j = 0; j < image_height; j++)
                 {
                     System.Drawing.Color pixel = to_be_processed.GetPixel(i, j);
+                    //If the pixel's intensity is less than the low cutoff value,
+                    //make the pixel black.
                     if (pixel.GetBrightness() < low)
                     {
                         processed_image.SetPixel(i, j, System.Drawing.Color.Black);
                     }
+                    //If the pixel's intensity is more than the high cutoff value,
+                    //make the pixel white.
                     else if (pixel.GetBrightness() > high)
                     {
                         processed_image.SetPixel(i, j, System.Drawing.Color.White);
                     }
+                    //If neither, the pixel will be a new intensity determined by the
+                    //average scaled intensity.
                     else
                     {
                         float sf = equate_scale_factor(high, low, pixel);
@@ -219,6 +217,7 @@ namespace _262ImageViewer
                 }
             }
             Debug.WriteLine(processed_image.GetHbitmap());
+            //Convert the Bitmap to BitmapSource
             BitmapSource windowedImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
                 processed_image.GetHbitmap(),
                 IntPtr.Zero,
@@ -228,6 +227,9 @@ namespace _262ImageViewer
             return windowedImage;
         }
 
+        /*
+         * Helper function that determines a pixel's new intensity.
+         */
         private float equate_scale_factor(float high, float low, System.Drawing.Color pixel)
         {
             float output = ((pixel.GetBrightness() - low) * high) / (high - low);

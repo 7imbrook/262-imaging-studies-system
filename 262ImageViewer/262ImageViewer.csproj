@@ -104,7 +104,6 @@
       <DependentUpon>ReconstructionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="StudySession.cs" />
-    <Compile Include="WindowedImage.cs" />
     <Compile Include="WindowingPrompt.xaml.cs">
       <DependentUpon>WindowingPrompt.xaml</DependentUpon>
     </Compile>
