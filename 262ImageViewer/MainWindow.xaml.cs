@@ -80,7 +80,6 @@ namespace _262ImageViewer
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 Uri studyDir = new Uri(dlg.SelectedPath);
-                Debug.WriteLine(studyDir.ToString());
                 var study = new Study(studyDir);
                 this.loadStudy(study);
                 this.rootPath = study.imagePath;
@@ -287,7 +286,6 @@ namespace _262ImageViewer
             if(treeView.SelectedItem != null)
             {
                 var item = (TreeViewItem)treeView.SelectedItem;
-                Debug.WriteLine("{0}:{1}", item.Header, item.ToolTip);
                 var study = new Study((Uri)item.ToolTip);
                 this.studySession.saveSync();
                 this.loadStudy(study);
