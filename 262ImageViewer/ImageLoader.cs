@@ -302,30 +302,22 @@ namespace ImageLoader
          * The logic for reading in an ACR image to a Bitmap.
          */
         private Bitmap readACR(Uri imageUri) {
-
-
             Int64 HEADER_OFFSET = 0x2000;
+            int sliceWidth = 256;
+            int sliceHeight = 256;
 
 	        FileStream imageFile = new FileStream(imageUri.AbsolutePath, FileMode.Open);
 	        imageFile.Seek(HEADER_OFFSET, SeekOrigin.Begin);
-
-	        int sliceWidth = 256;
-	        int sliceHeight = 256;
 	    
 	        Bitmap sliceBuffer = 
-                new Bitmap(sliceWidth, sliceHeight, System.Drawing.Imaging.PixelFormat.Format16bppGrayScale);
+                new Bitmap(sliceWidth, sliceHeight);
 
 	        for ( int i = 0; i < sliceHeight; i++ ) {
 	            for ( int j = 0; j < sliceWidth; j++ ) {
-		            int pixelHigh = 0;
-		            int pixelLow = 0;
-		            int pixel;
-
-		            pixelHigh = imageFile.ReadByte();
-		            pixelLow = imageFile.ReadByte();
-		            pixel = pixelHigh << 4 | pixelLow >> 4;
-		    
-		            sliceBuffer.SetPixel( j, i, Color.FromArgb(pixel << 16 | pixel << 8 | pixel));
+		            int pixelHigh = imageFile.ReadByte();
+		            int pixelLow = imageFile.ReadByte();
+		            int pixel = pixelHigh << 4 | pixelLow >> 4;
+                    sliceBuffer.SetPixel(j, i, Color.FromArgb(pixel, pixel, pixel));
 	            }
 	        }
             return sliceBuffer;
