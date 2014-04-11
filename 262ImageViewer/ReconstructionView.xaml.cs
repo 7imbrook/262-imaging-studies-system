@@ -227,7 +227,7 @@ namespace _262ImageViewer
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Reconstruction.Next(this);
+            var a = new Action.Reconstruction.Next();
             studySession.addAction(a);
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
@@ -263,7 +263,7 @@ namespace _262ImageViewer
         private void prevImage_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Reconstruction.Previous(this);
+            var a = new Action.Reconstruction.Previous();
             studySession.addAction(a);
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
@@ -294,7 +294,7 @@ namespace _262ImageViewer
         private void nextReconstruction_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Reconstruction.NextReconstruction(this);
+            var a = new Action.Reconstruction.NextReconstruction();
             studySession.addAction(a);
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
@@ -314,7 +314,7 @@ namespace _262ImageViewer
         private void previousReconstruction_Click(object sender, RoutedEventArgs e)
         {
             // create the action
-            var a = new Action.Reconstruction.PreviousReconstruction(this);
+            var a = new Action.Reconstruction.PreviousReconstruction();
             studySession.addAction(a);
             // Need the current study
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
@@ -335,7 +335,7 @@ namespace _262ImageViewer
         {
             // create the action
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            var a = new Action.Reconstruction.Close(mw);
+            var a = new Action.Reconstruction.Close();
             studySession.addAction(a);
             // Need the current study
             a.run(mw);

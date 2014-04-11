@@ -43,17 +43,19 @@ namespace _262ImageViewer
 
         MainWindow main;
 
-        public WindowingView(float high, float low, MainWindow win)
+        public WindowingView(float h, float l, MainWindow win)
         {
             InitializeComponent();
             main = win;
             index = win.imageView.index;
             modeSelect = win.imageView.modeSelect;
             imageLoader = win.studySession.imageCollection;
+            high = h;
+            low = l;
             
             if(isValidIndex(index))
             {
-                display_image(imageLoader[index], high, low);
+                display_image(imageLoader[index], h, l);
             }
         }
 
