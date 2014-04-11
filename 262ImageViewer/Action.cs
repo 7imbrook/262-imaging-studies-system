@@ -342,6 +342,7 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
+            float high, low;
             public Create(MainWindow w)
             {
                 //windowingView = new WindowingView(session.imageCollection, window.imageView.index, false);
@@ -349,9 +350,11 @@ namespace Action
 
             public override void run(MainWindow app)
             {
-                Window w = new WindowingPrompt(app);
+                WindowingPrompt w = new WindowingPrompt(app);
                 w.Title = "Windowing";
                 w.Show();
+                high = w.high_cut;
+                low = w.low_cut;
                 base.runNext(app);
             }
 
