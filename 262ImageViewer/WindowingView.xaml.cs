@@ -171,6 +171,14 @@ namespace _262ImageViewer
             buttonCheck();
         }
 
+        public void close_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mw = (MainWindow)Application.Current.MainWindow;
+            var a = new Action.Reconstruction.Close();
+            main.studySession.addAction(a);
+            a.run(mw);
+        }
+
         /*
          * Helper function to check if an index is within bounds.
          */
