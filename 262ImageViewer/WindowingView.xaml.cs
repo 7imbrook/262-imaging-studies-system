@@ -112,7 +112,7 @@ namespace _262ImageViewer
 
         private void nextImage_Click(object sender, RoutedEventArgs e)
         {
-            var a = new Action.Windowing.Next(this);
+            var a = new Action.Windowing.Next();
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
 
             mw.studySession.addAction(a);

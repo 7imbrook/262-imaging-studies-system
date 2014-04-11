@@ -362,6 +362,7 @@ namespace Action
                 }
                 WindowingView winView = new WindowingView(high, low, app);
                 app.setFrameImageView(winView);
+                app.windowingView = winView;
             }
 
             public override void undo(MainWindow app)
@@ -401,19 +402,14 @@ namespace Action
         [Serializable]
         public class Next : Action
         {
-            WindowingView windowingView;
-            public Next(WindowingView w)
-            {
-                windowingView = w;
-            }
             public override void run(MainWindow app)
             {
-                windowingView.nextImage();
+                app.windowingView.nextImage();
                 base.runNext(app);
             }
             public override void undo(MainWindow app)
             {
-                var a = new Previous(windowingView);
+                var a = new Previous();
                 a.run(app);
             }
 
@@ -426,21 +422,16 @@ namespace Action
         [Serializable]
         public class Previous : Action
         {
-            WindowingView windowingView;
-            public Previous(WindowingView w)
-            {
-                windowingView = w;
-            }
 
             public override void run(MainWindow app)
             {
-                windowingView.prevImage();
+                app.windowingView.prevImage();
                 base.runNext(app);
             }
 
             public override void undo(MainWindow app) 
             {
-                Action a = new Next(windowingView);
+                Action a = new Next();
                 a.run(app);
             }
 
