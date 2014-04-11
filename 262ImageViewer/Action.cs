@@ -1,5 +1,6 @@
 ﻿using _262ImageViewer;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows;
 
@@ -388,9 +389,8 @@ namespace Action
 
             public override void undo(MainWindow app)
             {
-
-                Action a = new Create();
-                a.run(app);
+                Debug.WriteLine("Test");
+                app.setFrameImageView(app.windowingView);
             }
 
             public override string ToString() { return null; }
