@@ -61,6 +61,9 @@ namespace ImageLoader
         Image realSubject;
         Uri fileName;
 
+        /*
+         * Constructor from a Uri.
+         */
         public ImageProxy(Uri imageUri)
         {
             fileName = imageUri;
@@ -91,13 +94,13 @@ namespace ImageLoader
         }
 
         /*
-          * Get a given slice of the image.
-          * sliceIndex is the pixel index from top-left corner;
-          * vertical is true if the slice cuts vertically, else horizontal.
-          * 
-          * Returns a bitmap where one dimension is 1 pixel,
-          *  and the other is the size of the bitmap.
-          */
+         * Get a given slice of the image.
+         * sliceIndex is the pixel index from top-left corner;
+         * vertical is true if the slice cuts vertically, else horizontal.
+         * 
+         * Returns a bitmap where one dimension is 1 pixel,
+         *  and the other is the size of the bitmap.
+         */
         public Bitmap getSlice(int sliceIndex, Boolean vertical)
         {
             return getRealSubject().getSlice(sliceIndex, vertical);
@@ -112,7 +115,7 @@ namespace ImageLoader
         }
 
         /*
-         * returns the real subject or creates the real subject if it is the first time accessed.
+         * Returns the real subject or creates the real subject if it is the first time accessed.
          */
         private Image getRealSubject()
         {
@@ -123,7 +126,7 @@ namespace ImageLoader
             else
             {
                 String path = fileName.AbsolutePath;
-                String ext = path.Substring(path.Length - 4);
+                String ext = Path.GetExtension(path);
                 if (ext == ".jpg")
                 {
                     realSubject = new JPGImage(fileName);
@@ -143,6 +146,7 @@ namespace ImageLoader
             }
         }
     }
+
     /*
      * JPGImage
      */
