@@ -42,6 +42,8 @@ namespace _262ImageViewer
             Debug.WriteLine(highBool);
             if (lowBool && highBool && isValidCuts(low_cut, high_cut)) 
             {
+                low_cut = float.Parse(LowCut.Text) * 0.01f;
+                high_cut = float.Parse(HighCut.Text) * 0.01f;
                 windowingView = new WindowingView(high_cut, low_cut, main);
                 main.setFrameImageView(windowingView);
                 this.Close();
