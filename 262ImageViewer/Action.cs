@@ -366,7 +366,7 @@ namespace Action
 
             public override void undo(MainWindow app)
             {
-                Action a = new Close(app);
+                Action a = new Close();
                 a.run(app);
             }
 
@@ -379,15 +379,18 @@ namespace Action
         [Serializable]
         public class Close : Action
         {
-            public Close(MainWindow w) { }
-
             public override void run(MainWindow app)
             {
                 app.setFrameImageView(app.imageView);
                 base.runNext(app);
             }
 
-            public override void undo(MainWindow app) { }
+            public override void undo(MainWindow app)
+            {
+
+                Action a = new Create();
+                a.run(app);
+            }
 
             public override string ToString() { return null; }
         }
