@@ -19,7 +19,7 @@ namespace _262ImageViewer
     public partial class WindowingPrompt : Window
     {
 
-        float low_cut, high_cut;
+        public float low_cut, high_cut;
         
         WindowingView windowingView;
 
@@ -35,8 +35,14 @@ namespace _262ImageViewer
         {
             low_cut = float.Parse(LowCut.Text) * 0.01f;
             high_cut = float.Parse(HighCut.Text) * 0.01f;
-            windowingView = new WindowingView(high_cut, low_cut, main);
-            main.setFrameImageView(windowingView);
+            main.winPrompt = this;
+
+            var a = new Action.Windowing.Create();
+            main.studySession.addAction(a);
+            a.run(main);
+
+            //windowingView = new WindowingView(high_cut, low_cut, main);
+            //main.setFrameImageView(windowingView);
             
             this.Close();
         }

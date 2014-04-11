@@ -16,6 +16,10 @@ namespace _262ImageViewer
     {
         public ReconstructionView reconstructionView;
 
+        public WindowingPrompt winPrompt;
+
+        public WindowingView windowingView;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -158,9 +162,15 @@ namespace _262ImageViewer
 
         private void _View_Windowing(object sender, RoutedEventArgs e)
         {
+            /**
             var a = new Action.Windowing.Create(this);
             this.studySession.addAction(a);
             a.run(this);
+            **/
+
+            Window w = new WindowingPrompt(this);
+            w.Title = "Windowing";
+            w.Show();
         }
         
         /*

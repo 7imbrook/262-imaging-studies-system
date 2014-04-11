@@ -342,16 +342,12 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
-            public Create(MainWindow w)
-            {
-                //windowingView = new WindowingView(session.imageCollection, window.imageView.index, false);
-            }
-
             public override void run(MainWindow app)
             {
-                Window w = new WindowingPrompt(app);
-                w.Title = "Windowing";
-                w.Show();
+                float high = app.winPrompt.high_cut;
+                float low = app.winPrompt.low_cut;
+                WindowingView winView = new WindowingView(high, low, app);
+                app.setFrameImageView(winView);
                 base.runNext(app);
             }
 
