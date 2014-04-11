@@ -346,7 +346,9 @@ namespace Action
             {
                 float high = app.winPrompt.high_cut;
                 float low = app.winPrompt.low_cut;
+
                 WindowingView winView = new WindowingView(high, low, app);
+                app.windowingView = winView;
                 app.setFrameImageView(winView);
                 base.runNext(app);
             }
