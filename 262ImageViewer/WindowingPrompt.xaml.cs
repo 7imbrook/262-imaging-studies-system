@@ -44,8 +44,15 @@ namespace _262ImageViewer
             {
                 low_cut = float.Parse(LowCut.Text) * 0.01f;
                 high_cut = float.Parse(HighCut.Text) * 0.01f;
+                /**
                 windowingView = new WindowingView(high_cut, low_cut, main);
                 main.setFrameImageView(windowingView);
+                this.Close();
+                **/
+                main.winPrompt = this;
+                var a = new Action.Windowing.Create();
+                main.studySession.addAction(a);
+                a.run(main);
                 this.Close();
             }
             else
