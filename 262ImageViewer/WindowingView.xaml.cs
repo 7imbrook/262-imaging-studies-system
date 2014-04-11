@@ -209,7 +209,7 @@ namespace _262ImageViewer
 
                 }
             }
-            Debug.WriteLine(processed_image.);
+            Debug.WriteLine(processed_image.GetHbitmap());
             BitmapSource windowedImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
                 processed_image.GetHbitmap(),
                 IntPtr.Zero,

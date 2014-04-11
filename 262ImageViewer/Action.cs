@@ -342,12 +342,8 @@ namespace Action
         [Serializable]
         public class Create : Action
         {
-            /**
-            float high, low;
-            public Create(MainWindow w)
-            {
-            }
-             **/
+            float high = -1;
+            float low = -1;
 
             public override void run(MainWindow app)
             {
@@ -359,8 +355,11 @@ namespace Action
                 low = w.low_cut;
                 base.runNext(app);
                  **/
-                float high = app.winPrompt.high_cut;
-                float low = app.winPrompt.low_cut;
+                if (high == -1 || low == -1)
+                {
+                    high = app.winPrompt.high_cut;
+                    low = app.winPrompt.low_cut;
+                }
                 WindowingView winView = new WindowingView(high, low, app);
                 app.setFrameImageView(winView);
             }
